@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+<title>Schematic map of Kutch with the GHANSHYAM GROUP sites and the ports of Mundra and Kandla (not to scale)</title>
+<defs>
+  <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#15222C" fill-opacity=".09"/></pattern>
+  <pattern id="salt" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 5h10" stroke="#15222C" stroke-opacity=".07" stroke-width="1.4"/></pattern>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3E6E4"/><stop offset="1" stop-color="#BBD8D5"/></linearGradient>
+</defs>
+<rect width="800" height="600" fill="#EDF0EC"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<!-- the Rann of Kutch, to the north (schematic) -->
+<path d="M0 0 H800 V92 C700 112 600 84 500 100 S300 126 200 104 S60 92 0 112Z" fill="url(#salt)"/>
+<path d="M0 112 C60 92 200 104 200 104 S400 124 500 100 S700 112 800 92" fill="none" stroke="#15222C" stroke-opacity=".12" stroke-width="1.5" stroke-dasharray="4 6"/>
+<text x="24" y="70" font-family="Menlo, ui-monospace, monospace" font-size="13" letter-spacing="3" fill="#4A5963" fill-opacity=".7">RANN OF KUTCH</text>
+<!-- Gulf of Kutch (schematic) -->
+<path d="M0 470 C120 450 220 500 330 486 S520 440 600 410 S720 330 800 300 L800 600 L0 600Z" fill="url(#sea)"/>
+<path d="M0 470 C120 450 220 500 330 486 S520 440 600 410 S720 330 800 300" fill="none" stroke="#0B6C70" stroke-opacity=".35" stroke-width="2"/>
+<text x="120" y="560" font-family="Menlo, ui-monospace, monospace" font-size="14" letter-spacing="3" fill="#0B6C70" fill-opacity=".6">GULF OF KUTCH</text>
+<!-- roads between the sites and the ports -->
+<g fill="none" stroke="#B7AE9B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M360 170 C390 190 420 215 452 238"/>
+  <path d="M452 238 C470 320 460 400 452 470"/>
+  <path d="M452 238 C540 260 640 320 700 372"/>
+  <path d="M360 170 C330 190 305 205 290 225"/>
+  <path d="M452 238 C480 225 510 210 540 200"/>
+  <path d="M452 238 C440 260 430 280 420 300"/>
+  <path d="M452 238 C480 255 505 280 520 300"/>
+</g>
+<text x="24" y="36" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#5E6C75">SCHEMATIC, NOT TO SCALE</text>
+</svg>

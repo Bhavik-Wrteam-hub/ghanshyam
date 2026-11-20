@@ -1,15 +1,14 @@
 <!doctype html>
 <!--
-  The link-preview card (ghanshyam-group/assets/img/og-image.jpg, 1200 x 630).
-  It is drawn with the website's own logo builder, so the logo colours are
-  exactly the brand's. The photo is generated-images/sections/og-image.jpg.
+  The link-preview cards (1200 x 630): the picture WhatsApp, LinkedIn and
+  others show when a page is shared. Drawn with the website's own logo
+  builder, words and photos, so names and logo colours always match the site.
 
-  To rebuild it after changing the photo or the words below:
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
-      --hide-scrollbars --window-size=1200,630 --virtual-time-budget=4000 \
-      --screenshot=/tmp/og.png "file://$PWD/tools/og-card.html"
-    sips -s format jpeg -s formatOptions 86 /tmp/og.png --out ghanshyam-group/assets/img/og-image.jpg
-  (run from the project folder)
+    tools/og-card.html                    the group's card  -> assets/img/og-image.jpg
+    tools/og-card.html?company=kaolin     a company's card  -> assets/img/og-kaolin.jpg
+
+  To rebuild all six after changing a photo or a company's words, run
+  tools/og-cards.sh from the project folder.
 -->
 <html lang="en">
 <head>
@@ -22,57 +21,72 @@
   <link rel="stylesheet" href="../ghanshyam-group/assets/css/logo.css">
   <style>
     html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0E1419; }
-    .card {
-      position: relative;
-      width: 1200px;
-      height: 630px;
-      background: url("../generated-images/sections/og-image.jpg") 50% 62% / cover no-repeat;
-    }
-    /* a soft shade under the words; the pour on the right stays untouched */
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(10, 15, 19, 0.62) 0%, rgba(10, 15, 19, 0.38) 38%, rgba(10, 15, 19, 0) 62%);
-    }
-    .card__body {
-      position: absolute;
-      left: 84px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: grid;
-      justify-items: start;
-      gap: 34px;
-    }
-    .card__body .logo { --lw: 270px; }
-    .card__title {
-      margin: 0;
-      font: 700 50px/1.08 "Montserrat", sans-serif;
-      letter-spacing: -0.01em;
-      color: var(--logo-ink-rev);
-    }
-    .card__line {
-      margin: -18px 0 0;
-      font: 500 15px/1.4 "IBM Plex Mono", monospace;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--logo-wave-rev);
-    }
+    .card { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #0E1419; }
+
+    /* the group: five layers, one per company, like the homepage */
+    .layers { position: absolute; top: 34px; right: 34px; bottom: 34px; width: 560px; display: flex; gap: 7px; }
+    .layers span { position: relative; flex: 1; overflow: hidden; border-radius: 14px; }
+    .layers img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .layers span::before { content: ""; position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 4px; background: var(--tint); }
+    .layers span::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14, 20, 25, 0) 55%, rgba(14, 20, 25, 0.45)); }
+
+    /* a company: its own photo */
+    .photo { position: absolute; top: 0; right: 0; bottom: 0; width: 660px; }
+    .photo img { width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 42%); mask-image: linear-gradient(90deg, transparent 0%, #000 42%); }
+    .photo--full img { -webkit-mask-image: none; mask-image: none; }
+    .photo::before { content: ""; position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 5px; background: var(--tint); }
+    .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 20, 25, 0.5) 40%, rgba(14, 20, 25, 0) 66%); }
+    /* the silica card keeps the approved dark pour photo, full width */
+    .photo--full { width: 1200px; }
+    .photo--full + .shade { background: linear-gradient(90deg, rgba(10, 15, 19, 0.62) 0%, rgba(10, 15, 19, 0.38) 38%, rgba(10, 15, 19, 0) 62%); }
+
+    .body { position: absolute; left: 80px; top: 50%; transform: translateY(-50%); display: grid; justify-items: start; gap: 30px; width: 500px; }
+    .body .logo { --lw: 270px; }
+    .title { margin: 0; font: 700 48px/1.08 "Montserrat", sans-serif; letter-spacing: -0.01em; color: var(--logo-ink-rev); }
+    .line { margin: -14px 0 0; font: 500 15px/1.4 "IBM Plex Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--logo-wave-rev); }
   </style>
 </head>
 <body>
-  <div class="card on-dark">
-    <div class="card__body">
-      <div data-logo></div>
-      <p class="card__title">Precision,<br>grain by grain.</p>
-      <p class="card__line">Silica sand from Kutch, Gujarat</p>
-    </div>
-  </div>
+  <div class="card on-dark" id="card"></div>
+  <script src="../ghanshyam-group/site-content.js"></script>
   <script src="../ghanshyam-group/assets/js/core/utils.js"></script>
   <script src="../ghanshyam-group/assets/js/core/icons.js"></script>
   <script src="../ghanshyam-group/assets/js/core/logo.js"></script>
   <script>
-    document.querySelector('[data-logo]').replaceWith(GG.logo({ label: 'GROUP', layout: 'stacked', name: 'GHANSHYAM GROUP' }));
+    (function () {
+      var C = window.SITE_CONTENT, h = GG.h;
+      var SITE = '../ghanshyam-group/';
+      var id = new URLSearchParams(location.search).get('company');
+      var co = id ? GG.company(id) : null;
+      var card = document.getElementById('card');
+      function picture(c) {
+        var v = GG.deep(c.image);
+        var img = h('img', { src: SITE + v.src, alt: '' });
+        if (v.focus) img.style.objectPosition = v.focus;
+        return img;
+      }
+      /* the silica card keeps the dark pour photo approved for the first card */
+      var POUR = { src: '../generated-images/sections/og-image.jpg', pos: '50% 62%' };
+      if (co) {
+        var pic = picture(co);
+        if (co.id === 'silica') { pic.src = POUR.src; pic.style.objectPosition = POUR.pos; }
+        var ph = h('div', { class: 'photo' + (co.id === 'silica' ? ' photo--full' : ''), style: { '--tint': 'var(--tint-' + co.id + ')' } }, pic);
+        card.appendChild(ph);
+        card.appendChild(h('div', { class: 'shade' }));
+        card.appendChild(h('div', { class: 'body' },
+          GG.logo({ label: GG.txt(co.logoLabel), name: GG.txt(co.name) }),
+          h('p', { class: 'title' }, GG.txt(co.tagline)),
+          h('p', { class: 'line' }, GG.txt(C.division.partOf) + ' · ' + GG.txt('{company.region}'))));
+      } else {
+        card.appendChild(h('div', { class: 'layers' }, GG.companies().map(function (c) {
+          return h('span', { style: { '--tint': 'var(--tint-' + c.id + ')' } }, picture(c));
+        })));
+        card.appendChild(h('div', { class: 'body' },
+          GG.logo({ label: GG.txt(C.facts.company.logoLabel) }),
+          h('p', { class: 'title' }, GG.txt(C.groupHero.title)),
+          h('p', { class: 'line' }, GG.txt(C.groupHero.kicker))));
+      }
+    })();
   </script>
 </body>
 </html>

@@ -24,7 +24,10 @@
     render: function (root, C) {
       var t = C.testimonials;
       var of = ' ' + GG.txt((C.ui || {}).of || 'of') + ' ';
-      var items = GG.deep(t.items) || [];
+      /* the homepage shows every quote; a company's page only its own */
+      var page = GG.page.company;
+      var items = (GG.deep(t.items) || []).filter(function (q) { return !page || q.company === page.id; });
+      if (!items.length) return false;
       var sample = GG.hasS(t.items) ? '' : null;
       var grains = h('div', { class: 'testi__grains', 'aria-hidden': 'true' },
         Array.from({ length: 14 }, function (_, i) { return h('span', { style: { '--i': i } }); }));
@@ -39,9 +42,12 @@
               'aria-label': (i + 1) + of + items.length, 'aria-hidden': i === 0 ? 'false' : 'true', 'data-sample': sample
             },
               h('blockquote', null, h('p', null, q.quote)),
-              h('figcaption', null, h('span', { class: 'testi__role' }, q.role), h('span', { class: 'testi__org' }, q.org)));
+              h('figcaption', null,
+                h('span', { class: 'testi__role' }, q.role), h('span', { class: 'testi__org' }, q.org),
+                !page && GG.company(q.company) ? h('span', { class: 'testi__co mono', style: { '--tint': 'var(--tint-' + q.company + ')' } },
+                  h('span', { class: 'testi__co-dot', 'aria-hidden': 'true' }), h('span', { text: GG.company(q.company).name })) : null));
           })),
-        h('div', { class: 'testi__controls' },
+        items.length < 2 ? null : h('div', { class: 'testi__controls' },
           h('button', { class: 'testi__btn', type: 'button', 'aria-label': GG.txt(t.prevLabel), 'data-dir': '-1' }, GG.icon('arrow-left')),
           h('div', { class: 'testi__dots' }, items.map(function (_, i) {
             return h('button', { class: 'testi__dot', type: 'button', 'aria-label': (i + 1) + of + items.length, 'aria-current': i === 0 ? 'true' : null, 'data-i': i });
@@ -56,6 +62,8 @@
       var dots = Array.prototype.slice.call(root.querySelectorAll('.testi__dot'));
       var count = root.querySelector('.testi__count');
       var i = 0;
+      GG.pauseOffscreen([root]);
+      if (slides.length < 2) return;   /* one quote: nothing to move between */
       function go(n) {
         n = (n + slides.length) % slides.length;
         if (n === i) return;
@@ -87,7 +95,6 @@
         var dx = e.clientX - x0; x0 = null;
         if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1));
       });
-      GG.pauseOffscreen([root]);
     }
   };
 })();

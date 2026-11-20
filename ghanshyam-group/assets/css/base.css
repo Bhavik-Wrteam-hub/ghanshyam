@@ -10,6 +10,8 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: 84px;
 }
+/* a company's page also has its own bar under the menu */
+html:has(body[data-company]) { scroll-padding-top: 140px; }
 body {
   overflow-x: hidden;
   overflow-x: clip;
@@ -82,6 +84,26 @@ p { text-wrap: pretty; }
 }
 .on-dark .kicker { color: var(--on-dark-2); }
 .on-dark .kicker::before { background: currentColor; }
+
+/* Dark sections (a section can be given class="on-dark" in the page) */
+:where(.section.on-dark) { background: var(--slate-900); color: var(--on-dark); }
+.on-dark .h2 { color: var(--on-dark); }
+.on-dark .lede, .on-dark .muted { color: var(--on-dark-2); }
+
+/* Split text (built by GG.split) */
+.split .w { display: inline-block; white-space: nowrap; }
+.split .c { display: inline-block; }
+
+/* Small tags: grade uses, packing, markets */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chip-tag {
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--canvas);
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
 
 /* ---- Layout ---------------------------------------------------------------- */
 .container {
@@ -238,9 +260,36 @@ main:focus { outline: none; }
 .js [data-reveal].in.settled > *,
 .js [data-reveal].in.settled > *:nth-child(n) { transition-delay: 0s; }
 
+/* ---- The sand stream (core/sand-stream.js): one canvas that stays on screen
+   inside its track and takes no room of its own ------------------------------ */
+.sand-stream {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  margin-bottom: -100vh;
+  pointer-events: none;
+}
+
 /* ---- Living elements pause off-screen and on hidden tabs ----------------- */
 body.paused *, body.paused *::before, body.paused *::after { animation-play-state: paused !important; }
 .offscreen *, .offscreen *::before, .offscreen *::after { animation-play-state: paused !important; }
+
+/* ---- When site-content.js cannot load (a typo after an edit) ------------- */
+.load-error {
+  display: grid;
+  gap: 8px;
+  max-width: 40rem;
+  margin: 140px auto 60vh;
+  padding: 20px 24px;
+  border-left: 4px solid #B42318;
+  border-radius: 10px;
+  background: #FFF6F5;
+  color: #15222C;
+  font: 1rem/1.55 system-ui, sans-serif;
+}
 
 /* ---- Review mode: index.html?review outlines every SAMPLE value ---------- */
 .review-mode [data-sample] {

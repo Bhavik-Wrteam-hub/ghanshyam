@@ -16,14 +16,15 @@
           GG.head(a, 'about-title'),
           h('div', { class: 'about__body', 'data-reveal': '' }, a.body.map(function (p) { return h('p', { text: p }); })),
           h('figure', { class: 'about__quote', 'data-reveal': '', sample: a.quote },
-            h('blockquote', null, h('p', null, q.text)),
+            h('blockquote', null, h('p', { text: q.text })),
             h('figcaption', null,
               GG.mark({ cls: 'about__quote-mark' }),
               h('span', null, h('span', { class: 'about__quote-name' }, q.name), h('span', { class: 'about__quote-role' }, q.role))))),
         h('div', { class: 'about__media', 'data-reveal': '' },
           h('div', { class: 'about__frame' }, GG.img(a.image, { width: 900, height: 1100, cls: 'about__img', sizes: '(max-width: 960px) 100vw, 620px' }), dust))));
 
-      root.appendChild(h('div', { class: 'container' },
+      /* the numbers row is optional (the group's numbers live in GROUP STRENGTH) */
+      if (a.metrics) root.appendChild(h('div', { class: 'container' },
         h('dl', { class: 'about__metrics', 'data-reveal': '' },
           a.metrics.map(function (m) {
             var v = GG.fmt(m.value);

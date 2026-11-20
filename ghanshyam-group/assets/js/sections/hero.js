@@ -269,7 +269,10 @@
   GG.sections.hero = {
     render: function (root, C) {
       var hc = C.hero;
-      var bands = hc.bands.map(function (b, i) {
+      /* the scroll timing is tuned for exactly four bands: extra ones are left out */
+      if (hc.bands.length > RANGES.length) console.warn('[hero] only the first ' + RANGES.length + ' bands are shown; the scroll timing is tuned for ' + RANGES.length + '.');
+      var list = hc.bands.slice(0, RANGES.length);
+      var bands = list.map(function (b, i) {
         var titleText = GG.fmt(b.title);
         var title = h(i === 0 ? 'h1' : 'p', { class: 'band__title', id: i === 0 ? 'hero-title' : null });
         GG.split(title, titleText.text, 11 + i * 7);
@@ -281,7 +284,7 @@
           b.kicker ? h('p', { class: 'band__kicker kicker', text: b.kicker }) : null,
           title,
           b.text ? h('p', { class: 'band__text', text: b.text }) : null,
-          i === hc.bands.length - 1 ? ctaRow(C, 'band__ctas') : null);
+          i === list.length - 1 ? ctaRow(C, 'band__ctas') : null);
         return el;
       });
 

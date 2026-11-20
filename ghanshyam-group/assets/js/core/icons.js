@@ -46,6 +46,11 @@
     ceramics: '<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
     paint: '<rect x="4" y="4" width="13" height="5" rx="1.2"/><path d="M17 6.5h2.5V11H11v3"/><rect x="10" y="14" width="2" height="6.5" rx=".8"/>',
     fibre: '<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 12c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0"/>',
+    paper: '<path d="M8.5 3.5h9.5v13.5H8.5z"/><path d="M5.5 6.5v14h9.5"/><path d="M11 8h4.5M11 11h4.5"/>',
+    rubber: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3.1M12 17.4v3.1M3.5 12h3.1M17.4 12h3.1"/>',
+    store: '<path d="M4.5 9.5l1.4-5h12.2l1.4 5"/><path d="M4.5 9.5h15a2.5 2.5 0 0 1-5 0 2.5 2.5 0 0 1-5 0 2.5 2.5 0 0 1-5 0z"/><path d="M5.5 12.2v7.8h13v-7.8M10 20v-4.5h4V20"/>',
+    ship: '<path d="M3.5 15.5h17l-1.9 4.5H5.4z"/><path d="M6 15.5V10.5h12v5"/><path d="M9.5 10.5V7h5v3.5"/><path d="M12 7V4"/>',
+    mill: '<rect x="4" y="6.5" width="16" height="9" rx="4.5"/><circle cx="9.5" cy="11" r="1.3"/><circle cx="14.5" cy="11" r="1.3"/><path d="M7.5 15.5v4M16.5 15.5v4M5.5 19.5h13"/>',
     /* responsibility */
     leaf: '<path d="M5.5 18.5C5 10.5 10.5 5 19 5c.4 8.5-5 14-13.5 13.5z"/><path d="M5.5 18.5L13 11"/>',
     book: '<path d="M12 6.5C9.6 5 7 4.6 4 5.3v13c3-.7 5.6-.3 8 1.2 2.4-1.5 5-1.9 8-1.2v-13c-3-.7-5.6-.3-8 1.2z"/><path d="M12 6.5v13"/>',

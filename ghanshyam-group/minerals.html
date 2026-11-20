@@ -1,0 +1,97 @@
+<!doctype html>
+<!--
+  ============================================================================
+  GHANSHYAM GROUP website: GHANSHYAM MINERALS
+  ============================================================================
+  Words, numbers and images come from site-content.js: this company's entry
+  under THE FIVE BUSINESSES (id "minerals"). Every company page is built from the
+  same sections (assets/js/sections/division.js), and
+  <body data-company="minerals"> tells them which company this is.
+  Sections with data-local="..." get a link in the page's own bar.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Keep the title and description in sync with this company's "meta" in site-content.js -->
+  <title>Ghanshyam Minerals | Feldspar, quartz and ball clay from Kutch, Gujarat</title>
+  <meta name="description" content="Hand-sorted feldspar, quartz and ball clay for glass, tiles, sanitaryware and refractories. The first company of GHANSHYAM GROUP.">
+  <meta name="theme-color" content="#EEF1EF">
+  <link rel="icon" type="image/svg+xml" href="assets/img/brand/ghanshyam-mark.svg">
+
+  <!-- Link previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ghanshyam Minerals | Where the group began.">
+  <meta property="og:description" content="Feldspar, quartz and ball clay for glass, ceramics and refractories.">
+  <!-- DEPLOY STEP: replace with absolute live URLs once the site has its address -->
+  <meta property="og:url" content="https://example.com/minerals.html">
+  <meta property="og:image" content="https://example.com/assets/img/og-minerals.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Ghanshyam Minerals logo beside clear quartz crystals and pink feldspar">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <script>
+    document.documentElement.classList.add('js');
+    setTimeout(function () { document.body && document.body.classList.add('is-ready'); }, 3000);
+  </script>
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/logo.css">
+  <link rel="stylesheet" href="assets/css/sections/nav.css">
+  <link rel="stylesheet" href="assets/css/sections/division.css">
+  <link rel="stylesheet" href="assets/css/sections/faq.css">
+  <link rel="stylesheet" href="assets/css/sections/contact.css">
+  <link rel="stylesheet" href="assets/css/sections/footer.css">
+</head>
+<body data-company="minerals">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="env" aria-hidden="true"></div>
+
+  <header class="site-header" data-section="nav"></header>
+
+  <main id="main" tabindex="-1">
+    <section id="top" class="dhero" data-section="dhero" aria-labelledby="dhero-title"></section>
+    <nav class="dlocal" data-section="dlocal"></nav>
+    <section id="overview" class="section doverview" data-section="doverview" data-local="overview" aria-labelledby="overview-title"></section>
+    <section id="products" class="section dproducts section--panel" data-section="dproducts" data-local="products" aria-labelledby="products-title"></section>
+    <section id="process" class="section dprocess" data-section="dprocess" data-local="process" aria-labelledby="process-title"></section>
+    <section id="industries" class="section industries on-dark" data-section="dapps" data-local="industries" aria-labelledby="industries-title"></section>
+    <section id="faq" class="section faq" data-section="faq" data-source="company" data-local="faq" aria-labelledby="faq-title"></section>
+    <section id="contact" class="section contact section--panel" data-section="contact" aria-labelledby="contact-title"></section>
+    <section id="more" class="section dothers" data-section="dothers" aria-labelledby="others-title"></section>
+  </main>
+
+  <footer class="site-footer on-dark" data-section="footer"></footer>
+  <dialog id="privacy" class="privacy" data-section="privacy" aria-labelledby="privacy-title"></dialog>
+
+  <noscript>
+    <div style="padding:2rem;font:1rem/1.6 system-ui;max-width:40rem;margin:0 auto">
+      <strong>Ghanshyam Minerals</strong>, a GHANSHYAM GROUP company. This site needs JavaScript to show its content.
+      Please enable it, or contact us directly.
+    </div>
+  </noscript>
+
+  <script async src="https://cdn.jsdelivr.net/npm/motion@14.9.1/dist/motion.js"
+          integrity="sha384-Tf4POONnr0PkHnugSMSt0Br0cyoxZ1pxYEZsoniM1ufOGlDNIRGB3E9DnzgdXZvE"
+          crossorigin="anonymous"
+          onload="window.GG && GG.onMotionLoaded && GG.onMotionLoaded()"></script>
+
+  <script defer src="site-content.js"></script>
+  <script defer src="assets/js/core/utils.js"></script>
+  <script defer src="assets/js/core/icons.js"></script>
+  <script defer src="assets/js/core/logo.js"></script>
+  <script defer src="assets/js/sections/nav.js"></script>
+  <script defer src="assets/js/sections/division.js"></script>
+  <script defer src="assets/js/sections/faq.js"></script>
+  <script defer src="assets/js/sections/contact.js"></script>
+  <script defer src="assets/js/sections/footer.js"></script>
+  <script defer src="assets/js/core/main.js"></script>
+</body>
+</html>

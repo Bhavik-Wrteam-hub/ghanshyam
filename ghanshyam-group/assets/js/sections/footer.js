@@ -6,18 +6,19 @@
   GG.sections.footer = {
     render: function (root, C) {
       var f = C.footer, c = C.facts.contact, co = C.facts.company;
+      var page = GG.page.company;
       var tel = 'tel:' + GG.txt(c.phone).replace(/[^+\d]/g, '');
-      var companies = [{ id: C.group.flagship.id, name: C.group.flagship.name, href: '#silica' }]
-        .concat(C.group.companies.map(function (x) { return { id: x.id, name: x.name, href: '#company-' + x.id }; }));
+      var companies = GG.companies().map(function (x) { return { id: x.id, name: x.name, href: x.page, current: page && page.id === x.id }; });
+      var cta = { label: page ? page.cta.label : C.nav.cta.label, href: '#contact' };
 
       root.appendChild(h('div', { class: 'container footer' },
         h('div', { class: 'footer__top' },
           h('p', { class: 'footer__statement', text: f.statement }),
-          h('a', { class: 'btn', href: C.nav.cta.href }, h('span', { text: C.nav.cta.label }), GG.icon('arrow-right', 'btn__arrow'))),
+          h('a', { class: 'btn', href: cta.href }, h('span', { text: cta.label }), GG.icon('arrow-right', 'btn__arrow'))),
         h('div', { class: 'footer__cols' },
           h('div', { class: 'footer__brand' },
             (function () {
-              var a = h('a', { class: 'footer__logo', href: '#top', 'aria-label': GG.txt(C.nav.homeLabel) });
+              var a = h('a', { class: 'footer__logo', href: GG.home('#top'), 'aria-label': GG.txt(C.nav.homeLabel) });
               var logo = GG.logo({ label: GG.txt(co.logoLabel || 'GROUP') });
               logo.removeAttribute('role');
               logo.setAttribute('aria-hidden', 'true');
@@ -28,11 +29,12 @@
           h('nav', { class: 'footer__col', 'aria-labelledby': 'ft-companies' },
             h('h2', { class: 'footer__h mono', id: 'ft-companies', text: f.companiesTitle }),
             h('ul', { role: 'list' }, companies.map(function (x) {
-              return h('li', null, h('a', { href: x.href }, h('span', { class: 'footer__dot', style: { background: 'var(--tint-' + x.id + ')' }, 'aria-hidden': 'true' }), h('span', { text: x.name })));
+              return h('li', null, h('a', { href: x.href, 'aria-current': x.current ? 'page' : null },
+                h('span', { class: 'footer__dot', style: { background: 'var(--tint-' + x.id + ')' }, 'aria-hidden': 'true' }), h('span', { text: x.name })));
             }))),
           h('nav', { class: 'footer__col', 'aria-labelledby': 'ft-explore' },
             h('h2', { class: 'footer__h mono', id: 'ft-explore', text: f.exploreTitle }),
-            h('ul', { role: 'list' }, f.explore.map(function (l) { return h('li', null, h('a', { href: l.href, text: l.label })); }))),
+            h('ul', { role: 'list' }, f.explore.map(function (l) { return h('li', null, h('a', { href: GG.home(l.href), text: l.label })); }))),
           h('div', { class: 'footer__col' },
             h('h2', { class: 'footer__h mono', text: f.contactTitle }),
             h('ul', { role: 'list' },
@@ -44,7 +46,7 @@
           h('p', { text: f.registration }),
           h('button', { class: 'footer__linkbtn', type: 'button', 'data-open-privacy': '' }, GG.txt(f.privacyLabel)),
           h('a', { href: 'brand.html', text: f.brandLabel }),
-          h('a', { class: 'footer__top-link', href: '#top' }, h('span', { text: f.backToTop }), GG.icon('arrow-up'))),
+          h('a', { class: 'footer__top-link', href: '#main' }, h('span', { text: f.backToTop }), GG.icon('arrow-up'))),
         h('div', { class: 'footer__giant', 'aria-hidden': 'true', html:
           '<svg viewBox="-1 450 1108 120" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" fill-rule="evenodd" d="' + GG.LOGO_PATHS.word + '"/></svg>' })));
     },

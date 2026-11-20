@@ -1,18 +1,27 @@
-/* FAQ: the questions buyers ask, as an accordion that opens smoothly. */
+/* FAQ: the questions buyers ask, as an accordion that opens smoothly.
+   The silica page uses the faq block; on another company's page the section
+   carries data-source="company" and reads that company's own faq. */
 (function () {
   'use strict';
   var GG = window.GG, h = GG.h;
 
   GG.sections.faq = {
     render: function (root, C) {
-      var f = C.faq, c = C.facts.contact;
+      var co = GG.page.company;
+      var own = root.getAttribute('data-source') === 'company';
+      var f = own ? co && co.faq : C.faq;
+      if (!f) return false;
+      var D = C.division || {};
+      var head = own ? { kicker: f.kicker || D.faqKicker, title: f.title, lede: f.lede || D.faqLede } : f;
+      var c = C.facts.contact;
       var tel = 'tel:' + GG.txt(c.phone).replace(/[^+\d]/g, '');
+      var cta = co ? co.cta.label : C.nav.cta.label;
       root.appendChild(h('div', { class: 'container faq__grid' },
         h('div', { class: 'faq__aside' },
-          GG.head(f, 'faq-title'),
+          GG.head(head, 'faq-title'),
           h('div', { class: 'faq__help', 'data-reveal': '' },
             h('a', { class: 'faq__phone', href: tel, sample: c.phone }, GG.icon('phone'), h('span', { text: c.phone })),
-            h('a', { class: 'btn', href: C.nav.cta.href }, h('span', { text: C.nav.cta.label }), GG.icon('arrow-right', 'btn__arrow')))),
+            h('a', { class: 'btn', href: '#contact' }, h('span', { text: cta }), GG.icon('arrow-right', 'btn__arrow')))),
         h('div', { class: 'faq__list', 'data-reveal': '' },
           f.items.map(function (it) {
             return h('details', { class: 'qa' },
@@ -29,16 +38,20 @@
         summary.addEventListener('click', function (e) {
           if (GG.reduced() || !body.animate) return;
           e.preventDefault();
-          if (anim) anim.cancel();
-          if (!d.open) {
+          /* a click mid-way reverses the movement from where it is now */
+          var opening = !d.open || d.classList.contains('is-closing');
+          var from = d.open ? body.getBoundingClientRect().height : 0;
+          if (anim) { anim.onfinish = null; anim.cancel(); anim = null; }
+          if (opening) {
+            d.classList.remove('is-closing');
             d.open = true;
-            var hgt = body.scrollHeight;
-            d.classList.add('is-opening');
-            anim = body.animate([{ height: '0px', opacity: 0 }, { height: hgt + 'px', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-            anim.onfinish = function () { anim = null; d.classList.remove('is-opening'); };
+            anim = body.animate([{ height: from + 'px', opacity: from ? 1 : 0 }, { height: body.scrollHeight + 'px', opacity: 1 }],
+              { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+            anim.onfinish = function () { anim = null; };
           } else {
             d.classList.add('is-closing');
-            anim = body.animate([{ height: body.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 300, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
+            anim = body.animate([{ height: from + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
+              { duration: 300, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
             anim.onfinish = function () { anim = null; d.open = false; d.classList.remove('is-closing'); };
           }
         });

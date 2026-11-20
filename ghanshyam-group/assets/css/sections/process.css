@@ -6,21 +6,60 @@
   align-items: start;
 }
 .process__aside { position: sticky; top: 120px; }
-.process__aside .section-head { margin-bottom: var(--space-7); }
-.process__counter { display: flex; align-items: baseline; gap: 12px; }
-.process__counter-label { color: var(--text-secondary); }
+.process__aside .section-head { margin-bottom: var(--space-6); }
+/* the panel beside the list: the active step's clip or photo, with its number */
+.process__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--slate-800);
+  box-shadow: var(--shadow-2);
+}
+.process__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(21, 34, 44, 0) 45%, rgba(21, 34, 44, 0.78) 100%);
+  pointer-events: none;
+}
+.process__frame { position: absolute; inset: 0; opacity: 0; transition: opacity 700ms var(--ease-out); }
+.process__frame.is-on { opacity: 1; }
+.process__frame video, .process__frame img { width: 100%; height: 100%; object-fit: cover; }
+.process__counter {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  color: var(--on-dark);
+}
+.process__counter-label { color: var(--on-dark-2); }
 .process__counter-num {
   font-family: var(--font-display);
   font-stretch: var(--display-stretch);
   font-weight: 700;
-  font-size: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+  font-size: clamp(2.6rem, 2rem + 2.4vw, 4.2rem);
   line-height: 0.9;
-  color: var(--accent);
   font-variant-numeric: tabular-nums;
   min-width: 2ch;
 }
-.process__counter-total { font-family: var(--font-mono); color: var(--text-tertiary); }
+.process__counter-total { font-family: var(--font-mono); color: var(--on-dark-2); }
+.process__counter-title { flex-basis: 100%; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+/* no media at all: the number stands on its own, as before */
+.process__media.is-plain { aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
+.process__media.is-plain::after { display: none; }
+.process__media.is-plain .process__counter { position: static; color: var(--accent); }
 
+.process__track { position: relative; }
+/* shorter laptop screens: a wider, lower panel, so it stays whole while it sticks */
+@media (max-height: 860px) and (min-width: 901px) { .process__media { aspect-ratio: 21 / 10; } }
 .process__steps { position: relative; display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4.5rem); margin: 0; padding: 0 0 0 0; list-style: none; }
 .process__line {
   position: absolute;
@@ -69,6 +108,8 @@
   opacity: 0;
 }
 .step.is-done .step__marker { border-color: var(--accent); color: var(--accent); }
+/* the sand has reached this step */
+.step__marker.is-lit { box-shadow: 0 0 0 6px rgba(201, 174, 124, 0.16), 0 0 22px rgba(185, 154, 102, 0.42); }
 .step.is-active .step__marker { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .step.is-active .step__marker::after { animation: marker-pulse 4s var(--ease-out) infinite; animation-delay: -0.5s; }
 @keyframes marker-pulse { 0% { transform: scale(0.9); opacity: 0.55; } 70% { transform: scale(1.35); opacity: 0; } 100% { opacity: 0; } }
@@ -89,5 +130,5 @@
 @media (max-width: 900px) {
   .process__grid { grid-template-columns: 1fr; }
   .process__aside { position: relative; top: 0; }
-  .process__counter { display: none; }
+  .process__media { display: none; }
 }

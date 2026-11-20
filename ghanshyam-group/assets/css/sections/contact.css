@@ -44,6 +44,7 @@ a.ch:hover { background: rgba(246, 248, 247, 0.9); }
 .office { display: grid; gap: 2px; font-style: normal; color: var(--text-secondary); font-size: 0.9375rem; }
 .office__title { color: var(--text-primary); font-weight: 600; margin-bottom: 4px; }
 .contact__map { display: grid; gap: var(--space-3); }
+.contact__maplink { margin-top: var(--space-4); }
 .contact__map img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-l); box-shadow: var(--shadow-1); }
 
 /* The form */

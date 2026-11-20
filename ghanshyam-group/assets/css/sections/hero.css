@@ -106,10 +106,6 @@
 }
 .band__kicker { opacity: clamp(0, var(--k) * 2, 1); }
 
-/* Split text (built by GG.split) */
-.split .w { display: inline-block; white-space: nowrap; }
-.split .c { display: inline-block; }
-
 /* Entrances, each echoing what the footage does at that moment */
 /* rise: the opening line lifts into place on load */
 .band--rise .w {

@@ -1,5 +1,7 @@
 /* SILICA SAND ================================================================ */
-.silica { overflow: hidden; }
+/* clip, not hidden: hidden would stop the grain photo from staying in view
+   (position: sticky) while the specs scroll past */
+.silica { overflow: clip; }
 .silica__picker-label { color: var(--text-secondary); margin-bottom: var(--space-4); }
 
 /* Grade cards (tabs) */
@@ -152,15 +154,6 @@
 }
 .spec__row dt { color: var(--text-secondary); }
 .spec__row dd { margin: 0; font-family: var(--font-mono); font-size: 0.875rem; text-align: right; font-variant-numeric: tabular-nums; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.chip-tag {
-  padding: 6px 11px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--canvas);
-  font-size: 0.875rem;
-  line-height: 1.3;
-}
 .grade-panel__note { font-size: var(--fs-small); color: var(--text-tertiary); }
 
 /* The sieve scale */

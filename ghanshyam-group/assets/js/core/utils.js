@@ -36,17 +36,41 @@
   function content() { return window.SITE_CONTENT || {}; }
   GG.content = content;
 
+  /* The five businesses (site-content.js: companies) */
+  GG.companies = function () { return content().companies || []; };
+  GG.company = function (id) {
+    var list = GG.companies();
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  };
+
+  function yearsSince(v) {
+    var r = GG.fmt(v);
+    var n = new Date().getFullYear() - parseInt(r.text, 10);
+    if (!isFinite(n)) return undefined;
+    return r.sample ? { __sample: true, value: String(n) } : String(n);
+  }
+  function countOf(list) {
+    if (!Array.isArray(raw(list))) return undefined;
+    return isS(list) ? { __sample: true, value: String(raw(list).length) } : String(raw(list).length);
+  }
+
+  /* {company.founded} reads facts; {kaolin.since} reads that business's entry */
   GG.fact = function (path) {
-    var facts = content().facts || {};
+    var C = content(), facts = C.facts || {};
     if (path === 'year') return String(new Date().getFullYear());
-    if (path === 'company.years') {
-      var f = (facts.company || {}).founded;
-      var n = new Date().getFullYear() - parseInt(raw(f), 10);
-      if (!isFinite(n)) return undefined;
-      return isS(f) ? { __sample: true, value: String(n) } : String(n);
-    }
-    var cur = facts;
+    if (path === 'company.years') return yearsSince((facts.company || {}).founded);
+    if (path === 'group.companies') return String(GG.companies().length);
+    if (path === 'group.states') return countOf((C.presence || {}).states);
+    if (path === 'group.countries') return countOf((C.presence || {}).countries);
     var parts = path.split('.');
+    var cur = facts;
+    var co = GG.company(parts[0]);
+    if (co) {
+      if (parts.length === 2 && parts[1] === 'years') return yearsSince(co.since);
+      cur = co;
+      parts = parts.slice(1);
+    }
     for (var i = 0; i < parts.length; i++) {
       cur = raw(cur);
       if (cur == null || typeof cur !== 'object') return undefined;
@@ -56,24 +80,37 @@
     return cur;
   };
 
-  /* Replace {tokens} with facts. Returns { text, sample }. */
+  /* Replace {tokens} with facts. Returns { text, sample }. A fact may hold a
+     token of its own ({minerals.since} is "{company.founded}"), so it repeats. */
   GG.fmt = function (value, extra) {
     if (value && typeof value === 'object' && !isS(value) && 'text' in value && 'sample' in value) return value;
     var sample = isS(value);
     var str = raw(value);
     if (str == null) return { text: '', sample: sample };
-    str = String(str);
-    var text = str.replace(/\{([a-zA-Z0-9_.]+)\}/g, function (m, key) {
-      var v;
-      if (extra && Object.prototype.hasOwnProperty.call(extra, key)) v = extra[key];
-      else v = GG.fact(key);
-      if (v === undefined) return m;
-      if (hasS(v)) sample = true;
-      var r = deep(v);
-      return Array.isArray(r) ? r.join(', ') : String(r);
-    });
+    var text = String(str);
+    for (var pass = 0; pass < 4 && text.indexOf('{') > -1; pass++) {
+      var before = text;
+      text = text.replace(/\{([a-zA-Z0-9_.]+)\}/g, function (m, key) {
+        var v;
+        if (extra && Object.prototype.hasOwnProperty.call(extra, key)) v = extra[key];
+        else v = GG.fact(key);
+        if (v === undefined || (v && typeof v === 'object' && !isS(v) && !Array.isArray(v))) return m;
+        if (hasS(v)) sample = true;
+        var r = deep(v);
+        return Array.isArray(r) ? r.join(', ') : String(r);
+      });
+      if (text === before) break;
+    }
     return { text: text, sample: sample };
   };
+
+  /* Links to the homepage's sections work from every page:
+     "#about" stays "#about" on the homepage and becomes "index.html#about" elsewhere. */
+  GG.home = function (href) {
+    if (!href || href.charAt(0) !== '#') return href;
+    return GG.page && !GG.page.isHome ? 'index.html' + (href === '#top' ? '' : href) : href;
+  };
+  GG.pad = function (n) { return (n < 10 ? '0' : '') + n; };
   GG.txt = function (v, extra) { return GG.fmt(v, extra).text; };
 
   /* ---- DOM builder ---------------------------------------------------------- */
@@ -239,6 +276,44 @@
       el.textContent = GG.num(Math.round(target * e)) + suffix;
       if (t < 1) requestAnimationFrame(step);
     })(t0);
+  };
+
+  /* ---- A line that draws itself as you scroll through a row of steps -------
+     opts: { track: the element scrolled past, fill: the line (scaled from 0 to
+     1), steps: elements that light up (.is-lit) as the line reaches them,
+     vertical: true when the line runs downwards (phones) }.
+     Reduced motion shows the finished line. */
+  GG.scrollLine = function (opts) {
+    var last = -1, ticking = false;
+    function update() {
+      ticking = false;
+      var vertical = typeof opts.vertical === 'function' ? opts.vertical() : !!opts.vertical;
+      var r = opts.track.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var p = vertical
+        ? GG.clamp((vh * 0.6 - r.top) / Math.max(1, r.height), 0, 1)
+        : GG.clamp((vh * 0.85 - r.top) / Math.max(1, vh * 0.55), 0, 1);
+      if (GG.reduced()) p = 1;
+      if (Math.abs(p - last) < 0.002) return;
+      last = p;
+      opts.fill.style.transform = (vertical ? 'scaleY(' : 'scaleX(') + p.toFixed(4) + ')';
+      var n = opts.steps.length;
+      opts.steps.forEach(function (s, i) { s.classList.toggle('is-lit', p >= (n > 1 ? i / (n - 1) : 1) - 0.02); });
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', function () { last = -1; onScroll(); });
+    GG.reducedMQ.addEventListener('change', function () { last = -1; update(); });
+    update();
+    return update;
+  };
+
+  /* ---- [label, value] rows as a definition list (values may hold {tokens}) - */
+  GG.factList = function (rows, cls, sampleSrc) {
+    return GG.h('dl', { class: cls, sample: sampleSrc },
+      (GG.deep(rows) || []).map(function (f) {
+        return GG.h('div', null, GG.h('dt', { class: 'mono', text: f[0] }), GG.h('dd', { text: f[1] }));
+      }));
   };
 
   /* ---- Split a line into word and character spans for scroll entrances ---- */
