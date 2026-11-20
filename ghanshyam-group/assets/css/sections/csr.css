@@ -1,0 +1,57 @@
+/* RESPONSIBILITY (CSR) ======================================================= */
+.csr-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.2vw, 20px);
+  margin: 0;
+  padding: 0;
+}
+.csr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--panel-raised);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+/* the farm's green, as a thin rule along the top of each card */
+.csr-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  width: 40px;
+  height: 2px;
+  background: var(--tint-farm);
+}
+.csr-card__icon { display: inline-flex; color: var(--tint-farm); margin-bottom: var(--space-2); }
+.csr-card__icon .icon { width: 28px; height: 28px; }
+.csr-card__figure { display: grid; gap: 2px; padding-bottom: var(--space-4); border-bottom: 1px solid var(--line); }
+.csr-card__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 1.6rem + 1.2vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.csr-card__unit {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.csr-card__title { font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem); line-height: 1.22; margin-top: var(--space-2); }
+.csr-card__text { color: var(--text-secondary); font-size: var(--fs-small); line-height: 1.55; }
+
+@media (max-width: 1100px) {
+  .csr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .csr-grid { grid-template-columns: 1fr; }
+}

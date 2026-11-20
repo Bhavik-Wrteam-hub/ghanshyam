@@ -1,0 +1,63 @@
+/* ==========================================================================
+   LOGO: proportions taken from the finalized artwork (1107 units wide).
+   Set the size with --lw (the wordmark width). Everything else scales from it:
+     label size 62.9u (Montserrat Medium, tracked 0.496em), rules 6u thick,
+     30u between rule and label, 35u between wordmark and label.
+   Colours are fixed brand tokens (tokens.css): the logo is never recoloured.
+   ========================================================================== */
+.logo {
+  --lw: 220px;
+  display: inline-flex;
+  line-height: 1;
+  vertical-align: middle;
+}
+.logo svg { display: block; }
+.logo__body, .logo__ink { fill: var(--logo-ink); }
+.logo__wave { fill: var(--logo-wave); }
+
+/* Stacked: the master lockup (mark over wordmark over label) */
+.logo--stacked { flex-direction: column; width: var(--lw); }
+.logo--stacked .logo__head { width: 100%; height: auto; aspect-ratio: 1108 / 571; }
+
+/* The label row: rule, label, rule. Only the label text changes per branch. */
+.logo__label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: calc(var(--lw) * 0.0568);
+  margin-top: calc(var(--lw) * 0.0231);
+  gap: calc(var(--lw) * 0.0271);
+  color: var(--logo-label);
+}
+.logo__label i {
+  flex: 1 1 0;
+  min-width: calc(var(--lw) * 0.04);
+  height: max(1px, calc(var(--lw) * 0.0054));
+  background: currentColor;
+}
+.logo__label b {
+  font-family: "Montserrat", var(--font-body);
+  font-weight: 500;
+  font-size: calc(var(--lw) * 0.0568);
+  letter-spacing: 0.496em;
+  margin-right: -0.496em;   /* tracking adds space after the last letter: take it back */
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Horizontal: the same parts side by side, for slim bars like the site header */
+.logo--h { align-items: center; gap: calc(var(--lw) * 0.055); }
+.logo--h .logo__mark { height: calc(var(--lw) * 0.19); width: auto; aspect-ratio: 497 / 400; flex: none; }
+.logo--h .logo__text { display: flex; flex-direction: column; width: var(--lw); }
+.logo--h .logo__word { width: 100%; height: auto; aspect-ratio: 1108 / 120; }
+
+/* Reversed colours on dark surfaces (the brand's own reversed set) */
+.on-dark .logo, .logo--light {
+  --logo-ink: var(--logo-ink-rev);
+  --logo-wave: var(--logo-wave-rev);
+  --logo-label: var(--logo-label-rev);
+}
+
+/* The mark on its own, in the same fixed colours */
+.mark .logo__body { fill: var(--logo-ink); }
+.mark .logo__wave { fill: var(--logo-wave); }

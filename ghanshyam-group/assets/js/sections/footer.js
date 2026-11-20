@@ -1,0 +1,73 @@
+/* FOOTER and the privacy notice dialog. */
+(function () {
+  'use strict';
+  var GG = window.GG, h = GG.h;
+
+  GG.sections.footer = {
+    render: function (root, C) {
+      var f = C.footer, c = C.facts.contact, co = C.facts.company;
+      var tel = 'tel:' + GG.txt(c.phone).replace(/[^+\d]/g, '');
+      var companies = [{ id: C.group.flagship.id, name: C.group.flagship.name, href: '#silica' }]
+        .concat(C.group.companies.map(function (x) { return { id: x.id, name: x.name, href: '#company-' + x.id }; }));
+
+      root.appendChild(h('div', { class: 'container footer' },
+        h('div', { class: 'footer__top' },
+          h('p', { class: 'footer__statement', text: f.statement }),
+          h('a', { class: 'btn', href: C.nav.cta.href }, h('span', { text: C.nav.cta.label }), GG.icon('arrow-right', 'btn__arrow'))),
+        h('div', { class: 'footer__cols' },
+          h('div', { class: 'footer__brand' },
+            (function () {
+              var a = h('a', { class: 'footer__logo', href: '#top', 'aria-label': GG.txt(C.nav.homeLabel) });
+              var logo = GG.logo({ label: GG.txt(co.logoLabel || 'GROUP') });
+              logo.removeAttribute('role');
+              logo.setAttribute('aria-hidden', 'true');
+              a.appendChild(logo);
+              return a;
+            })(),
+            h('p', { class: 'footer__legal-name', text: co.legalName })),
+          h('nav', { class: 'footer__col', 'aria-labelledby': 'ft-companies' },
+            h('h2', { class: 'footer__h mono', id: 'ft-companies', text: f.companiesTitle }),
+            h('ul', { role: 'list' }, companies.map(function (x) {
+              return h('li', null, h('a', { href: x.href }, h('span', { class: 'footer__dot', style: { background: 'var(--tint-' + x.id + ')' }, 'aria-hidden': 'true' }), h('span', { text: x.name })));
+            }))),
+          h('nav', { class: 'footer__col', 'aria-labelledby': 'ft-explore' },
+            h('h2', { class: 'footer__h mono', id: 'ft-explore', text: f.exploreTitle }),
+            h('ul', { role: 'list' }, f.explore.map(function (l) { return h('li', null, h('a', { href: l.href, text: l.label })); }))),
+          h('div', { class: 'footer__col' },
+            h('h2', { class: 'footer__h mono', text: f.contactTitle }),
+            h('ul', { role: 'list' },
+              h('li', null, h('a', { href: tel, text: c.phone })),
+              h('li', null, h('a', { href: 'mailto:' + GG.txt(c.email), text: c.email })),
+              h('li', null, h('address', { sample: c.headOffice }, (GG.deep(c.headOffice) || []).slice(0, 2).map(function (l) { return h('span', null, l); })))))),
+        h('div', { class: 'footer__bottom' },
+          h('p', { text: f.copyright }),
+          h('p', { text: f.registration }),
+          h('button', { class: 'footer__linkbtn', type: 'button', 'data-open-privacy': '' }, GG.txt(f.privacyLabel)),
+          h('a', { href: 'brand.html', text: f.brandLabel }),
+          h('a', { class: 'footer__top-link', href: '#top' }, h('span', { text: f.backToTop }), GG.icon('arrow-up'))),
+        h('div', { class: 'footer__giant', 'aria-hidden': 'true', html:
+          '<svg viewBox="-1 450 1108 120" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" fill-rule="evenodd" d="' + GG.LOGO_PATHS.word + '"/></svg>' })));
+    },
+    init: function (root) {
+      var dlg = document.getElementById('privacy');
+      root.addEventListener('click', function (e) {
+        if (e.target.closest('[data-open-privacy]') && dlg && dlg.showModal) dlg.showModal();
+      });
+    }
+  };
+
+  GG.sections.privacy = {
+    render: function (root, C) {
+      var p = C.privacy;
+      root.appendChild(h('div', { class: 'privacy__inner', 'data-sample': GG.hasS(p.paragraphs) ? '' : null },
+        h('div', { class: 'privacy__head' },
+          h('h2', { class: 'h3', id: 'privacy-title', text: p.title }),
+          h('button', { class: 'privacy__close', type: 'button', 'aria-label': GG.txt(p.closeLabel) }, GG.icon('close'))),
+        (GG.deep(p.paragraphs) || []).map(function (t) { return h('p', { text: t }); })));
+    },
+    init: function (root) {
+      root.querySelector('.privacy__close').addEventListener('click', function () { root.close(); });
+      root.addEventListener('click', function (e) { if (e.target === root) root.close(); });
+    }
+  };
+})();

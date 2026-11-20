@@ -1,0 +1,78 @@
+<!doctype html>
+<!--
+  The link-preview card (ghanshyam-group/assets/img/og-image.jpg, 1200 x 630).
+  It is drawn with the website's own logo builder, so the logo colours are
+  exactly the brand's. The photo is generated-images/sections/og-image.jpg.
+
+  To rebuild it after changing the photo or the words below:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+      --hide-scrollbars --window-size=1200,630 --virtual-time-budget=4000 \
+      --screenshot=/tmp/og.png "file://$PWD/tools/og-card.html"
+    sips -s format jpeg -s formatOptions 86 /tmp/og.png --out ghanshyam-group/assets/img/og-image.jpg
+  (run from the project folder)
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Link preview card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=IBM+Plex+Mono:wght@500&display=block">
+  <link rel="stylesheet" href="../ghanshyam-group/assets/css/tokens.css">
+  <link rel="stylesheet" href="../ghanshyam-group/assets/css/logo.css">
+  <style>
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0E1419; }
+    .card {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      background: url("../generated-images/sections/og-image.jpg") 50% 62% / cover no-repeat;
+    }
+    /* a soft shade under the words; the pour on the right stays untouched */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 15, 19, 0.62) 0%, rgba(10, 15, 19, 0.38) 38%, rgba(10, 15, 19, 0) 62%);
+    }
+    .card__body {
+      position: absolute;
+      left: 84px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      justify-items: start;
+      gap: 34px;
+    }
+    .card__body .logo { --lw: 270px; }
+    .card__title {
+      margin: 0;
+      font: 700 50px/1.08 "Montserrat", sans-serif;
+      letter-spacing: -0.01em;
+      color: var(--logo-ink-rev);
+    }
+    .card__line {
+      margin: -18px 0 0;
+      font: 500 15px/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--logo-wave-rev);
+    }
+  </style>
+</head>
+<body>
+  <div class="card on-dark">
+    <div class="card__body">
+      <div data-logo></div>
+      <p class="card__title">Precision,<br>grain by grain.</p>
+      <p class="card__line">Silica sand from Kutch, Gujarat</p>
+    </div>
+  </div>
+  <script src="../ghanshyam-group/assets/js/core/utils.js"></script>
+  <script src="../ghanshyam-group/assets/js/core/icons.js"></script>
+  <script src="../ghanshyam-group/assets/js/core/logo.js"></script>
+  <script>
+    document.querySelector('[data-logo]').replaceWith(GG.logo({ label: 'GROUP', layout: 'stacked', name: 'GHANSHYAM GROUP' }));
+  </script>
+</body>
+</html>

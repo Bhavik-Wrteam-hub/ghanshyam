@@ -1,0 +1,138 @@
+<!doctype html>
+<!--
+  ============================================================================
+  GHANSHYAM GROUP website
+  ============================================================================
+  TO CHANGE ANY WORDS, NUMBERS, CONTACT DETAILS OR IMAGES:
+      edit  site-content.js  (next to this file). Nothing else is needed.
+
+  Values wrapped in S( ... ) in that file are TEMPORARY SAMPLE DATA.
+  Open this page as  index.html?review  to see each one outlined in orange.
+
+  This file only holds the page structure. Each <section> below is filled in
+  by its own script in assets/js/sections/, and styled by its own file in
+  assets/css/sections/. The brand system (colours, fonts, spacing, motion)
+  lives in assets/css/tokens.css. See README.md for the full guide.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Keep the title and description in sync with "meta" in site-content.js -->
+  <title>GHANSHYAM GROUP | Silica sand, kaolin and minerals from Kutch, Gujarat</title>
+  <meta name="description" content="Washed, classified and tested silica sand for glass, foundry, construction and water filtration. Five grades and a test report with every load. Request a free sample.">
+  <meta name="theme-color" content="#EEF1EF">
+  <link rel="icon" type="image/svg+xml" href="assets/img/brand/ghanshyam-mark.svg">
+
+  <!-- Link previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GHANSHYAM GROUP | Precision, grain by grain.">
+  <meta property="og:description" content="Washed, classified and tested silica sand. Five grades and a test report with every load.">
+  <!-- DEPLOY STEP: replace with absolute live URLs once the site has its address -->
+  <meta property="og:url" content="https://example.com/">
+  <meta property="og:image" content="https://example.com/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The GHANSHYAM GROUP logo beside a stream of white silica sand pouring onto a dark surface">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Fonts: Montserrat (the logo's typeface: headlines and logo labels), Hanken Grotesk (body), IBM Plex Mono (spec labels). Only the weights in use. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <script>
+    document.documentElement.classList.add('js');
+    /* Safety net: show the page even if a script fails to load. */
+    setTimeout(function () { document.body && document.body.classList.add('is-ready'); }, 3000);
+  </script>
+
+  <!-- Brand system, then shared pieces, then one file per section -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/logo.css">
+  <link rel="stylesheet" href="assets/css/sections/nav.css">
+  <link rel="stylesheet" href="assets/css/sections/hero.css">
+  <link rel="stylesheet" href="assets/css/sections/about.css">
+  <link rel="stylesheet" href="assets/css/sections/silica.css">
+  <link rel="stylesheet" href="assets/css/sections/process.css">
+  <link rel="stylesheet" href="assets/css/sections/quality.css">
+  <link rel="stylesheet" href="assets/css/sections/products.css">
+  <link rel="stylesheet" href="assets/css/sections/why.css">
+  <link rel="stylesheet" href="assets/css/sections/leadership.css">
+  <link rel="stylesheet" href="assets/css/sections/csr.css">
+  <link rel="stylesheet" href="assets/css/sections/testimonials.css">
+  <link rel="stylesheet" href="assets/css/sections/group.css">
+  <link rel="stylesheet" href="assets/css/sections/journey.css">
+  <link rel="stylesheet" href="assets/css/sections/infrastructure.css">
+  <link rel="stylesheet" href="assets/css/sections/faq.css">
+  <link rel="stylesheet" href="assets/css/sections/contact.css">
+  <link rel="stylesheet" href="assets/css/sections/footer.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="env" aria-hidden="true"></div>
+
+  <header class="site-header" data-section="nav"></header>
+
+  <main id="main" tabindex="-1">
+    <section id="top" class="hero" data-section="hero" aria-labelledby="hero-title"></section>
+    <section id="about" class="section about" data-section="about" aria-labelledby="about-title"></section>
+    <section id="silica" class="section silica section--panel" data-section="silica" aria-labelledby="silica-title"></section>
+    <section id="process" class="section process" data-section="process" aria-labelledby="process-title"></section>
+    <section id="quality" class="section quality" data-section="quality" aria-labelledby="quality-title"></section>
+    <section id="products" class="section products section--panel" data-section="products" aria-labelledby="products-title"></section>
+    <section id="group" class="section group" data-section="group" aria-labelledby="group-title"></section>
+    <section id="why" class="section why-us section--panel" data-section="why" aria-labelledby="why-title"></section>
+    <section id="testimonials" class="section testimonials on-dark" data-section="testimonials" aria-labelledby="testimonials-title"></section>
+    <section id="leadership" class="section leadership" data-section="leadership" aria-labelledby="leadership-title"></section>
+    <section id="journey" class="section journey section--panel" data-section="journey" aria-labelledby="journey-title"></section>
+    <section id="infrastructure" class="section infrastructure" data-section="infrastructure" aria-labelledby="infrastructure-title"></section>
+    <section id="csr" class="section csr section--panel" data-section="csr" aria-labelledby="csr-title"></section>
+    <section id="faq" class="section faq" data-section="faq" aria-labelledby="faq-title"></section>
+    <section id="contact" class="section contact section--panel" data-section="contact" aria-labelledby="contact-title"></section>
+  </main>
+
+  <footer class="site-footer on-dark" data-section="footer"></footer>
+  <dialog id="privacy" class="privacy" data-section="privacy" aria-labelledby="privacy-title"></dialog>
+
+  <noscript>
+    <div style="padding:2rem;font:1rem/1.6 system-ui;max-width:40rem;margin:0 auto">
+      <strong>GHANSHYAM GROUP</strong>. This site needs JavaScript to show its content.
+      Please enable it, or contact us directly.
+    </div>
+  </noscript>
+
+  <!-- Motion (animation library), pinned version, loaded without blocking the page -->
+  <script async src="https://cdn.jsdelivr.net/npm/motion@14.9.1/dist/motion.js"
+          integrity="sha384-Tf4POONnr0PkHnugSMSt0Br0cyoxZ1pxYEZsoniM1ufOGlDNIRGB3E9DnzgdXZvE"
+          crossorigin="anonymous"
+          onload="window.GG && GG.onMotionLoaded && GG.onMotionLoaded()"></script>
+
+  <!-- Content first, then helpers, then one script per section, then start -->
+  <script defer src="site-content.js"></script>
+  <script defer src="assets/js/core/utils.js"></script>
+  <script defer src="assets/js/core/icons.js"></script>
+  <script defer src="assets/js/core/logo.js"></script>
+  <script defer src="assets/js/sections/nav.js"></script>
+  <script defer src="assets/js/core/sand-scene.js"></script>
+  <script defer src="assets/js/sections/hero.js"></script>
+  <script defer src="assets/js/sections/about.js"></script>
+  <script defer src="assets/js/sections/silica.js"></script>
+  <script defer src="assets/js/sections/process.js"></script>
+  <script defer src="assets/js/sections/quality.js"></script>
+  <script defer src="assets/js/sections/products.js"></script>
+  <script defer src="assets/js/sections/why.js"></script>
+  <script defer src="assets/js/sections/leadership.js"></script>
+  <script defer src="assets/js/sections/csr.js"></script>
+  <script defer src="assets/js/sections/testimonials.js"></script>
+  <script defer src="assets/js/sections/group.js"></script>
+  <script defer src="assets/js/sections/journey.js"></script>
+  <script defer src="assets/js/sections/infrastructure.js"></script>
+  <script defer src="assets/js/sections/faq.js"></script>
+  <script defer src="assets/js/sections/contact.js"></script>
+  <script defer src="assets/js/sections/footer.js"></script>
+  <script defer src="assets/js/core/main.js"></script>
+</body>
+</html>

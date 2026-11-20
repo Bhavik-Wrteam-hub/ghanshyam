@@ -1,0 +1,72 @@
+/* FAQ ======================================================================= */
+.faq__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 1.5rem + 4vw, 7rem);
+  align-items: start;
+}
+.faq__aside { position: sticky; top: 120px; }
+.faq__aside .section-head { margin-bottom: var(--space-6); }
+.faq__help { display: grid; justify-items: start; gap: var(--space-4); }
+.faq__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
+  text-decoration: none;
+}
+.faq__phone .icon { color: var(--accent); }
+.faq__list { border-top: 1px solid var(--line); }
+.qa { border-bottom: 1px solid var(--line); }
+.qa__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-height: 64px;
+  padding: var(--space-4) 0;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  font-size: clamp(1.02rem, 0.98rem + 0.25vw, 1.15rem);
+  line-height: 1.35;
+  transition: color var(--dur-2);
+}
+.qa__q::-webkit-details-marker { display: none; }
+.qa__q:hover { color: var(--accent); }
+.qa__icon {
+  position: relative;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+.qa__icon::before, .qa__icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.6px;
+  margin: -0.8px 0 0 -6px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.qa__icon::after { transform: rotate(90deg); }
+.qa[open]:not(.is-closing) .qa__icon { background: var(--accent); border-color: var(--accent); color: var(--on-accent); transform: rotate(180deg); }
+.qa[open]:not(.is-closing) .qa__icon::after { transform: rotate(0deg); }
+.qa__a { overflow: hidden; }
+.qa__a p { padding: 0 var(--space-8) var(--space-5) 0; color: var(--text-secondary); max-width: 62ch; }
+
+@media (max-width: 900px) {
+  .faq__grid { grid-template-columns: 1fr; }
+  .faq__aside { position: relative; top: 0; }
+  .qa__a p { padding-right: 0; }
+}

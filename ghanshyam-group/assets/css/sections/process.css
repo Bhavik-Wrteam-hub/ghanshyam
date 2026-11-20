@@ -1,0 +1,93 @@
+/* PROCESS =================================================================== */
+.process__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2.5rem, 2rem + 5vw, 8rem);
+  align-items: start;
+}
+.process__aside { position: sticky; top: 120px; }
+.process__aside .section-head { margin-bottom: var(--space-7); }
+.process__counter { display: flex; align-items: baseline; gap: 12px; }
+.process__counter-label { color: var(--text-secondary); }
+.process__counter-num {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 700;
+  font-size: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+  line-height: 0.9;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+}
+.process__counter-total { font-family: var(--font-mono); color: var(--text-tertiary); }
+
+.process__steps { position: relative; display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4.5rem); margin: 0; padding: 0 0 0 0; list-style: none; }
+.process__line {
+  position: absolute;
+  left: 27px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: var(--line);
+  border-radius: 2px;
+}
+.process__line span {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: top;
+  transform: scaleY(0);
+  border-radius: 2px;
+}
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: clamp(1rem, 0.5rem + 2vw, 2rem);
+  align-items: start;
+}
+.step__marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--canvas);
+  border: 1.5px solid var(--line-strong);
+  color: var(--text-secondary);
+  transition: background-color var(--dur-3) var(--ease-out), border-color var(--dur-3) var(--ease-out), color var(--dur-3) var(--ease-out);
+}
+.step__marker .icon { width: 24px; height: 24px; }
+.step__marker::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+}
+.step.is-done .step__marker { border-color: var(--accent); color: var(--accent); }
+.step.is-active .step__marker { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.step.is-active .step__marker::after { animation: marker-pulse 4s var(--ease-out) infinite; animation-delay: -0.5s; }
+@keyframes marker-pulse { 0% { transform: scale(0.9); opacity: 0.55; } 70% { transform: scale(1.35); opacity: 0; } 100% { opacity: 0; } }
+
+.step__body { padding-top: 6px; max-width: 52ch; }
+/* steps not yet reached stay readable (contrast above 4.5:1); the reached ones darken */
+.step__title { color: var(--text-secondary); transition: color var(--dur-3) var(--ease-out); }
+.step.is-active .step__title, .step.is-done .step__title { color: var(--text-primary); }
+.step__num { color: var(--text-tertiary); margin-bottom: 6px; }
+.step.is-active .step__num { color: var(--accent); }
+.step__title {
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
+  line-height: 1.15;
+  margin-bottom: 0.4em;
+}
+.step__text { color: var(--text-secondary); }
+
+@media (max-width: 900px) {
+  .process__grid { grid-template-columns: 1fr; }
+  .process__aside { position: relative; top: 0; }
+  .process__counter { display: none; }
+}

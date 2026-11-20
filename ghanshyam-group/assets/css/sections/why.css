@@ -1,0 +1,62 @@
+/* WHY US ===================================================================== */
+.why {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+}
+.why__head { position: sticky; top: 124px; margin-bottom: 0; }
+.why__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 1.2vw, 20px);
+  margin: 0;
+  padding: 0;
+}
+.why-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: clamp(1.25rem, 1rem + 1vw, 1.9rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--panel-raised);
+  box-shadow: var(--shadow-1);
+  transition: transform 500ms var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+.why-card__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.why-card__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  color: var(--text-primary);
+  transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.why-card__icon .icon { width: 22px; height: 22px; }
+.why-card:hover .why-card__icon { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.why-card__num { color: var(--text-tertiary); }
+.why-card__title {
+  font-size: clamp(1.15rem, 1rem + 0.45vw, 1.4rem);
+  line-height: 1.18;
+}
+.why-card__text { color: var(--text-secondary); max-width: 40ch; margin-bottom: var(--space-3); }
+.why-card__link { margin-top: auto; align-self: flex-start; }
+/* the whole card follows its link; the focus ring wraps the card */
+.why-card__link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-l); }
+.why-card__link:focus-visible { outline: none; }
+.why-card__link:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 3px; }
+.why-card__link .icon { transition: transform var(--dur-2) var(--ease-out); }
+.why-card:hover .why-card__link .icon { transform: translateX(3px); }
+
+@media (max-width: 1000px) {
+  .why { grid-template-columns: 1fr; }
+  .why__head { position: static; }
+}
+@media (max-width: 600px) {
+  .why__list { grid-template-columns: 1fr; }
+}

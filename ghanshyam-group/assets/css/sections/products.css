@@ -1,0 +1,212 @@
+/* OUR PRODUCTS =============================================================== */
+.pr-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---- Company filter: one pill of chips, held under the nav while browsing -- */
+.pr-filter-wrap {
+  position: sticky;
+  top: 88px;
+  z-index: 5;
+  margin-bottom: clamp(2rem, 1.2rem + 2.4vw, 3.25rem);
+  pointer-events: none;   /* only the pill takes clicks, cards stay clickable beside it */
+}
+.pr-filter {
+  pointer-events: auto;
+  display: inline-flex;
+  gap: 4px;
+  max-width: 100%;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: rgba(246, 248, 247, 0.88);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: var(--shadow-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pr-filter::-webkit-scrollbar { display: none; }
+.pr-chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+}
+.pr-chip:hover { color: var(--text-primary); background: rgba(21, 34, 44, 0.06); }
+.pr-chip[aria-pressed="true"] { background: var(--text-primary); color: var(--canvas); }
+.pr-chip__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tint); flex: none; }
+.pr-chip[aria-pressed="true"] .pr-chip__dot { box-shadow: 0 0 0 2px rgba(238, 241, 239, 0.85); }
+.pr-chip__count { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--text-tertiary); }
+.pr-chip[aria-pressed="true"] .pr-chip__count { color: rgba(238, 241, 239, 0.72); }
+
+/* ---- Company blocks: the heading on the left, three products on the right -- */
+.pr-groups { display: grid; gap: clamp(2.75rem, 1.75rem + 3vw, 4.75rem); }
+.pr-group {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(230px, 0.34fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 0.75rem + 2.5vw, 3.5rem);
+  padding-top: clamp(1.5rem, 1.1rem + 1vw, 2.25rem);
+  border-top: 1px solid var(--line);
+}
+.pr-group::before {   /* the company's colour on the rule */
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 64px;
+  height: 2px;
+  background: var(--tint);
+}
+.pr-group__head { display: grid; gap: var(--space-3); align-content: start; justify-items: start; }
+.pr-group__company {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+}
+.pr-group__index { color: var(--text-tertiary); }
+.pr-group__badge {
+  padding: 5px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-muted);
+  color: var(--accent);
+  font-size: 10.5px;
+}
+.pr-group__name { font-size: var(--fs-h3); line-height: var(--lh-snug); }
+.pr-group__text { color: var(--text-secondary); max-width: 34ch; }
+.pr-group__link { margin-top: var(--space-2); }
+
+/* ---- Product cards ----------------------------------------------------------- */
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.2vw, 20px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pr-card { display: flex; }
+.pr-card__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--panel-raised);
+  box-shadow: var(--shadow-1);
+  transition: transform 500ms var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.pr-card:hover .pr-card__inner { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+.pr-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--panel);
+}
+.pr-card__media img,
+.pr-card__media .pr-ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out);
+}
+.pr-card:hover .pr-card__media img,
+.pr-card:hover .pr-card__media .pr-ph { transform: scale(1.05); }
+.pr-card__body { display: flex; flex-direction: column; gap: 6px; flex: 1; padding: 14px 6px 0; }
+.pr-card__code { color: var(--text-tertiary); font-size: 11.5px; }
+.pr-card__name {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.2;
+}
+.pr-card__text { color: var(--text-secondary); font-size: var(--fs-small); line-height: 1.5; margin-bottom: var(--space-4); }
+.pr-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.pr-card__spec { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-primary); }
+.pr-card__link { flex: none; font-size: 0.9375rem; }
+/* the whole card is the link; the focus ring wraps the card */
+.pr-card__link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-l); }
+.pr-card__link:focus-visible { outline: none; }
+.pr-card__link:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pr-card__link .icon { transition: transform var(--dur-2) var(--ease-out); }
+.pr-card:hover .pr-card__link .icon { transform: translateX(3px); }
+
+/* review mode: say which pictures are stand-ins */
+.review-mode .pr-card__media.is-stand-in::after {
+  content: "Photo to come";
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 5px 8px;
+  border-radius: var(--radius-s);
+  background: rgba(246, 248, 247, 0.92);
+  color: var(--text-primary);
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+}
+
+.pr-more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  margin-top: clamp(2.5rem, 1.5rem + 2vw, 3.75rem);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+  color: var(--text-secondary);
+}
+
+/* ---- Smaller screens --------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .pr-group { grid-template-columns: 1fr; gap: var(--space-5); }
+  .pr-group__text { max-width: 52ch; }
+}
+@media (max-width: 900px) {
+  .pr-filter-wrap { position: relative; top: auto; }
+  /* cards become a row you swipe, like the grade cards */
+  .pr-group .pr-grid {   /* two classes: beats the base reset ul[role="list"] { padding: 0 } */
+    margin-inline: calc(var(--gutter) * -1);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(250px, 44%);
+    overflow-x: auto;
+    padding: 6px var(--gutter) 16px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .pr-grid::-webkit-scrollbar { display: none; }
+  .pr-card { scroll-snap-align: start; }
+}
+@media (max-width: 560px) {
+  .pr-group .pr-grid { grid-auto-columns: 80%; }
+  .pr-chip { padding: 0 13px; }
+}

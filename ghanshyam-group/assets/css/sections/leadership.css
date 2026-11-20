@@ -1,0 +1,88 @@
+/* LEADERSHIP ================================================================= */
+.team {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  margin: 0;
+  padding: 0;
+}
+.person { display: grid; gap: var(--space-4); align-content: start; }
+.person__portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--panel);
+}
+.person__portrait img { width: 100%; height: 100%; object-fit: cover; }
+/* the stand-in: initials on pale stone, lit from the upper left, with the brand's grain */
+.person__portrait.is-stand-in {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 18% 0%, #F6F8F7 0%, rgba(246, 248, 247, 0) 62%),
+    linear-gradient(180deg, #E6EBE9 0%, #D7DEDB 100%);
+  border: 1px solid var(--line);
+}
+.person__portrait.is-stand-in::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.13 0 0 0 0 0.17 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  pointer-events: none;
+}
+.person__initials {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 2rem + 2vw, 3.8rem);
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  opacity: 0.88;
+}
+.person__body { display: grid; gap: 6px; padding-inline: 4px; }
+.person__name { font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem); line-height: 1.2; }
+.person__role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.person__text { color: var(--text-secondary); font-size: var(--fs-small); line-height: 1.55; margin-top: 4px; }
+
+/* review mode: say which portraits are stand-ins */
+.review-mode .person__portrait.is-stand-in::before {
+  content: "Portrait to come";
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 1;
+  padding: 5px 8px;
+  border-radius: var(--radius-s);
+  background: rgba(246, 248, 247, 0.92);
+  color: var(--text-primary);
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+}
+
+@media (max-width: 1100px) {
+  .team { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-7); }
+}
+@media (max-width: 600px) {
+  /* a row you swipe, like the grade and product cards */
+  .leadership .team {
+    margin-inline: calc(var(--gutter) * -1);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    overflow-x: auto;
+    padding: 4px var(--gutter) 12px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .leadership .team::-webkit-scrollbar { display: none; }
+  .person { scroll-snap-align: start; }
+}

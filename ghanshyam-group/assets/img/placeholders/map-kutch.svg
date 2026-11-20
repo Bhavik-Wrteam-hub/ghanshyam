@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+<title>Schematic map of the plant and nearby ports (not to scale)</title>
+<defs>
+  <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#15222C" fill-opacity=".09"/></pattern>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3E6E4"/><stop offset="1" stop-color="#BBD8D5"/></linearGradient>
+</defs>
+<rect width="800" height="600" fill="#EDF0EC"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<!-- Gulf of Kutch (schematic) -->
+<path d="M0 470 C120 450 220 500 330 486 S520 440 600 410 S720 330 800 300 L800 600 L0 600Z" fill="url(#sea)"/>
+<path d="M0 470 C120 450 220 500 330 486 S520 440 600 410 S720 330 800 300" fill="none" stroke="#0B6C70" stroke-opacity=".35" stroke-width="2"/>
+<text x="140" y="560" font-family="Menlo, ui-monospace, monospace" font-size="14" letter-spacing="3" fill="#0B6C70" fill-opacity=".6">GULF OF KUTCH</text>
+<!-- roads -->
+<g fill="none" stroke="#B7AE9B" stroke-width="5" stroke-linecap="round">
+  <path d="M360 170 C390 190 420 215 452 238"/><path d="M452 238 C470 320 460 400 452 470"/><path d="M452 238 C540 260 640 320 700 372"/>
+</g>
+<!-- distances -->
+<g font-family="Menlo, ui-monospace, monospace" font-size="13" fill="#4A5963">
+  <text x="400" y="190" transform="rotate(32 400 190)">12 km</text>
+  <text x="470" y="360">60 km</text>
+  <text x="590" y="285" transform="rotate(30 590 285)">90 km</text>
+</g>
+<!-- places -->
+<g font-family="Menlo, ui-monospace, monospace" font-size="15" fill="#15222C">
+  <circle cx="360" cy="170" r="7" fill="#15222C"/><text x="300" y="150">BHUJ</text>
+  <circle cx="452" cy="470" r="8" fill="#FFFFFF" stroke="#15222C" stroke-width="3"/><text x="476" y="476">MUNDRA PORT</text>
+  <circle cx="700" cy="372" r="8" fill="#FFFFFF" stroke="#15222C" stroke-width="3"/><text x="610" y="408">KANDLA PORT</text>
+</g>
+<!-- the plant -->
+<circle cx="452" cy="238" r="26" fill="#0B6C70" opacity=".14"/>
+<circle cx="452" cy="238" r="11" fill="#0B6C70"/>
+<text x="478" y="232" font-family="Menlo, ui-monospace, monospace" font-size="15" font-weight="700" fill="#0B6C70">GHANSHYAM PLANT</text>
+<text x="478" y="252" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#4A5963">Kukma, Kutch</text>
+<text x="24" y="36" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#5E6C75">SCHEMATIC, NOT TO SCALE</text>
+</svg>
