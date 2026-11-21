@@ -22,7 +22,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(21, 34, 44, 0) 45%, rgba(21, 34, 44, 0.78) 100%);
+  background: linear-gradient(180deg, rgba(18, 35, 28, 0) 45%, rgba(18, 35, 28, 0.78) 100%);
   pointer-events: none;
 }
 .process__frame { position: absolute; inset: 0; opacity: 0; transition: opacity 700ms var(--ease-out); }

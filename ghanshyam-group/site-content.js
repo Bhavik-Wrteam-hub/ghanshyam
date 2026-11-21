@@ -185,6 +185,7 @@ window.SITE_CONTENT = {
       tagline: "Washed, sized and tested sand.",
       summary: S("Silica sand in five grades for glass, foundry, construction and water filters. Every lot is tested in our own lab before it ships."),
       image: photo("company-silica", "A cone of white silica sand on a pale stone block"),
+      film: footage("silica", "A stream of white silica sand pouring onto a cone on a pale stone block"),            /* its short film: its page and its layer on the homepage */
       facts: S([["Capacity", "{capacity.silica} a month"], ["Grades", "5"]]),
       /* keyProducts: the five grades are listed automatically from SILICA SAND below */
       cta: { label: "Request a sample", submit: "Request my sample" },
@@ -230,6 +231,7 @@ window.SITE_CONTENT = {
       tagline: "White clay, refined.",
       summary: S("Washed kaolin for ceramic bodies, glazes, paper and paint. Mined at our own Kutch deposit and refined in our own plant next door."),
       image: photo("company-kaolin", "A lump of raw white kaolin clay on a pale grey surface"),
+      film: footage("kaolin", "Fine clay dust drifting around a lump of raw white kaolin"),            /* its short film: its page and its layer on the homepage */
       facts: S([["Brightness", "82 to 88%"], ["Capacity", "{capacity.kaolin} a month"]]),
       keyProducts: S(["Ceramic grade kaolin", "Paper grade kaolin", "Levigated china clay", "Calcined kaolin, on request"]),
       cta: { label: "Request a sample", submit: "Request my sample" },
@@ -256,10 +258,10 @@ window.SITE_CONTENT = {
         title: "Kaolin for every body and coating.",
         lede: "Pick the grade for your process. Every lot ships with its own test report.",
         items: S([
-          { name: "Ceramic grade kaolin", spec: "Whiteness 85% min", text: "Washed kaolin for tile bodies, sanitaryware and tableware, low in iron for a clean fired colour.", image: placeholder("product-kaolin-ceramic", "#ECE7DF") },
-          { name: "Paper grade kaolin", spec: "Brightness 82 to 88%", text: "A fine, bright clay for filling and coating paper and board, steady from lot to lot.", image: placeholder("product-kaolin-paper", "#F2F0EB") },
-          { name: "Levigated china clay", spec: "Residue 0.5% max", text: "Settled slowly to leave the grit behind, for smooth glazes and fine ceramic bodies.", image: placeholder("product-kaolin-levigated", "#EEEAE3") },
-          { name: "Calcined kaolin", spec: "Brightness 90% min", text: "Kaolin fired for extra brightness and hardness, for paints, plastics and cables. Made on request.", image: placeholder("product-kaolin-calcined", "#F8F8F6") }
+          { name: "Ceramic grade kaolin", spec: "Whiteness 85% min", text: "Washed kaolin for tile bodies, sanitaryware and tableware, low in iron for a clean fired colour.", image: photo("product-kaolin-ceramic", "A mound of washed white kaolin powder beside a few lumps of raw china clay") },
+          { name: "Paper grade kaolin", spec: "Brightness 82 to 88%", text: "A fine, bright clay for filling and coating paper and board, steady from lot to lot.", image: photo("product-kaolin-paper", "A smooth mound of very fine, bright white kaolin with a scoop pressed into its side") },
+          { name: "Levigated china clay", spec: "Residue 0.5% max", text: "Settled slowly to leave the grit behind, for smooth glazes and fine ceramic bodies.", image: photo("product-kaolin-levigated", "A heap of ivory levigated china clay beside thin flakes of dried clay") },
+          { name: "Calcined kaolin", spec: "Brightness 90% min", text: "Kaolin fired for extra brightness and hardness, for paints, plastics and cables. Made on request.", image: photo("product-kaolin-calcined", "A low heap of brilliant white calcined kaolin powder") }
         ])
       },
       process: {
@@ -307,6 +309,7 @@ window.SITE_CONTENT = {
       tagline: "Where the group began.",
       summary: S("The group's first company. It mines, sorts and trades feldspar, quartz and ball clay for glass, ceramics and refractories."),
       image: photo("company-minerals", "Clear quartz crystals beside pink feldspar on a pale surface"),
+      film: footage("minerals", "Light moving across clear quartz crystals and pink feldspar"),            /* its short film: its page and its layer on the homepage */
       facts: S([["Minerals", "6"], ["Markets", "{group.states} states"]]),
       keyProducts: S(["Potash and soda feldspar", "Quartz lumps and grits", "Ball clay", "Bentonite, traded"]),
       cta: { label: "Request a quote", submit: "Request my quote" },
@@ -334,10 +337,10 @@ window.SITE_CONTENT = {
         title: "Minerals for glass and ceramics.",
         lede: "Lumps, grits and clays, sized to order. Every lot ships with its own test report.",
         items: S([
-          { name: "Potash feldspar", spec: "K₂O 10% min", text: "Lumps and grits for glass batches, glazes and vitrified tile bodies.", image: placeholder("product-minerals-feldspar", "#E7CEC4") },
-          { name: "Soda feldspar", spec: "Na₂O 7% min", text: "A low-melting feldspar for sanitaryware, wall tiles and glass.", image: placeholder("product-minerals-soda-feldspar", "#EDE3DA") },
-          { name: "Quartz lumps and grits", spec: "SiO₂ 99% min", text: "Hand-sorted lumps and sized grits for glass, ferro alloys and engineered stone.", image: placeholder("product-minerals-quartz", "#E3E8E9") },
-          { name: "Ball clay", spec: "High green strength", text: "A plastic, strong-binding clay that holds tile and sanitaryware bodies together before firing.", image: placeholder("product-minerals-ball-clay", "#CDC4B6") }
+          { name: "Potash feldspar", spec: "K₂O 10% min", text: "Lumps and grits for glass batches, glazes and vitrified tile bodies.", image: photo("product-minerals-feldspar", "Pale pink potash feldspar lumps with a small heap of crushed pink grits") },
+          { name: "Soda feldspar", spec: "Na₂O 7% min", text: "A low-melting feldspar for sanitaryware, wall tiles and glass.", image: photo("product-minerals-soda-feldspar", "Cream soda feldspar lumps with pearly faces and a heap of crushed grits") },
+          { name: "Quartz lumps and grits", spec: "SiO₂ 99% min", text: "Hand-sorted lumps and sized grits for glass, ferro alloys and engineered stone.", image: photo("product-minerals-quartz", "Clear and milky quartz lumps with a small heap of white quartz grits") },
+          { name: "Ball clay", spec: "High green strength", text: "A plastic, strong-binding clay that holds tile and sanitaryware bodies together before firing.", image: photo("product-minerals-ball-clay", "Lumps of grey-cream ball clay with smooth broken faces") }
         ])
       },
       process: {
@@ -384,6 +387,7 @@ window.SITE_CONTENT = {
       tagline: "Ground to the micron.",
       summary: S("Grinding and micronising for silica flour, quartz powder and feldspar powder, with air classifiers that hold a tight particle size."),
       image: photo("company-processors", "Inside a mineral grinding plant: a large ball mill, a cyclone and a hopper of fine powder, with a worker in a hard hat walking the aisle", { focus: "82% 50%" }),
+      film: footage("processors", "A ball mill turning in the grinding plant as fine powder streams into a hopper"),            /* its short film: its page and its layer on the homepage */
       facts: S([["Mills", "4 ball mills"], ["Capacity", "{capacity.processors} a month"]]),
       keyProducts: S(["Silica flour, 200 to 400 mesh", "Quartz powder", "Feldspar powder", "Custom grinding (job work)"]),
       cta: { label: "Request a sample", submit: "Request my sample" },
@@ -411,9 +415,9 @@ window.SITE_CONTENT = {
         lede: "Ground from our own washed sand and sorted minerals. Every lot ships with its own test report.",
         items: S([
           { name: "Silica flour", spec: "200 to 400 mesh", text: "Micronised silica for ceramics, paints and fibreglass, held to a tight size curve.", image: photo("grade-flour", "Close view of silica flour: a soft drift of bright white powder") },
-          { name: "Quartz powder", spec: "Up to 500 mesh", text: "Bright, fine quartz powder for engineered stone, glazes and welding electrodes.", image: placeholder("product-processors-quartz-powder", "#EFF0EE") },
-          { name: "Feldspar powder", spec: "200 to 325 mesh", text: "Ground feldspar for glass batches, glazes and vitrified tiles.", image: placeholder("product-processors-feldspar-powder", "#ECDDD6") },
-          { name: "Custom grinding", spec: "To your size band", text: "Send us your mineral and the size you need. We grind it as job work and test every lot.", image: placeholder("product-processors-job-work", "#E6E9E7") }
+          { name: "Quartz powder", spec: "Up to 500 mesh", text: "Bright, fine quartz powder for engineered stone, glazes and welding electrodes.", image: photo("product-processors-quartz-powder", "A heap of bright white micronised quartz powder with a scoop mark") },
+          { name: "Feldspar powder", spec: "200 to 325 mesh", text: "Ground feldspar for glass batches, glazes and vitrified tiles.", image: photo("product-processors-feldspar-powder", "A heap of very fine pale pink feldspar powder") },
+          { name: "Custom grinding", spec: "To your size band", text: "Send us your mineral and the size you need. We grind it as job work and test every lot.", image: photo("product-processors-job-work", "Three heaps of white mineral ground to coarse, medium and fine sizes") }
         ])
       },
       process: {
@@ -461,6 +465,7 @@ window.SITE_CONTENT = {
       tagline: "Grain of a different kind.",
       summary: S("It began as a green belt around the quarry. Today it is an 80-acre drip-irrigated farm growing Kutchi dates, pomegranate, groundnut and cumin."),
       image: photo("company-farm", "Rows of young crops on drip irrigation lines at sunset, with round thatched huts and low hills behind", { focus: "40% 50%" }),
+      film: footage("farm", "A slow flight along rows of young crops on drip lines at sunset"),            /* its short film: its page and its layer on the homepage */
       facts: S([["Area", "80 acres"], ["Irrigation", "100% drip"]]),
       keyProducts: S(["Kutchi dates (kharek)", "Pomegranate", "Groundnut", "Cumin"]),
       cta: { label: "Send a trade enquiry", submit: "Send my enquiry" },
@@ -487,10 +492,10 @@ window.SITE_CONTENT = {
         title: "What the farm grows.",
         lede: "Picked in season, graded by hand and packed on the farm. The months on each card show the harvest.",
         items: S([
-          { name: "Kutchi dates (kharek)", spec: "Yellow and red", season: [6, 7], text: "Fresh kharek from our own palms, picked at the right colour and packed at the farm.", image: placeholder("product-farm-dates", "#B47A3A") },
-          { name: "Pomegranate", spec: "Bhagwa variety", season: [12, 1, 2], text: "Deep red, sweet fruit, graded by size and packed for the trade.", image: placeholder("product-farm-pomegranate", "#A9333F") },
-          { name: "Groundnut", spec: "Bold kernels", season: [10, 11], text: "Sun-dried groundnut in shell or as kernels, for oil mills and traders.", image: placeholder("product-farm-groundnut", "#C79F70") },
-          { name: "Cumin", spec: "Machine cleaned", season: [2, 3], text: "Kutch cumin, cleaned and graded, for spice traders and exporters.", image: placeholder("product-farm-cumin", "#8C7552") }
+          { name: "Kutchi dates (kharek)", spec: "Yellow and red", season: [6, 7], text: "Fresh kharek from our own palms, picked at the right colour and packed at the farm.", image: photo("product-farm-dates", "A bunch of fresh yellow and red Kutchi kharek dates") },
+          { name: "Pomegranate", spec: "Bhagwa variety", season: [12, 1, 2], text: "Deep red, sweet fruit, graded by size and packed for the trade.", image: photo("product-farm-pomegranate", "Two whole Bhagwa pomegranates and one cut open to show its red seeds") },
+          { name: "Groundnut", spec: "Bold kernels", season: [10, 11], text: "Sun-dried groundnut in shell or as kernels, for oil mills and traders.", image: photo("product-farm-groundnut", "Groundnuts in the shell beside a heap of shelled kernels") },
+          { name: "Cumin", spec: "Machine cleaned", season: [2, 3], text: "Kutch cumin, cleaned and graded, for spice traders and exporters.", image: photo("product-farm-cumin", "A heap of clean, machine-graded cumin seeds") }
         ])
       },
       process: {
@@ -549,8 +554,9 @@ window.SITE_CONTENT = {
     links: [
       { label: "About", href: "#about" },
       { label: "Businesses", menu: true },          /* opens the panel with all five companies */
+      { label: "Products", href: "#products" },
+      { label: "Applications", href: "#applications" },
       { label: "Journey", href: "#journey" },
-      { label: "Leadership", href: "#leadership" },
       { label: "Responsibility", href: "#csr" }
     ],
     businessesTitle: "Our five businesses",
@@ -561,7 +567,7 @@ window.SITE_CONTENT = {
   },
 
   /* ==========================================================================
-     GROUP HERO: the first screen. Five tall photo panels, one per business.
+     GROUP HERO: the first screen. The group's opening, then one film per business.
      ========================================================================== */
   groupHero: {
     kicker: "{company.region} · Since {company.founded}",
@@ -570,8 +576,31 @@ window.SITE_CONTENT = {
     ctaPrimary: { label: "Explore our businesses", href: "#businesses" },
     ctaSecondary: { label: "Our story", href: "#about" },
     proof: ["{company.years}+ years", "{group.companies} companies", "{group.states} states and {group.countries} countries"],
-    layersLabel: "Our five businesses",
-    visit: "Visit"
+    visit: "Visit",
+
+    /* THE FIRST SCREEN: one film per company. As the page scrolls, each
+       company's film fades in and plays while it is in view, one at a time.
+       Each company's name, line and summary come from its own entry above.
+
+       PLACEHOLDER FILMS (hence S): made with Gemini until real footage of
+       each business exists. Put a new film at generated-images/branches/<file>.mp4
+       and run tools/branch-films.sh. See README "The branch films".
+         file:  its name in assets/video/branches
+         focus: the part of the picture to keep when a screen crops it */
+    film: {
+      still: "assets/video/hero/group-poster.jpg",      /* shown only if a video and its poster cannot load */
+      branches: S([
+        { company: "silica", file: "silica", focus: "72% 60%" },
+        { company: "kaolin", file: "kaolin", focus: "80% 60%" },
+        { company: "minerals", file: "minerals", focus: "68% 55%" },
+        { company: "processors", file: "processors", focus: "78% 55%" },
+        { company: "farm", file: "farm", focus: "68% 60%" }
+      ]),
+      scrollCue: "Scroll",
+      pauseLabel: "Pause videos",
+      playLabel: "Play videos",
+      placeholderNote: "Placeholder film"
+    }
   },
 
   /* ==========================================================================
@@ -590,6 +619,16 @@ window.SITE_CONTENT = {
       name: "R. G. Patel",
       role: "Founder and Chairman"
     }),
+    /* The film beside these words: an excavator at work. A PLACEHOLDER (hence S)
+       until real footage of the group's own machines exists. It carries no
+       maker's name or logo on purpose. See README "The About film".
+         base: its files in assets/video/about  focus: the part to keep when cropped */
+    film: S({
+      base: "assets/video/about/excavator",
+      alt: "An orange excavator scooping pale sand from a heap and loading it into a parked orange dump truck, in front of a layered quarry wall at golden hour",
+      focus: "50% 50%",
+      focusSmall: "50% 50%"
+    }),
     image: photo("about-strata", "A tall quarry wall with a bright band of white silica sand between layers of ochre sandstone, under a blue sky", { w: 896, h: 1200, focus: "50% 45%" })
   },
 
@@ -605,6 +644,30 @@ window.SITE_CONTENT = {
     productsLabel: "What it makes",
     visit: "Visit {name}",
     enquire: "Enquire"
+  },
+
+  /* ==========================================================================
+     PRODUCT RANGE (homepage): every company's products, one tab per company.
+     The products themselves come from each company's entry above.
+     ========================================================================== */
+  range: {
+    kicker: "Our products",
+    title: "What we make.",
+    lede: "Choose a company to see its range, then open its page for specs, packing and a free sample.",
+    tabsLabel: "Show products from",
+    viewAll: "All {name} products",
+    enquire: "Enquire"
+  },
+
+  /* ==========================================================================
+     APPLICATIONS (homepage): the industries each company supplies.
+     The industries come from each company's entry above.
+     ========================================================================== */
+  apps: {
+    kicker: "Applications",
+    title: "Where our materials go.",
+    lede: "The industries each company supplies, from float glass to spice traders.",
+    tabsLabel: "Show industries for"
   },
 
   /* ==========================================================================
@@ -665,16 +728,18 @@ window.SITE_CONTENT = {
     newCompany: "New company",                  /* the tag on the year a company began */
     visit: "Visit {name}",
     growthCount: "{count} of {total} companies",
+    showAll: "Show all {count} years",          /* phones: the button under the founding years */
+    showLess: "Show fewer years",
     milestones: S([
-      { year: "{company.founded}", company: "minerals", title: "Where the group began", text: "A small trading business in Bhuj, supplying feldspar and quartz to local potteries.", media: footage("crystals", "Clear quartz grains turning slowly in the light") },
-      { year: "{silica.since}", company: "silica", title: "The first silica quarry", text: "The quarry on the Bhuj-Mundra road opens, with one washing line.", media: footage("quarry", "An excavator working the terraces of an open sand quarry at golden hour") },
-      { year: "{kaolin.since}", company: "kaolin", title: "A third company, with its own refinery", text: "A kaolin deposit beside the silica quarry opens, with a plant to wash and refine the clay.", media: photo("company-kaolin", "A lump of raw white kaolin clay on a pale grey surface") },
+      { year: "{company.founded}", company: "minerals", title: "Where the group began", text: "A small trading business in Bhuj, supplying feldspar and quartz to local potteries.", media: footage("minerals", "Light moving across clear quartz crystals and pink feldspar") },
+      { year: "{silica.since}", company: "silica", title: "The first silica quarry", text: "The quarry on the Bhuj-Mundra road opens, with one washing line.", media: footage("quarry", "A dawn flight over the white terraces of a sand quarry and its layered wall") },
+      { year: "{kaolin.since}", company: "kaolin", title: "A third company, with its own refinery", text: "A kaolin deposit beside the silica quarry opens, with a plant to wash and refine the clay.", media: footage("kaolin", "Fine clay dust drifting around a lump of raw white kaolin") },
       { year: "2012", company: "silica", theme: "Our first big buyer", title: "First float glass contract", text: "A float glass maker approves our glass grade. It still buys from us today." },
-      { year: "{processors.since}", company: "processors", title: "Grinding to the micron", text: "Ball mills and air classifiers start making silica flour and quartz powder.", media: footage("conveyor", "Sand running along a conveyor from a vibrating screen in the plant") },
+      { year: "{processors.since}", company: "processors", title: "Grinding to the micron", text: "Ball mills and air classifiers start making silica flour and quartz powder.", media: footage("processors", "A ball mill turning in the grinding plant as fine powder streams into a hopper") },
       { year: "2016", company: "minerals", theme: "New markets", title: "Beyond Gujarat", text: "Feldspar and ball clay reach tile and sanitaryware makers in Rajasthan and Uttar Pradesh." },
       { year: "2017", company: "silica", theme: "Proof in every lot", title: "Our own lab, and {quality.certification}", text: "An on-site lab starts testing every lot, and the quality system is certified." },
-      { year: "{farm.since}", company: "farm", title: "The green belt becomes a farm", text: "The trees planted around the quarry grow into a working, drip-irrigated farm.", media: photo("company-farm", "Rows of young crops on drip irrigation lines at sunset", { focus: "40% 50%" }) },
-      { year: "2021", company: "silica", title: "A second washing line", text: "Capacity doubles to {capacity.silica} of washed sand a month, with a new rotary dryer.", media: footage("washing", "Sand and water pouring through a washing line, sprays above") },
+      { year: "{farm.since}", company: "farm", title: "The green belt becomes a farm", text: "The trees planted around the quarry grow into a working, drip-irrigated farm.", media: footage("farm", "A slow flight along rows of young crops on drip lines at sunset") },
+      { year: "2021", company: "silica", title: "A second washing line", text: "Capacity doubles to {capacity.silica} of washed sand a month, with a new rotary dryer.", media: footage("silica", "A stream of white silica sand pouring onto a growing cone") },
       { year: "2023", company: "silica", theme: "Across the sea", title: "First export container", text: "Glass grade ships from Mundra port to buyers in the Gulf and East Africa." },
       { year: "2025", company: "silica", theme: "Purer than ever", title: "Low-iron solar grade", text: "Extra magnetic separation brings iron down far enough for solar glass makers." }
     ]),
@@ -683,7 +748,7 @@ window.SITE_CONTENT = {
       label: "Today",
       title: "Five companies. One family.",
       text: "{company.years} years on, the group mines, washes, grinds and grows across Kutch, and supplies {group.states} states and {group.countries} countries.",
-      media: footage("pour", "Clean silica sand pouring in a steady stream")
+      media: photo("about-strata", "A tall quarry wall with a bright band of white silica sand between layers of ochre sandstone", { w: 896, h: 1200, focus: "50% 45%" })
     },
     /* Achievements, under the timeline (samples: use real certificates and awards) */
     achievements: {
@@ -699,7 +764,7 @@ window.SITE_CONTENT = {
 
   /* ==========================================================================
      LEADERSHIP (sample names and roles: replace with the real team)
-     A portrait is optional. Add  image: photo("leader-file-name", "Portrait of ...", { w: 900, h: 1125 })
+     A portrait is optional. Add  image: photo("leader-file-name", "Portrait of ...", { w: 900, h: 900 })
      and until then the card shows the person's initials.
      ========================================================================== */
   leadership: {
@@ -904,7 +969,7 @@ window.SITE_CONTENT = {
         short: "Clean, sized sand for green sand, resin and core work.",
         sizeMin: 0.106, sizeMax: 0.85,
         grain: 0.46,
-        image: photo("grade-foundry", "Close view of foundry grade silica sand: rounded grains with a warm, golden tone"),
+        image: photo("grade-foundry", "Close view of foundry grade silica sand: sub-rounded cream and light tan quartz grains"),
         chemistry: [["SiO₂", "98.5% min"], ["Clay", "0.5% max"], ["Fe₂O₃", "0.10% max"], ["pH", "6.5 to 7.5"], ["Acid demand", "5 ml max"]],
         physical: [["AFS GFN", "45 to 65"], ["Size", "0.10 to 0.85 mm"], ["Moisture", "0.3% max"], ["Shape", "Sub-rounded"]],
         packing: ["50 kg bags", "1 t jumbo bags", "Loose, in covered tippers"],
@@ -962,11 +1027,11 @@ window.SITE_CONTENT = {
     lede: "Consistent sand is not luck. It comes from doing the same seven things, the same way, every day.",
     stepLabel: "Step",
     steps: [
-      { icon: "quarry", title: "Choose the face", text: "We sample the quarry face before we cut it. Sand that will not make grade stays in the ground.", media: footage("quarry", "An excavator working the terraces of the sand quarry") },
-      { icon: "wash", title: "Wash", text: "Water and attrition scrubbers strip the clay coating from every grain.", media: footage("washing", "Sand and water pouring through the washing line") },
-      { icon: "classify", title: "Classify", text: "Hydrocyclones and screens sort the grain by size into the band you ordered.", media: footage("conveyor", "Sized sand running along a conveyor from a vibrating screen") },
-      { icon: "dry", title: "Dry", text: "A rotary dryer brings moisture under {quality.moisture}, so the sand flows freely and weighs true.", media: footage("pour", "Dry sand flowing freely in a steady stream") },
-      { icon: "magnet", title: "Pull the iron", text: "Rare-earth magnets lift out iron-bearing grains, the main cause of tint in glass.", media: footage("crystals", "Clean, clear quartz grains turning in the light") },
+      { icon: "quarry", title: "Choose the face", text: "We sample the quarry face before we cut it. Sand that will not make grade stays in the ground.", media: footage("quarry", "A dawn flight over the white terraces of the sand quarry") },
+      { icon: "wash", title: "Wash", text: "Water and attrition scrubbers strip the clay coating from every grain.", media: photo("grade-filter", "Washed, uniform white sand grains, clean of clay") },
+      { icon: "classify", title: "Classify", text: "Hydrocyclones and screens sort the grain by size into the band you ordered.", media: footage("processors", "Fine powder streaming from a cyclone into a hopper inside the plant") },
+      { icon: "dry", title: "Dry", text: "A rotary dryer brings moisture under {quality.moisture}, so the sand flows freely and weighs true.", media: footage("silica", "Dry white sand flowing freely onto a cone") },
+      { icon: "magnet", title: "Pull the iron", text: "Rare-earth magnets lift out iron-bearing grains, the main cause of tint in glass.", media: footage("minerals", "Light moving across clean, clear quartz crystals") },
       { icon: "lab", title: "Test", text: "Every lot gets a sieve analysis, chemistry and a moisture check in our own lab.", media: photo("grade-glass", "Close view of glass grade silica sand: clear, angular quartz grains") },
       { icon: "truck", title: "Pack and dispatch", text: "Bagged or loose, every load leaves with its lot number and its test report.", media: photo("company-silica", "A cone of finished white silica sand on a pale stone block") }
     ]

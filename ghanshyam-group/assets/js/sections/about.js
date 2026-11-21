@@ -1,7 +1,38 @@
-/* ABOUT: the group's story, the founder's line, and the four numbers. */
+/* ABOUT: the group's story, the founder's line, its film and the four numbers.
+   The film plays through GG.FrameFilm (core/branch-player.js). Words and film:
+   about in site-content.js. Without a film, the section shows about.image. */
 (function () {
   'use strict';
   var GG = window.GG, h = GG.h;
+
+  /* The film's frame: a poster, the video over it once it plays, and its pause button */
+  function filmFrame(a, C) {
+    var film = GG.deep(a.film), labels = C.groupHero.film;
+    var video = h('video', {
+      class: 'about__video', muted: true, loop: true, playsinline: true, preload: 'none',
+      disablepictureinpicture: true, disableremoteplayback: true, tabindex: '-1', 'aria-hidden': 'true'
+    });
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    var poster = h('img', {
+      class: 'about__poster', alt: GG.txt(film.alt), width: '1080', height: '1320', loading: 'lazy', decoding: 'async',
+      src: film.base + '.webp', srcset: film.base + '-small.webp 720w, ' + film.base + '.webp 1080w',
+      sizes: '(max-width: 960px) 100vw, 620px'
+    });
+    var still = GG.deep(a.image);
+    poster.addEventListener('error', function () {
+      if (!still || poster.getAttribute('src') === still.src) return;
+      poster.removeAttribute('srcset');
+      poster.src = still.src;
+    });
+    return h('div', {
+      class: 'about__frame has-film', sample: a.film, 'data-base': film.base,
+      style: { '--focus': film.focus || '50% 50%', '--focus-small': film.focusSmall || film.focus || '50% 50%' }
+    },
+      poster, video,
+      h('button', { class: 'about__pause', type: 'button', 'aria-pressed': 'false', 'aria-label': GG.txt(labels.pauseLabel) }, GG.icon('pause')));
+  }
 
   GG.sections.about = {
     render: function (root, C) {
@@ -21,7 +52,8 @@
               GG.mark({ cls: 'about__quote-mark' }),
               h('span', null, h('span', { class: 'about__quote-name' }, q.name), h('span', { class: 'about__quote-role' }, q.role))))),
         h('div', { class: 'about__media', 'data-reveal': '' },
-          h('div', { class: 'about__frame' }, GG.img(a.image, { width: 900, height: 1100, cls: 'about__img', sizes: '(max-width: 960px) 100vw, 620px' }), dust))));
+          a.film ? filmFrame(a, C)
+            : h('div', { class: 'about__frame' }, GG.img(a.image, { width: 900, height: 1100, cls: 'about__img', sizes: '(max-width: 960px) 100vw, 620px' }), dust))));
 
       /* the numbers row is optional (the group's numbers live in GROUP STRENGTH) */
       if (a.metrics) root.appendChild(h('div', { class: 'container' },
@@ -50,7 +82,21 @@
       }
     },
 
-    init: function (root) {
+    init: function (root, C) {
+      var filmEl = root.querySelector('.about__frame.has-film');
+      if (filmEl) {
+        var labels = C.groupHero.film, btn = filmEl.querySelector('.about__pause');
+        var showPause = function () {
+          var isPaused = !!(GG.filmPlayer && GG.filmPlayer.isPaused());
+          btn.setAttribute('aria-pressed', String(isPaused));
+          btn.setAttribute('aria-label', GG.txt(isPaused ? labels.playLabel : labels.pauseLabel));
+          btn.replaceChildren(GG.icon(isPaused ? 'play' : 'pause'));
+        };
+        btn.addEventListener('click', function () { if (GG.filmPlayer) GG.filmPlayer.setPaused(!GG.filmPlayer.isPaused()); });
+        document.addEventListener('gg:films-paused', showPause);   /* one pause for every film */
+        showPause();
+        GG.aboutFilm = GG.FrameFilm({ frame: filmEl, video: filmEl.querySelector('video'), base: filmEl.getAttribute('data-base') });
+      }
       var nums = root.querySelectorAll('.metric__num');
       if (!('IntersectionObserver' in window)) return;
       var io = new IntersectionObserver(function (entries) {

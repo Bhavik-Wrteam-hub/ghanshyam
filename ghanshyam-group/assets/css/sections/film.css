@@ -1,0 +1,377 @@
+/* FILM: the homepage's first screen ===========================================
+   Three layers share one grid cell:
+     .film__stage     stays on screen and holds the five branch films
+     .film__steps     the words: the opening, then one card per company
+     .film__controls  the pause button
+   Scrolling alone moves through the companies. Each card rises, lands in the
+   same place, and the next one lands on top of it as its film fades in.
+   Heights use lvh for the stage (it never resizes when a phone's address bar
+   hides, so nothing jumps) and svh for the steps (words always fit on screen).
+   ========================================================================== */
+.film {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: #D9D6CC;
+}
+.film__stage, .film__steps, .film__controls { grid-area: 1 / 1; min-width: 0; }
+
+/* ---- The stage ---------------------------------------------------------------- */
+.film__stage {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  background: #D9D6CC;
+}
+/* the group's still: shown only if a video and its poster cannot load */
+.film__still {
+  position: absolute;
+  inset: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 50%;
+}
+.film.use-still .film__still { display: block; }
+
+.bfilm {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 850ms var(--ease-out), visibility 0s linear 850ms;
+}
+.bfilm.is-leaving { z-index: 2; opacity: 1; visibility: visible; transition: none; }
+.bfilm.is-active { z-index: 3; opacity: 1; visibility: visible; transition: opacity 850ms var(--ease-out), visibility 0s; }
+.bfilm picture { display: contents; }
+.bfilm__poster, .bfilm__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus, 50% 50%);
+}
+.bfilm.no-poster .bfilm__poster { display: none; }
+.bfilm__video { opacity: 0; transition: opacity 500ms var(--ease-out); }
+.bfilm.is-playing .bfilm__video { opacity: 1; }
+.bfilm.is-failed .bfilm__video { display: none; }
+/* the tall cut is already framed on its subject */
+@media (orientation: portrait) {
+  .bfilm__poster, .bfilm__video { object-position: 50% 50%; }
+}
+
+/* a soft light at the top, so the menu reads over any film before the page moves */
+.film__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(var(--scrim-light), 0.94) 0, rgba(var(--scrim-light), 0.86) 72px, rgba(var(--scrim-light), 0) 176px);
+}
+
+/* ---- The words ---------------------------------------------------------------- */
+.film__steps { position: relative; z-index: 1; pointer-events: none; }
+.fstep {
+  --stack: 62vh;       /* how far a card's track runs on under the next step */
+  --stack: 62svh;
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+.fstep__inner {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: calc(var(--stack) * -1);
+}
+.fstep--intro .fstep__inner, .fstep:last-child .fstep__inner { margin-bottom: 0; }
+.fintro, .fcard { pointer-events: auto; }
+
+/* The group's opening */
+.fstep--intro {
+  align-items: flex-start;
+  padding-block: max(116px, 15vh) 40px;
+}
+.fintro {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  width: min(52vw, 660px);
+  color: var(--text-primary);
+  text-shadow: var(--tshadow-light);
+}
+.fintro::before {
+  content: "";
+  position: absolute;
+  inset: -26% -24% -26% -30%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(var(--scrim-light), 0.8) 0%, rgba(var(--scrim-light), 0.56) 58%, rgba(var(--scrim-light), 0) 100%);
+}
+.fintro .kicker { color: var(--text-primary); }
+.fintro__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: min(var(--fs-hero), 10.5vh);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  max-width: 11ch;
+}
+.fintro__text { max-width: 40ch; font-size: var(--fs-lede); line-height: 1.5; }
+.fintro__ctas { margin-top: var(--space-2); text-shadow: none; }
+.fintro__proof { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding: 0; list-style: none; font-size: 11.5px; color: var(--text-primary); }
+.fintro__proof li + li::before { content: "·"; margin-right: 16px; color: var(--ochre); }
+.js .fintro > * { animation: fintro-in 900ms var(--ease-out) both; }
+.js .fintro > :nth-child(2) { animation-delay: 90ms; }
+.js .fintro > :nth-child(3) { animation-delay: 180ms; }
+.js .fintro > :nth-child(4) { animation-delay: 270ms; }
+.js .fintro > :nth-child(5) { animation-delay: 360ms; }
+@keyframes fintro-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* One company: a card that reads over any film. Its colour only marks the dot and a soft glow. */
+.fcard {
+  position: sticky;
+  top: max(100px, calc(50vh - 250px));
+  top: max(100px, calc(50svh - 250px));
+  display: grid;
+  justify-items: start;
+  width: min(100%, 560px);
+  padding: clamp(28px, 1.2rem + 1.4vw, 40px);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 28px;
+  background: rgba(251, 250, 247, 0.96);
+  background:
+    radial-gradient(85% 70% at 100% 0%, color-mix(in srgb, var(--tint) 15%, transparent), transparent 72%),
+    rgba(251, 250, 247, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(15, 26, 33, 0.08),
+    0 34px 72px -30px rgba(15, 26, 33, 0.55);
+  transform-origin: 50% 0;
+  transition: opacity 420ms var(--ease-out), transform 560ms var(--ease-out);
+}
+/* large screens can afford a soft frosted edge over the moving film */
+@media (hover: hover) and (min-width: 961px) {
+  .fcard {
+    background:
+      radial-gradient(85% 70% at 100% 0%, color-mix(in srgb, var(--tint) 15%, transparent), transparent 72%),
+      rgba(251, 250, 247, 0.9);
+    -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    backdrop-filter: blur(22px) saturate(1.3);
+  }
+}
+/* a card the next one has landed on steps back out of the way */
+.fstep.is-past .fcard { opacity: 0; transform: scale(0.97); pointer-events: none; }
+.film.no-observer .fcard { position: relative; top: auto; bottom: auto; }
+
+.fcard__index {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(16px, 8px + 1.2vw, 24px);
+  color: var(--text-secondary);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+.fcard__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tint);
+  box-shadow: 0 0 0 4px rgba(18, 35, 28, 0.08);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tint) 18%, transparent);
+}
+.fcard__of { color: var(--text-tertiary); }
+.fcard__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 1.3rem + 2vw, 3.125rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+.fcard__tag {
+  margin-top: 14px;
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.fcard__text {
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.fcard__link {
+  gap: 16px;
+  margin-top: clamp(18px, 12px + 1vw, 26px);
+  padding: 7px 7px 7px 22px;
+}
+.fcard__go {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+.fcard__link:hover .fcard__go { background: rgba(255, 255, 255, 0.28); }
+/* shown only with ?review: this film is a placeholder */
+.fcard__flag {
+  display: none;
+  margin-left: 6px;
+  padding: 3px 7px;
+  border-radius: var(--radius-s);
+  background: #C2410C;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.review-mode .fcard__flag { display: inline-block; }
+
+/* ---- The pause button: the same small round control as the About film ----------- */
+.film__controls {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  align-self: start;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+}
+.film__pause {
+  position: absolute;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2));
+  bottom: 22px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(var(--scrim-light), 0.9);
+  color: var(--text-primary);
+  box-shadow: 0 6px 18px -8px rgba(15, 26, 33, 0.55);
+  pointer-events: auto;
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+.film__pause:hover { background: var(--panel-raised); }
+.film__pause .icon { width: 16px; height: 16px; }
+
+/* ---- Scroll cue --------------------------------------------------------------- */
+.film__cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.film__cue-line { position: relative; width: 1px; height: 42px; background: rgba(18, 35, 28, 0.4); overflow: hidden; }
+.film__cue-grain {
+  position: absolute;
+  left: -2px;
+  top: -6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: film-cue 2.4s var(--ease-in-out) infinite;
+  animation-delay: -0.6s;
+}
+@keyframes film-cue { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(52px); opacity: 0; } }
+
+/* ---- Touch screens: a full-size target ------------------------------------------ */
+@media (pointer: coarse) {
+  .film__pause { width: 44px; height: 44px; }
+}
+
+/* ---- Tablets and phones --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .fintro { width: min(72vw, 560px); }
+}
+@media (max-width: 720px), (max-height: 560px) {
+  .film__pause { width: 44px; height: 44px; bottom: 14px; }
+  .film__cue { display: none; }
+}
+@media (max-width: 720px) {
+  /* the card rests at the bottom of the screen, with the film in full view above it */
+  .fstep__inner { align-items: flex-end; }
+  .fstep--intro {
+    align-items: flex-end;
+    padding-block: 132px max(20px, env(safe-area-inset-bottom));
+  }
+  /* the pause button sits under the menu, clear of the words */
+  .film__pause { top: 80px; right: var(--gutter); bottom: auto; }
+  .fintro { width: 100%; gap: var(--space-3); }
+  /* a soft band of light behind the words, full width, fading out above them */
+  .fintro::before {
+    inset: -64px calc(var(--gutter) * -1) -32px;
+    background: linear-gradient(180deg, rgba(var(--scrim-light), 0) 0, rgba(var(--scrim-light), 0.84) 60px, rgba(var(--scrim-light), 0.9) 100%);
+  }
+  .fintro__title { font-size: clamp(2.6rem, 13vw, 3.6rem); max-width: none; }
+  .fintro__text { font-size: 1rem; }
+  .fintro__ctas { width: 100%; }
+  .fintro__ctas .btn { flex: 1 1 100%; }
+  .fcard {
+    top: auto;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: 100%;
+    padding: 20px;
+    border-radius: 22px;
+  }
+  .fcard__index { margin-bottom: 12px; }
+  .fcard__name { font-size: clamp(1.75rem, 8vw, 2.25rem); }
+  .fcard__tag { margin-top: 10px; font-size: 1.0625rem; }
+  .fcard__text { margin-top: 12px; padding-top: 12px; font-size: 0.9375rem; line-height: 1.55; }
+  .fcard__link { width: 100%; justify-content: space-between; margin-top: 16px; }
+}
+/* a phone held sideways: short and wide */
+@media (max-height: 560px) and (min-width: 561px) {
+  .fstep__inner { align-items: flex-start; }
+  .fstep--intro { align-items: center; padding-block: 72px 14px; }
+  .film__pause { top: auto; right: max(var(--gutter), env(safe-area-inset-right)); bottom: 14px; }
+  .fintro { width: min(66vw, 560px); gap: 8px; }
+  .fintro__title { font-size: min(2.5rem, 13vh); max-width: none; }
+  .fintro__text { font-size: 0.9375rem; max-width: 52ch; }
+  .fintro__proof { display: none; }
+  .fcard {
+    top: 76px;
+    bottom: auto;
+    width: auto;
+    max-width: min(62vw, 460px);
+    padding: 14px 20px;
+    border-radius: 18px;
+  }
+  .fcard__index { margin-bottom: 6px; }
+  .fcard__name { font-size: 1.4rem; }
+  .fcard__tag { margin-top: 4px; font-size: 0.9375rem; }
+  .fcard__text { display: none; }
+  .fcard__link { width: auto; gap: 12px; margin-top: 8px; padding: 3px 3px 3px 16px; }
+}

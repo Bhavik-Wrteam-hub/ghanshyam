@@ -5,8 +5,10 @@
      looping clip beside them; the smaller steps are text only.
    - The year a company began says so, with how many companies the group
      had then, and links to that company's page.
-   - The line ends at "Today": the group as it stands, with all five
-     companies.
+   - The line ends at "Today", at the group's seal: the group as it stands,
+     with all five companies.
+   - On phones the line opens with the years a company began, and one button
+     shows every year, so the section stays short and nothing is lost.
    Words and media: journey in site-content.js. */
 (function () {
   'use strict';
@@ -36,9 +38,8 @@
   function media(m, cls) {
     if (!m) return null;
     if (m.video) {
-      var v = h('video', { class: 'jt-media__video', muted: true, loop: true, playsinline: true, preload: 'none', poster: m.poster, 'data-src': m.video, tabindex: '-1' });
-      v.muted = true;
-      return h('figure', { class: 'jt-media ' + (cls || ''), role: 'img', 'aria-label': GG.txt(m.alt) }, v);
+      return h('figure', { class: 'jt-media ' + (cls || ''), role: 'img', 'aria-label': GG.txt(m.alt) },
+        GG.loop(m, { cls: 'jt-media__video' }));
     }
     return h('figure', { class: 'jt-media ' + (cls || '') },
       GG.img(m, { cls: 'jt-media__img', sizes: '(max-width: 900px) 90vw, 540px' }));
@@ -85,8 +86,18 @@
       var total = GG.companies().length;
       var t = j.today;
 
+      /* on phones: the founding years first, one button for the rest */
+      var extra = list.filter(function (ms) {
+        var co = GG.company(ms.company);
+        return !(co && yearOf(co.since) === parseInt(ms.year, 10));
+      }).length;
+      var more = extra ? h('button', {
+        class: 'jt__more', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'jt-rows',
+        'data-more': GG.txt(j.showAll, { count: String(list.length) }), 'data-less': GG.txt(j.showLess)
+      }, h('span', { class: 'jt__more-label', text: GG.txt(j.showAll, { count: String(list.length) }) }), GG.icon('chevron')) : null;
+
       var today = t ? h('div', { class: 'jt-today' },
-        h('span', { class: 'jt-node jt-node--end', 'aria-hidden': 'true' }),
+        h('span', { class: 'jt-node jt-node--end', 'aria-hidden': 'true' }, GG.seal({ cls: 'jt-seal' })),
         h('div', { class: 'jt-today__card' },
           h('div', { class: 'jt-today__copy' },
             h('p', { class: 'kicker', text: t.label }),
@@ -101,9 +112,10 @@
 
       root.appendChild(h('div', { class: 'container' },
         GG.head(j, 'journey-title', { cls: 'jt-head' }),
-        h('div', { class: 'jt', 'data-sample': GG.hasS(j.milestones) ? '' : null },
+        h('div', { class: 'jt is-short', 'data-sample': GG.hasS(j.milestones) ? '' : null },
           h('span', { class: 'jt__line', 'aria-hidden': 'true' }, h('span', { class: 'jt__fill' })),
-          h('ol', { class: 'jt__rows', role: 'list' }, list.map(function (ms, i) { return row(ms, i, j, total); })),
+          h('ol', { class: 'jt__rows', id: 'jt-rows', role: 'list' }, list.map(function (ms, i) { return row(ms, i, j, total); })),
+          more,
           today),
         achievements(j.achievements)));
     },
@@ -131,24 +143,21 @@
         onReach: function (i, on) { rows[i].classList.toggle('is-lit', on); }
       });
 
-      /* the clips play only while on screen; "reduce motion" and data saver keep the still */
-      var vids = Array.prototype.slice.call(root.querySelectorAll('video[data-src]'));
-      var saver = navigator.connection && navigator.connection.saveData;
-      function allowed() { return !GG.reduced() && !saver; }
-      if ('IntersectionObserver' in window) {
-        var vio = new IntersectionObserver(function (en) {
-          en.forEach(function (e) {
-            var v = e.target;
-            if (e.isIntersecting && allowed()) {
-              if (!v.getAttribute('src')) { v.src = v.getAttribute('data-src'); }
-              var p = v.play();
-              if (p && p.catch) p.catch(function () {});
-            } else if (!v.paused) v.pause();
-          });
-        }, { rootMargin: '150px 0px' });
-        vids.forEach(function (v) { vio.observe(v); });
+      /* the phone button: every year, or just the founding years */
+      var more = root.querySelector('.jt__more');
+      if (more) {
+        var label = more.querySelector('.jt__more-label');
+        more.addEventListener('click', function () {
+          var open = track.classList.toggle('is-short') === false;
+          more.setAttribute('aria-expanded', String(open));
+          label.textContent = more.getAttribute(open ? 'data-less' : 'data-more');
+          /* the rows above just changed height: keep the button where the thumb is */
+          if (!open) more.scrollIntoView({ block: 'center' });
+        });
       }
-      GG.reducedMQ.addEventListener('change', function (e) { if (e.matches) vids.forEach(function (v) { v.pause(); }); });
+
+      /* the clips play only while on screen; phones, data saver and "reduce motion" keep the still */
+      GG.playLoops(root);
       GG.pauseOffscreen([root]);
     }
   };

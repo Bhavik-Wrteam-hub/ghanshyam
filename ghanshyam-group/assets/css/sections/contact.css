@@ -14,6 +14,7 @@
 .contact__h { color: var(--text-secondary); font-weight: 500; font-size: var(--fs-mono); font-family: var(--font-mono); font-stretch: normal; letter-spacing: var(--track-mono); margin-bottom: var(--space-3); }
 
 .channels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.channels > li:nth-child(n + 3) { grid-column: 1 / -1; }   /* the email and the hours need a full line */
 .ch {
   display: flex;
   align-items: center;
@@ -24,7 +25,7 @@
   text-decoration: none;
   transition: background-color var(--dur-2) var(--ease-out);
 }
-a.ch:hover { background: rgba(246, 248, 247, 0.9); }
+a.ch:hover { background: rgba(251, 250, 247, 0.9); }
 .ch__icon {
   display: grid;
   place-items: center;
@@ -93,7 +94,7 @@ a.ch:hover { background: rgba(246, 248, 247, 0.9); }
 .field__err { min-height: 0; font-size: 0.8125rem; color: #B42318; font-weight: 500; }
 .field.has-error input, .field.has-error select, .field.has-error textarea { border-color: #B42318; box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.1); }
 .field.flash { animation: field-flash 1.4s var(--ease-out); }
-@keyframes field-flash { 0% { box-shadow: 0 0 0 0 var(--accent-glow); } 30% { box-shadow: 0 0 0 8px var(--accent-muted); } 100% { box-shadow: 0 0 0 0 rgba(11, 108, 112, 0); } }
+@keyframes field-flash { 0% { box-shadow: 0 0 0 0 var(--accent-glow); } 30% { box-shadow: 0 0 0 8px var(--accent-muted); } 100% { box-shadow: 0 0 0 0 rgba(11, 116, 83, 0); } }
 .rq-form__summary {
   padding: 12px 14px;
   border-radius: 10px;
@@ -132,5 +133,22 @@ a.ch:hover { background: rgba(246, 248, 247, 0.9); }
   .contact__formwrap { position: relative; top: 0; }
 }
 @media (max-width: 560px) {
-  .rq-form__grid, .channels, .offices { grid-template-columns: 1fr; }
+  /* name and company share a line; everything else gets the full width */
+  .rq-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .rq-form__grid > .field:not(.field--name):not(.field--company) { grid-column: 1 / -1; }
+  .rq-form { gap: var(--space-4); }
+  .field input, .field select { min-height: 48px; padding: 10px 12px; }
+  .field textarea { min-height: 96px; padding: 10px 12px; }
+  .field__label { font-size: 0.875rem; }
+  .rq-form__foot { gap: var(--space-3); }
+  .rq-form__submit { flex: 1 1 100%; justify-content: center; }
+  .rq-form__privacy { max-width: none; }
+  /* call and WhatsApp side by side, the two things a phone does best */
+  .channels { gap: 2px 6px; }
+  .ch { gap: 10px; min-height: 52px; padding: 6px 4px; }
+  .ch__icon { width: 36px; height: 36px; }
+  .ch__value { font-size: 0.9375rem; }
+  .contact__blocks { gap: var(--space-5); }
+  .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+  .office { font-size: 0.875rem; }
 }

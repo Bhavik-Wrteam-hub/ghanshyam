@@ -18,15 +18,16 @@
   height: 76px;
 }
 
-/* The group logo, horizontal lockup (the same header and label as every branch) */
+/* The group logo in its compact form: the G over the name and label */
 .brand {
   display: inline-flex;
   align-items: center;
+  min-height: 44px;
   text-decoration: none;
   flex: none;
   border-radius: 6px;
 }
-.brand .logo { --lw: 188px; transition: opacity var(--dur-2) var(--ease-out); }
+.brand .logo { --lw: 142px; transition: opacity var(--dur-2) var(--ease-out); }
 .brand:hover .logo { opacity: 0.78; }
 
 .nav__links {
@@ -89,7 +90,7 @@
   overflow-y: auto;
   background: var(--panel-raised);
   border-top: 1px solid var(--line);
-  box-shadow: 0 30px 60px -30px rgba(21, 34, 44, 0.35);
+  box-shadow: 0 30px 60px -30px rgba(18, 35, 28, 0.35);
   opacity: 0;
   transform: translateY(-6px);
   transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
@@ -227,7 +228,27 @@
   .site-header.menu-open { background: var(--canvas); box-shadow: 0 1px 0 var(--line); }
 }
 @media (max-width: 420px) {
-  .brand .logo { --lw: 150px; }
+  .brand .logo { --lw: 118px; }
   .nav { height: 68px; }
   .nav__sheet { top: 68px; height: calc(100vh - 68px); height: calc(100dvh - 68px); }
 }
+@media (max-width: 350px) {
+  /* the smallest phones: the icon alone (the word stays for screen readers) */
+  .nav__toggle { justify-content: center; width: 44px; padding: 0; }
+  .nav__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* v2: over a company's dark film (every company page except silica, whose
+   first screen is the light sand pour), the bar starts in the logo's approved
+   reversed colours and turns light once the page moves. */
+body[data-company]:not([data-company="silica"]) .site-header:not(.is-scrolled):not(.biz-open):not(.menu-open) {
+  --logo-ink: var(--logo-ink-rev);
+  --logo-wave: var(--logo-wave-rev);
+  --logo-label: var(--logo-label-rev);
+  background: linear-gradient(180deg, rgba(15, 26, 33, 0.55), rgba(15, 26, 33, 0));
+}
+body[data-company]:not([data-company="silica"]) .site-header:not(.is-scrolled):not(.biz-open):not(.menu-open) :is(.nav__link, .nav__biz, .nav__toggle) { color: rgba(238, 241, 239, 0.86); }
+body[data-company]:not([data-company="silica"]) .site-header:not(.is-scrolled):not(.biz-open):not(.menu-open) :is(.nav__link, .nav__biz):hover,
+body[data-company]:not([data-company="silica"]) .site-header:not(.is-scrolled):not(.biz-open):not(.menu-open) .nav__link[aria-current] { color: var(--on-dark); }
+body[data-company]:not([data-company="silica"]) .site-header:not(.is-scrolled):not(.biz-open):not(.menu-open) .nav__toggle { border-color: rgba(238, 241, 239, 0.5); }
+.site-header.is-scrolled { background: rgba(242, 241, 236, 0.94); }

@@ -13,21 +13,21 @@ Anything wrapped in `S( ... )` in that file is **temporary sample data**. Replac
 
 | Page | What it is |
 |---|---|
-| `index.html` | **GHANSHYAM GROUP**, the homepage: the five-layer hero, who we are, the five businesses, group strength, vision and values, the journey (a sand stream runs down one line as you scroll, lighting each year), leadership, where we work, buyers' words, responsibility, contact |
+| `index.html` | **GHANSHYAM GROUP**, the homepage: five branch films that play one at a time as you scroll, who we are, the five businesses as layers of the quarry wall, products and applications by company, group strength, vision and values, the journey (a sand stream runs down one line as you scroll, lighting each year), leadership, where we work, buyers' words, responsibility, contact |
 | `silica-sand.html` | **Ghanshyam Silica Sand**, the flagship: the 3D sand pour, the five grades, the seven-step process (sand down the line, a clip of each step beside it), the lab and the sieve test, the plant |
-| `kaolin.html` | **Ghanshyam Kaolin** |
+| `kaolin.html` | **Ghanshyam Kaolin**, opening on its own film |
 | `minerals.html` | **Ghanshyam Minerals**, where the group began |
 | `processors.html` | **Ghanshyam Processors** |
 | `farm-house.html` | **Ghanshyam Farm House**, with a harvest calendar on each product |
-| `brand.html` | The brand guidelines: the logo and its six lockups, logo files, colour, type, icons, imagery, motion and voice |
+| `brand.html` | The brand guidelines: the logo and its six lockups, clear space, the seal and small icons, logo files, colour and the five Strata, type, icons, imagery, motion and voice |
 
 | How | What you see |
 |---|---|
-| Double-click any page | The full site. Works without a server. (The Silica page then shows the sand pour, not a video; see section 4.) |
+| Double-click any page | The full site. Works without a server. |
 | Run `python3 tools/serve.py`, then open http://localhost:8765 | The same, served the way a host serves it. |
 | Add `?review` to any address, e.g. `kaolin.html?review` | Every sample value is outlined in dashed orange, with a count in the corner. |
 
-**How a visitor moves around.** The menu is the same on every page: the group logo (back to the homepage), About, **Businesses** (a panel with all five companies and their photos; on phones, the five come first in the menu), Journey, Leadership, Responsibility, and the page's main button. On a company page that button is the company's own ("Request a sample", "Request a quote", "Send a trade enquiry"), and a second bar under the first screen links to that page's sections. Every company page ends with the other four companies, and the footer lists all five.
+**How a visitor moves around.** The menu is the same on every page: the group logo (back to the homepage), About, **Businesses** (a panel with all five companies and their photos; on phones, the five come first in the menu), Products, Applications, Journey, Responsibility, and the page's main button. On a company page that button is the company's own ("Request a sample", "Request a quote", "Send a trade enquiry"), and a second bar under the first screen links to that page's sections. Every company page ends with the other four companies, and the footer lists all five.
 
 ## 2. Replace the sample data
 
@@ -76,9 +76,9 @@ If a page ever shows "This page could not load its content", a comma, quote or b
 | Clients | Eight named slots. Replace with real logos, only with each company's permission |
 | Responsibility | All four figures |
 | Privacy notice | Sample legal text. Have it reviewed before launch. |
-| Images | The two maps and the plant plan are illustrations. The photos are AI-generated stand-ins until real photography exists (section 3). Fifteen products show a drawn stand-in. |
+| Images | The two maps and the plant plan are illustrations. Every photo and film is an AI-generated stand-in until real photography exists (section 3). |
 
-## 3. Photos
+## 3. Photos and films
 
 The original images live in `generated-images/`, outside the website folder, and are never uploaded. `tools/photos.sh` turns each one into three WebP files in `ghanshyam-group/assets/img/photos/`, 480, 800 and 1200 px wide, each made straight from the original in one compression pass. The browser loads the smallest file that still looks sharp on the visitor's screen.
 
@@ -90,52 +90,25 @@ To change a photo:
 
 | Photo | Where it appears |
 |---|---|
-| `company-*` | The five layers of the homepage hero, the business cards, the Businesses panel, each company's first screen, the "more from the group" cards, the link-preview cards. The `focus` option keeps the subject in view in tall and wide frames. |
-| `grade-*` | Silica grade cards and the grade panel with its magnifier. `grade-flour` is also Processors' silica flour. |
-| `about-strata` | Who we are (homepage) |
+| `company-*` | The Businesses panel, the Applications section, the "more from the group" cards, the link-preview cards. The `focus` option keeps the subject in view in tall and wide frames. |
+| `product-*` | Fifteen product photos: each company's product cards and the homepage's product range. |
+| `grade-*` | Silica grade cards, the grade panel with its magnifier, and the homepage's product range. `grade-flour` is also Processors' silica flour. |
+| `about-strata` | "Today" at the end of the journey, the brand page, and the fallback if the About film cannot load |
 
 Three illustrations are in `assets/img/placeholders/`: `map-group.svg` (where we work, 4:3; site positions are % values in `site-content.js`), `map-kutch.svg` (the Silica page's contact section) and `plant-map.svg` (the Silica plant plan, 3:2).
 
-**Review of the current set (20 Nov 2026).** No text, logos, watermarks or anatomy problems in any image. All are sRGB.
+To add a new product photo, save it as `generated-images/products/<file name>.jpg` (4:3, at least 1200 × 896), run `tools/photos.sh`, and in `site-content.js` write `photo("<file name>", "What the photo shows")` on that product. To match the set, end every prompt with: *studio product photo on pale stone, soft daylight from the upper left, gentle shadows, shallow depth of field, pale grey background, no text, no logos, 4:3*.
 
-- **Regenerate the foundry grade.** The amber, bead-like grains read more like resin than sand. Suggested prompt: *macro photo of foundry silica sand, rounded medium grains, pale cream to light tan, on pale stone, soft daylight from the upper left, shallow depth of field, no text*.
-- **Farm.** The rows look like young maize, while the copy lists dates, pomegranate, groundnut and cumin. Fine as a stand-in; replace it with a photo of the real farm.
+**One note on the current set.** The farm photo and film show rows like young maize, while the copy lists dates, pomegranate, groundnut and cumin. They work as stand-ins. Replace them with the real farm when you have it.
 
-### Product photos still to make
+### Films (short looping clips)
 
-Each company page shows its products. Until a product has a photo, it shows a drawn stand-in (a heap in the colour of the material, labelled "Photo to come" in `?review` mode) in the same 4:3 frame, so the real photo drops in without moving anything:
+Each company's first screen, its layer in the businesses section, the journey and the Silica process use short looping films: `silica`, `kaolin`, `minerals`, `processors`, `farm` and `quarry`. The originals are in `generated-images/footage/` (never uploaded). `tools/footage.sh` turns each into a seamless loop, 1280 px wide with no sound, plus a still in `ghanshyam-group/assets/video/footage/`.
 
-1. Make the photo and save it as `generated-images/products/<file name>.jpg` (4:3, at least 1200 × 896).
-2. Run `tools/photos.sh`.
-3. In `site-content.js`, change that product's `placeholder("<file name>", "#tone")` to `photo("<file name>", "What the photo shows")`.
-
-To match the rest of the set, end every prompt with: *studio product photo on pale stone, soft daylight from the upper left, gentle shadows, shallow depth of field, pale grey background, no text, no logos, 4:3*.
-
-| File name | Product | Prompt (then the shared ending) |
-|---|---|---|
-| `product-kaolin-ceramic` | Ceramic grade kaolin | a small heap of washed, warm white kaolin clay with a few soft lumps beside it |
-| `product-kaolin-paper` | Paper grade kaolin | a smooth mound of very fine, bright white kaolin powder |
-| `product-kaolin-levigated` | Levigated china clay | a smooth heap of fine, soft, creamy white china clay |
-| `product-kaolin-calcined` | Calcined kaolin | a shallow heap of brilliant white calcined kaolin powder, matte and slightly gritty |
-| `product-minerals-feldspar` | Potash feldspar | pale pink potash feldspar lumps and grits, crystal faces catching the light |
-| `product-minerals-soda-feldspar` | Soda feldspar | creamy white soda feldspar lumps and grits with glassy broken faces |
-| `product-minerals-quartz` | Quartz lumps and grits | clear and milky white quartz lumps, with a small heap of sized quartz grits in front |
-| `product-minerals-ball-clay` | Ball clay | lumps of grey-cream ball clay with smooth broken faces and a few crumbs |
-| `product-processors-quartz-powder` | Quartz powder | a soft heap of bright white quartz powder with a clean scoop mark |
-| `product-processors-feldspar-powder` | Feldspar powder | a heap of very fine, pale pink-white feldspar powder |
-| `product-processors-job-work` | Custom grinding | three small heaps of fine mineral powder in white, pale pink and grey, side by side |
-| `product-farm-dates` | Kutchi dates (kharek) | fresh yellow and red Kutchi kharek dates on the bunch |
-| `product-farm-pomegranate` | Pomegranate | two whole Bhagwa pomegranates and one opened to show deep red arils |
-| `product-farm-groundnut` | Groundnut | groundnuts in the shell beside a small heap of shelled kernels |
-| `product-farm-cumin` | Cumin | a small heap of dry, ridged cumin seeds |
-
-### Footage (short looping clips)
-
-The journey on the homepage and the seven-step process on the Silica page use short looping clips: `quarry`, `washing`, `conveyor`, `pour` and `crystals`. The originals are in `generated-images/footage/` (never uploaded). `tools/footage.sh` turns each into a seamless 9-second loop, 960 px wide with no sound (about 0.6 to 1.4 MB), plus a still in `ghanshyam-group/assets/video/footage/`. A clip only loads when it scrolls near and only plays while on screen; "reduce motion" and data saver show the still.
-
-- To swap a clip: replace the original (same name) and run `tools/footage.sh` (or `tools/footage.sh quarry` for one).
-- In `site-content.js` a clip is written `footage("quarry", "What the clip shows")`, and can stand anywhere a milestone or process step takes a `media`.
-- **Before launch:** these clips were generated with Gemini and carry its small four-point star in the bottom-right corner. Replace them with clean versions (or real footage of the quarry and plant) of the same names.
+- A film's still loads only when it comes near the screen, and the film itself only downloads and plays while it is on screen.
+- Phones, "reduce motion" and data saver keep the still and never download the film. (The homepage's five branch films are the exception on phones: see section 4.)
+- To swap a film: replace the original (same name) and run `tools/footage.sh` (or `tools/footage.sh quarry` for one). `CRF=30 tools/footage.sh farm` makes a smaller file for a busy shot.
+- In `site-content.js` a film is written `footage("quarry", "What the film shows")`, and can stand anywhere a company, milestone or process step takes a `film` or `media`.
 
 ### Link-preview cards
 
@@ -143,9 +116,49 @@ When a page is shared on WhatsApp, LinkedIn or elsewhere, the preview shows its 
 
 ## 4. The first screens
 
-**The homepage: five layers.** The group's line beside five tall photo panels, one per company, like the layers of a quarry wall. On arrival the layers rise like core samples drawn from the ground, then each company opens once in turn and the row rests. Pointing at a layer (or tabbing to it) opens it; clicking goes to that company's page. On phones the layers lie flat as five bands. "Reduce motion" shows the rested row straight away.
+### The branch films
 
-**The Silica Sand page: the sand pour.** A real-time 3D sand pour (`assets/js/core/sand-scene.js`, WebGL2). Scrolling controls how much sand has poured: the heap grows as you scroll down and shrinks as you scroll back up. Its four captions are the `hero` block in `site-content.js` (exactly four: the scroll timing is tuned for four).
+The homepage opens with the group's headline over the first film. Scrolling alone moves through the five companies: each company's card rises and lands on the last one while its film fades in and plays. There is no slider to use, and mouse, trackpad, keyboard and touch all behave the same, on desktop and on phones.
+
+- **One plays at a time.** `assets/js/core/branch-player.js` watches the page with IntersectionObserver (no scroll events). Leaving the first screen, hiding the tab or pressing the small round pause button stops the film.
+- **Light to load.** Only the current film and its two neighbours load, and the neighbours wait until the current one can play. Films further away are released from memory.
+- **The right cut for each screen.** Each film has three cuts: up to 1080p for large screens, 720p for small or slow ones, and a 9:16 crop for phones and portrait tablets. Each comes as H.264 MP4 and WebM, with a poster frame, so nothing is blank before it plays.
+- **When a film cannot play.** "Reduce motion", data saver and very slow connections get the poster. If a video fails its poster stays, and if the poster fails too the original quarry picture (`assets/video/hero/group-poster.jpg`) shows.
+
+**These five films are placeholders** made with Gemini until real footage of each business exists. Add `?review` to the address and each one is marked. To replace one:
+
+1. Save the new film as `generated-images/branches/<branch>.mp4` (`silica`, `kaolin`, `minerals`, `processors` or `farm`). Use 16:9 and 1080p, with the subject in the right half of the frame and a still camera, so it loops cleanly.
+2. Run the build for that branch:
+
+```bash
+tools/branch-films.sh kaolin
+```
+
+3. Reload the page. No code changes are needed. The prompts behind the current films are in `generated-images/branches/PROMPTS.md`.
+
+### The About film
+
+Beside "Who we are", an excavator scoops sand from a heap and loads it into a parked dump truck. The film plays only while at least half of it is on screen, and the branch films rest while it does, so the page never plays two at once. It follows the same pause button, "reduce motion", data saver and slow connection rules. If the video cannot play its poster stays, and if the poster fails too the quarry photo (`about-strata`) shows.
+
+**The film is a placeholder** made with Gemini. It has the orange look of a Hitachi machine but no maker's name or logo, because showing a company's logo needs that company's permission. Film of the group's own machine is the real replacement.
+
+**Still to come:** the full truck driving away and the next truck backing in. Those two shots, and a remake of the loading shot with the truck starting empty, need Gemini credit (about $2.28). `generated-images/about/PROMPTS.md` has the exact commands and prompts.
+
+To swap a shot, save it in `generated-images/about/` as `truck-load.mp4`, `truck-leave.mp4` or `truck-arrive.mp4` (9:16, 1080p, still camera), then run the build and reload the page:
+
+```bash
+tools/about-film.sh
+```
+
+The build joins whichever shots exist into one loop. The part kept in view on tablets and phones is `about.film.focusSmall` in `site-content.js`.
+
+### The company pages
+
+Kaolin, Minerals, Processors and Farm House each open on their own film, full screen, with the logo reversed over it. On phones the film's still takes its place.
+
+### The Silica Sand page: the sand pour
+
+A real-time 3D sand pour (`assets/js/core/sand-scene.js`, WebGL2). Scrolling controls how much sand has poured: the heap grows as you scroll down and shrinks as you scroll back up. Its four captions are the `hero` block in `site-content.js` (exactly four: the scroll timing is tuned for four).
 
 **When sand falls** is decided by the pour valve in `assets/js/sections/hero.js` (`PourValve`):
 
@@ -199,6 +212,7 @@ The folder `ghanshyam-group/` is the whole website: plain files, no build step.
 ```
 ghanshyam-group/              <- the website (upload this folder's contents)
   index.html                  the group's homepage
+  site.webmanifest            the name and icons for phones' home screens
   silica-sand.html            Ghanshyam Silica Sand
   kaolin.html, minerals.html, processors.html, farm-house.html
                               the other four companies (the same structure, <body data-company="...">)
@@ -208,30 +222,39 @@ ghanshyam-group/              <- the website (upload this folder's contents)
     css/tokens.css            the brand system: logo colours, site palette, company marker colours, fonts, sizes, spacing, motion
     css/logo.css              logo proportions (all sizes scale from the wordmark width)
     css/base.css              shared building blocks: buttons, kickers, layout, entrances, dark sections
-    css/sections/home.css     the homepage's own sections: five-layer hero, businesses, strength, values, where we work
+    css/sections/film.css     the homepage's first screen: the five branch films
+    css/sections/home.css     the homepage's own sections: the Strata, products, applications, strength, values, where we work
     css/sections/division.css every company page: first screen, its bar, overview, products, process, industries, other companies
     css/sections/*.css        the other sections, one file each (about, journey, silica, process, quality, faq, contact ...)
     js/core/utils.js          helpers: sample tracking, {tokens}, element builder, count-ups, the self-drawing line
     js/core/icons.js          the icon set (24 px line icons)
-    js/core/logo.js           the logo: traced artwork + one builder for every company lockup
+    js/core/logo.js           the logo: traced artwork, one builder for every lockup, the seal, the drawn reveal
     js/core/sand-scene.js     the realistic WebGL sand pour (Silica page)
     js/core/sand-stream.js    the sand that runs down a line as you scroll (journey, Silica process)
     js/core/main.js           works out which page this is, renders every section from the content file, wires it up
+    js/core/branch-player.js  decides which film loads and plays: the five branch films and the About film
+    js/sections/film.js       the homepage's first screen
     js/sections/home.js       the homepage's own sections
     js/sections/division.js   the company page sections
     js/sections/*.js          the other sections: render(), init(), and Motion enhancements
-    img/brand/                the logo kit: every lockup as SVG and transparent PNG, colour and reversed
+    img/brand/                the logo kit: every lockup as SVG and transparent PNG, colour and reversed; the seal and the browser and phone icons
     img/photos/               website photos, three widths each (made by tools/photos.sh)
     img/placeholders/         the group map, the Kutch map and the plant plan
     img/og-*.jpg              the six link-preview cards (made by tools/og-cards.sh)
-    video/footage/            the looping clips and their stills (made by tools/footage.sh)
+    video/branches/           the five branch films in every cut, with posters (made by tools/branch-films.sh)
+    video/about/              the excavator film in two sizes, with posters (made by tools/about-film.sh)
+    video/hero/               the original quarry picture, kept as the fallback
+    video/footage/            the looping films and their stills (made by tools/footage.sh)
 brand-source/logo-final.webp  the finalized logo artwork (master; not part of the website)
 generated-images/             original photos (masters; not part of the website)
 tools/serve.py                local preview server
 tools/photos.sh               builds the website photos from generated-images/
 tools/og-card.html, og-cards.sh  draw and build the link-preview cards
 tools/footage.sh              builds the looping clips from generated-images/footage/
-review/retired/               sections no longer on the site (the old homepage's Industries, Our Products and company cards)
+tools/branch-films.sh         builds the five branch films from generated-images/branches/
+tools/about-film.sh           builds the About film from generated-images/about/
+review/higgsfield-2026-11-21/  the raw AI images and films from this redesign (large; keep out of the website)
+review/retired/               things no longer on the site (old sections, old styles, the watermarked clips)
 ```
 
 - **Change the brand once:** edit a value in `tokens.css` (for example `--accent`) and the whole site and the guidelines page follow.
@@ -241,29 +264,30 @@ review/retired/               sections no longer on the site (the old homepage's
 
 ## 8. Design decisions, briefly
 
-- **The group first, the companies under it.** The homepage speaks for GHANSHYAM GROUP: its first screen shows all five companies side by side, and silica is one of five, marked "Flagship" only on its card. Each company then gets a full page of its own. The reference site (somnathgrp.com) shows its companies only as unlabelled logos; here every company has a name, a line, a photo and a page.
-- **One idea: grain.** Silica is judged grain by grain, the farm grows grain, and the group grew grain by grain. The quarry-layer hero, the sand pour, the sieve test and the timeline all carry it.
-- **The story told down one line.** Following the reference video, the journey and the process run down a single line that fills with sand as the visitor scrolls: the big moments carry a clip or a photo, the smaller steps a short headline facing their card, and the line ends at "Today".
+- **The group first, the companies under it.** The homepage speaks for GHANSHYAM GROUP, and silica is one of five, marked "Flagship" only on its layer. Each company then gets a full page of its own.
+- **One idea: Strata.** Kutch ground is laid down in layers, and the group works every layer. The first screen gives each company its own film, the businesses section is five stacked layers, and the same five colours mark the section rules and the footer's edge. The full reasoning is in [`SITE-BLUEPRINT.md`](SITE-BLUEPRINT.md).
+- **The structure buyers expect.** The section order follows the primary reference (Shree Ram Minerals): welcome, products, applications, strength, clients, contact. Every section has its own layout and none of their design or words are copied.
+- **The story told down one line.** The journey and the process run down a single line that fills with sand as the visitor scrolls, and the journey's line ends at the group's seal. On phones the journey opens with the years a company began, and one button shows them all.
 - **One logo header, one label per company.** The G mark (with its sand wave) and the GHANSHYAM wordmark are identical everywhere; only the label below changes: GROUP, SILICA SAND, KAOLIN, MINERALS, PROCESSORS, FARM HOUSE. The menu always carries the group's logo; each company page shows its own lockup on its first screen. Each company's label is `logoLabel` in `site-content.js`.
 - **Logo colours are fixed.** The G and wordmark are Deep Slate `#15222C`, the sand wave is Glass Edge `#0B6C70`, and the label and rules are Shale `#4A5963`. On dark backgrounds the reversed set is used: Quartz White `#EEF1EF` with the wave in `#5CC0BB`. The logo is never recoloured; these values live in `tokens.css` (`--logo-*`).
+- **The logo is refined in how it is used, not redrawn.** A monogram seal for round places (the end of the journey line), a clear-space rule, browser and phone icons, and a short drawn reveal that plays once per visit and ends on the exact logo.
 - **Company marker colours tell the pages apart.** Silica Glass Edge, Kaolin China clay, Minerals Feldspar, Processors Mill steel, Farm Field green. They only ever mark things (dots, card edges, icons, a drawn line, a faint wash behind a company's first screen), never text and never the logo. The main button stays Glass Edge on every page, so the group reads as one brand.
-- **The site palette comes from the logo.** Deep Slate for text, Shale for supporting text, Glass Edge for the one main action, on Quartz White and Silica Flour. Every text colour passes WCAG AA contrast.
+- **The site palette is built around the logo.** Deep Slate for text, Shale for supporting text, Glass Edge for the one main action, on warm Limestone `#F2F1EC` and Kaolin `#E7E4DD`, with the five Strata colours taken from the quarry wall. Every text colour passes WCAG AA contrast.
 - **Montserrat, Hanken Grotesk, IBM Plex Mono.** Montserrat is the logo's typeface, so it sets every headline. A quiet body face carries the reading, and a mono face makes specs read like a lab report.
 - **One clear action per page.** The group's pages lead to "Send an enquiry"; each company's page to its own (a sample, a quote, a trade enquiry).
 - **Copy in the buyers' words.** "In spec", "every load", "a test report with every truck" come from how buyers describe what they need.
 
 ## 9. Quality checks already run
 
-Headless Chrome at 1440 × 900 and 375 × 812 (touch), on all six pages:
+Run on 21 Nov 2026 in Chrome on all seven pages at eight screen sizes (1440, 1280, 1024, 820, 390, 375 and 320 px wide, and a landscape phone), and in Safari on a simulated iPhone 17. **Not yet checked on a physical phone.**
 
-- No console errors and no sideways scrolling on any page, at either size.
-- Every link resolves, including the links between pages (for example `index.html#journey` from a company page) and links arriving from another page land just under the menu.
-- The Businesses panel opens on hover and on click, the keyboard moves from the button straight into the five companies, Escape closes it and returns focus, and tabbing past it closes it. The phone menu lists the five companies first, opens full height at any scroll position (fixed: it used to open with no height once the page had moved), keeps the page behind still, and closes on any link.
-- The company bar lights the section in view and sticks under the menu.
-- The forms: empty-submit errors, the demo thank-you, "Enquire" filling in the company and product, a second "Enquire" updating the message, and words the visitor typed staying untouched.
-- The FAQ: clicking again while an answer closes reopens it.
-- The Silica page: the WebGL pour runs, the grain photo stays in view while the specs scroll (fixed: it used to scroll away), and "Ask for the full spec sheet" fills the form.
-- "Reduce motion": every first screen shows its final state, and the homepage's layers do not move on their own.
-- The journey and the Silica process: the sand follows the scroll and lights every year or step it reaches, each clip loads near view and plays only while on screen (only the active step's clip plays), the loops are seamless, and "reduce motion" shows the finished line with no grains.
-- Copy check on every page and the content file: no long dashes and no corporate filler words.
-- Opening any page by double-click works.
+- **Every page at every size:** no console errors, no sideways scrolling, nothing cut off at the screen edge, no broken images, and touch controls at least 44 px tall.
+- **The five branch films (197 checks):** at six screen sizes each film plays alone when its company reaches the middle of the screen and pauses when it leaves. Only the current film and its neighbours load, fast scrolling never plays two at once, and real touch swipes work. Reduce motion, data saver, blocked videos and blocked posters all fall back correctly, and nothing shifts on the page while films swap.
+- **iPhone Safari:** the films autoplay muted and inline, change with touch swipes, and keep playing after rotating the phone.
+- **On a slow phone** (simulated 3G, CPU four times slower): scrolling held 60 frames a second with no long tasks, and video never held up the page. The first screen took about 5 seconds to appear because the site is built by its scripts, not because of the films.
+- **Every interaction (76 checks):** the Businesses menu, the phone menu (focus, Escape, scroll lock), the businesses layers, the product and application tabs by mouse, touch and keyboard, Enquire filling in the form, form errors and the thank-you, quotes, FAQ, privacy, the journey's button, the grade picker, the plant map, and every internal link.
+- **Legibility:** the opening words and the menu stay above 4.5:1 contrast on the worst frame of the moving film.
+- **Accessibility:** one main heading per page, no skipped heading levels, named controls, labelled fields, alt text, AA text contrast, a visible keyboard focus, and a pause button for the films.
+- **Content:** all 1,147 pieces of original text and every company name are unchanged, and no long dashes or filler words appear on any page.
+
+This project has no automated test setup, so these checks were run with throwaway browser scripts and no test files were added.

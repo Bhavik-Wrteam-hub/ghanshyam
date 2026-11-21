@@ -20,7 +20,9 @@
 
   This file only holds the page structure. Each <section> below is filled in
   by its own script in assets/js/sections/ and styled in assets/css/sections/.
-  The homepage's own sections (hero, businesses, strength, values, presence)
+  The first screen is the five branch films (film.js, film.css, and
+  core/branch-player.js, which decides what loads and plays). The homepage's own
+  sections (businesses, products, applications, strength, values, presence)
   are in home.js and home.css. The brand system (colours, fonts, spacing,
   motion) lives in assets/css/tokens.css. See README.md for the full guide.
   ============================================================================
@@ -32,8 +34,11 @@
   <!-- Keep the title and description in sync with "meta" in site-content.js -->
   <title>GHANSHYAM GROUP | Silica sand, kaolin, minerals and farm produce from Kutch, Gujarat</title>
   <meta name="description" content="A family-run industrial group from Kutch, Gujarat. Five companies: Ghanshyam Silica Sand, Kaolin, Minerals, Processors and Farm House.">
-  <meta name="theme-color" content="#EEF1EF">
-  <link rel="icon" type="image/svg+xml" href="assets/img/brand/ghanshyam-mark.svg">
+  <meta name="theme-color" content="#F2F1EC">
+  <link rel="icon" type="image/svg+xml" href="assets/img/brand/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <!-- Link previews -->
   <meta property="og:type" content="website">
@@ -47,10 +52,14 @@
   <meta property="og:image:alt" content="The GHANSHYAM GROUP logo beside photos of its five companies: silica sand, kaolin, minerals, a grinding plant and a farm">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- The first picture on screen: the first branch film's poster, wide or tall -->
+  <link rel="preload" as="image" type="image/webp" href="assets/video/branches/silica.webp" media="(orientation: landscape)" fetchpriority="high">
+  <link rel="preload" as="image" type="image/webp" href="assets/video/branches/silica-tall.webp" media="(orientation: portrait)" fetchpriority="high">
+
   <!-- Fonts: Montserrat (the logo's typeface: headlines and logo labels), Hanken Grotesk (body), IBM Plex Mono (spec labels). Only the weights in use. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
   <script>
     document.documentElement.classList.add('js');
@@ -63,6 +72,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/logo.css">
   <link rel="stylesheet" href="assets/css/sections/nav.css">
+  <link rel="stylesheet" href="assets/css/sections/film.css">
   <link rel="stylesheet" href="assets/css/sections/home.css">
   <link rel="stylesheet" href="assets/css/sections/about.css">
   <link rel="stylesheet" href="assets/css/sections/journey.css">
@@ -79,9 +89,11 @@
   <header class="site-header" data-section="nav"></header>
 
   <main id="main" tabindex="-1">
-    <section id="top" class="ghero" data-section="ghero" aria-labelledby="ghero-title"></section>
+    <section id="top" class="film" data-section="film" aria-labelledby="film-title"></section>
     <section id="about" class="section about" data-section="about" aria-labelledby="about-title"></section>
     <section id="businesses" class="section businesses section--panel" data-section="businesses" aria-labelledby="businesses-title"></section>
+    <section id="products" class="section range" data-section="range" aria-labelledby="range-title"></section>
+    <section id="applications" class="section apps section--panel" data-section="apps" aria-labelledby="apps-title"></section>
     <section id="strength" class="section strength on-dark" data-section="strength" aria-labelledby="strength-title"></section>
     <section id="values" class="section values" data-section="values" aria-labelledby="values-title"></section>
     <section id="journey" class="section journey on-dark" data-section="journey" aria-labelledby="journey-title"></section>
@@ -114,6 +126,8 @@
   <script defer src="assets/js/core/icons.js"></script>
   <script defer src="assets/js/core/logo.js"></script>
   <script defer src="assets/js/sections/nav.js"></script>
+  <script defer src="assets/js/core/branch-player.js"></script>
+  <script defer src="assets/js/sections/film.js"></script>
   <script defer src="assets/js/sections/home.js"></script>
   <script defer src="assets/js/sections/about.js"></script>
   <script defer src="assets/js/core/sand-stream.js"></script>

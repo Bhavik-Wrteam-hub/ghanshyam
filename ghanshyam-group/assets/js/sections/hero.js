@@ -135,8 +135,8 @@
       if (g.h < 1) return;
       /* contact shadow */
       var sg = ctx.createRadialGradient(g.cx + g.r * 0.08, g.floorY + 4, 0, g.cx + g.r * 0.08, g.floorY + 4, g.r * 1.3);
-      sg.addColorStop(0, 'rgba(21,34,44,.20)');
-      sg.addColorStop(1, 'rgba(21,34,44,0)');
+      sg.addColorStop(0, 'rgba(18,35,28,.20)');
+      sg.addColorStop(1, 'rgba(18,35,28,0)');
       ctx.save();
       ctx.translate(0, g.floorY);
       ctx.scale(1, 0.14);
@@ -163,7 +163,7 @@
       ctx.globalAlpha = 1;
       var vg = ctx.createLinearGradient(0, g.apexY, 0, g.floorY);
       vg.addColorStop(0, 'rgba(255,255,255,.35)');
-      vg.addColorStop(1, 'rgba(21,34,44,.05)');
+      vg.addColorStop(1, 'rgba(18,35,28,.05)');
       ctx.fillStyle = vg;
       ctx.fillRect(g.cx - g.r, g.apexY - 4, g.r * 2, g.h + 12);
       ctx.restore();
@@ -274,7 +274,7 @@
       var list = hc.bands.slice(0, RANGES.length);
       var bands = list.map(function (b, i) {
         var titleText = GG.fmt(b.title);
-        var title = h(i === 0 ? 'h1' : 'p', { class: 'band__title', id: i === 0 ? 'hero-title' : null });
+        var title = h('p', { class: 'band__title', 'aria-hidden': i === 0 ? 'true' : null });
         GG.split(title, titleText.text, 11 + i * 7);
         if (titleText.sample) title.setAttribute('data-sample', '');
         var el = h('div', {
@@ -295,7 +295,10 @@
         h('canvas', { class: 'hero__canvas', 'aria-hidden': 'true' }),
         h('video', { class: 'hero__video', muted: true, playsinline: true, preload: 'none', 'aria-hidden': 'true', tabindex: '-1' }),
         h('div', { class: 'hero__scrim', 'aria-hidden': 'true' }),
-        h('div', { class: 'hero__bands' }, bands),
+        h('div', { class: 'hero__bands' },
+          /* the page's one heading: it stays readable however far the film has played */
+          h('h1', { class: 'sr-only', id: 'hero-title', text: list[0].title }),
+          bands),
         h('div', { class: 'hero__static' },
           h('p', { class: 'kicker', text: hc.static.kicker }),
           h('h1', { class: 'hero__static-title', id: 'hero-title-static', text: hc.static.title }),

@@ -2,7 +2,7 @@
 # Builds the website's short looping videos from the original clips.
 #
 #   originals  generated-images/footage/<name>.mp4   (never uploaded)
-#   output     ghanshyam-group/assets/video/footage/<name>.mp4   960 px wide, no sound
+#   output     ghanshyam-group/assets/video/footage/<name>.mp4   1280 px wide, no sound
 #              ghanshyam-group/assets/video/footage/<name>.webp  its still (phones, "reduce motion")
 #
 # Each clip becomes a seamless loop: its last second fades into its first,
@@ -11,7 +11,8 @@
 #
 #   tools/footage.sh            build every clip
 #   tools/footage.sh quarry     build one clip
-#   CRF=28 tools/footage.sh     smaller files (default 27; lower is sharper)
+#   CRF=28 tools/footage.sh     smaller files (default 26; lower is sharper)
+#   WIDTH=960 tools/footage.sh  narrower files (default 1280)
 #
 # Needs ffmpeg and cwebp:  brew install ffmpeg webp
 set -euo pipefail
@@ -19,7 +20,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/generated-images/footage"
 OUT="$ROOT/ghanshyam-group/assets/video/footage"
-CRF="${CRF:-27}"
+CRF="${CRF:-26}"
+WIDTH="${WIDTH:-1280}"
 ONLY="${1:-}"
 
 command -v ffmpeg >/dev/null || { echo "ffmpeg is missing: brew install ffmpeg"; exit 1; }
@@ -42,7 +44,7 @@ for f in "$SRC"/*.mp4; do
      [b]trim=start=${body},setpts=PTS-STARTPTS[tail];\
      [c]trim=end=1,setpts=PTS-STARTPTS[head];\
      [tail][head]xfade=transition=fade:duration=1:offset=0[blend];\
-     [blend][mid]concat=n=2:v=1:a=0,scale=960:-2:flags=lanczos,format=yuv420p[out]" \
+     [blend][mid]concat=n=2:v=1:a=0,scale=${WIDTH}:-2:flags=lanczos,format=yuv420p[out]" \
     -map "[out]" -an -c:v libx264 -preset slow -crf "$CRF" -profile:v high -g 48 -movflags +faststart "$OUT/$name.mp4"
   ffmpeg -loglevel error -y -i "$OUT/$name.mp4" -frames:v 1 -pix_fmt rgb24 "$TMP/$name.png"
   cwebp -quiet -q 80 -metadata none "$TMP/$name.png" -o "$OUT/$name.webp"

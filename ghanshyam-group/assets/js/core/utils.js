@@ -316,6 +316,96 @@
       }));
   };
 
+  /* ---- Short looping films (footage() in site-content.js) -----------------------
+     GG.loop(m) makes the element; GG.playLoops(root) looks after it:
+     - its preview picture loads only when it comes near the screen, so the
+       first load stays light (pass { eager: true } for a film on the first screen)
+     - the film downloads and plays only while it is on screen and its panel is open
+     - phones, "reduce motion" and data-saver visitors keep the still, so they
+       never download the film
+     GG.refreshLoops(root) re-checks them, for a panel that has just opened. */
+  GG.loop = function (m, opts) {
+    opts = opts || {};
+    var v = GG.h('video', {
+      class: opts.cls || null, muted: true, loop: true, playsinline: true, preload: 'none',
+      poster: opts.eager ? m.poster : null, 'data-poster': m.poster,
+      'data-src': m.video, tabindex: '-1', 'aria-hidden': 'true'
+    });
+    v.muted = true;
+    return v;
+  };
+  var loopIO = null, posterIO = null;
+  function loopsAllowed() {
+    var c = navigator.connection;
+    return !GG.reduced() && !matchMedia('(max-width: 720px)').matches && !(c && c.saveData);
+  }
+  function isOpen(v) { return !v.closest('[inert]'); }
+  function wantPoster(v) {
+    var p = v.getAttribute('data-poster');
+    if (p && !v.getAttribute('poster')) v.setAttribute('poster', p);
+  }
+  function playOrPause(v) {
+    if (v.ggOnScreen && isOpen(v) && loopsAllowed()) {
+      if (!v.getAttribute('src')) v.setAttribute('src', v.getAttribute('data-src'));
+      var p = v.play();
+      if (p && p.catch) p.catch(function () { /* autoplay refused: the poster stays */ });
+    } else if (!v.paused) {
+      v.pause();
+    }
+  }
+  GG.playLoops = function (root) {
+    var vids = Array.prototype.slice.call((root || document).querySelectorAll('video[data-src]'));
+    if (!vids.length) return;
+    if (!('IntersectionObserver' in window)) { vids.forEach(wantPoster); return; }
+    if (!loopIO) {
+      loopIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.target.ggOnScreen = e.isIntersecting; playOrPause(e.target); });
+      }, { rootMargin: '120px 0px' });
+      posterIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && isOpen(e.target)) { wantPoster(e.target); posterIO.unobserve(e.target); }
+        });
+      }, { rootMargin: '700px 0px' });
+      var refreshAll = function () { GG.refreshLoops(document); };
+      GG.reducedMQ.addEventListener('change', refreshAll);
+      matchMedia('(max-width: 720px)').addEventListener('change', refreshAll);
+    }
+    vids.forEach(function (v) { loopIO.observe(v); posterIO.observe(v); });
+  };
+  GG.refreshLoops = function (root) {
+    (root || document).querySelectorAll('video[data-src]').forEach(function (v) {
+      if (v.ggOnScreen === undefined) return;   /* not one of the watched loops */
+      if (isOpen(v)) wantPoster(v);
+      playOrPause(v);
+    });
+  };
+
+  /* ---- Tabs: one row of buttons that swaps a panel (keyboard: arrows, Home, End) */
+  GG.tabs = function (tabs, onSelect) {
+    var cur = 0;
+    function select(i, focus) {
+      cur = i;
+      tabs.forEach(function (t, k) {
+        t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        t.setAttribute('tabindex', k === i ? '0' : '-1');
+      });
+      if (focus) tabs[i].focus();
+      onSelect(i);
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { if (i !== cur) select(i, false); });
+      t.addEventListener('keydown', function (e) {
+        var n = tabs.length, j = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % n;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (i - 1 + n) % n;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = n - 1;
+        if (j !== null) { e.preventDefault(); select(j, true); }
+      });
+    });
+    return { select: select, current: function () { return cur; } };
+  };
+
   /* ---- Split a line into word and character spans for scroll entrances ---- */
   GG.split = function (el, text, seed) {
     var r = GG.rng(seed || 7);

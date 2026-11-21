@@ -56,6 +56,15 @@
       var dust = h('span', { class: 'dh__dust', 'aria-hidden': 'true' },
         [0, 1, 2, 3, 4, 5].map(function (i) { return h('span', { style: { '--i': i } }); }));
 
+      /* v2: the company's own film fills the first screen (its still on phones
+         and with "reduce motion"); the words sit over it, on the dark side */
+      var film = c.film ? GG.deep(c.film) : null;
+      root.classList.add('on-dark');
+      root.appendChild(h('div', { class: 'dh__bg', 'aria-hidden': 'true' },
+        film ? GG.loop(film, { cls: 'dh__video', eager: true }) : GG.img(c.image, { alt: '', eager: true, cls: 'dh__img', sizes: '100vw' }),
+        h('span', { class: 'dh__shade' }),
+        dust));
+
       root.appendChild(h('div', { class: 'container dh' },
         h('div', { class: 'dh__copy' },
           crumbs(c, D),
@@ -65,28 +74,25 @@
           h('div', { class: 'btn-row dh__ctas' },
             h('a', { class: 'btn', href: '#contact' }, h('span', { text: c.cta.label }), GG.icon('arrow-right', 'btn__arrow')),
             h('a', { class: 'btn btn--ghost', href: '#products', text: D.productsCta })),
-          GG.factList(factRows(c, D), 'dh__facts', factSample(c))),
-        h('div', { class: 'dh__media' },
-          h('div', { class: 'dh__frame' },
-            GG.img(c.image, { eager: true, cls: 'dh__img', sizes: '(max-width: 960px) 100vw, 640px' }),
-            dust),
+          GG.factList(factRows(c, D), 'dh__facts', factSample(c)),
           h('p', { class: 'dh__part mono' }, GG.mark({ cls: 'dh__mark' }), h('span', { text: D.partOf })))));
     },
 
     init: function (root) {
+      GG.playLoops(root);
       if (GG.reduced()) { root.classList.add('is-in'); return; }
       requestAnimationFrame(function () { requestAnimationFrame(function () { setTimeout(function () { root.classList.add('is-in'); }, 100); }); });
       GG.reducedMQ.addEventListener('change', function (e) { if (e.matches) root.classList.add('is-in'); });
       GG.pauseOffscreen([root]);
     },
 
-    /* the photo drifts slowly inside its frame as the page moves */
+    /* the film sinks slowly behind the words as the page moves on */
     enhance: function (root, C, M) {
       if (GG.reduced() || !M.scroll || !M.animate) return;
-      var img = root.querySelector('.dh__img'), frame = root.querySelector('.dh__frame');
-      if (!img || !frame) return;
-      M.scroll(M.animate(img, { transform: ['translateY(-3%) scale(1.1)', 'translateY(5%) scale(1.1)'] }, { ease: 'linear' }),
-        { target: frame, offset: ['start end', 'end start'] });
+      var bg = root.querySelector('.dh__video, .dh__img');
+      if (!bg) return;
+      M.scroll(M.animate(bg, { transform: ['translateY(0%) scale(1.06)', 'translateY(8%) scale(1.06)'] }, { ease: 'linear' }),
+        { target: root, offset: ['start start', 'end start'] });
     }
   };
 
@@ -103,7 +109,7 @@
       root.style.setProperty('--tint', tint(c.id));
       root.setAttribute('aria-label', GG.txt(D.localLabel));
       root.appendChild(h('div', { class: 'container dl' },
-        h('a', { class: 'dl__brand', href: '#top' },
+        h('a', { class: 'dl__brand', href: '#top', 'aria-label': GG.txt(c.name) },
           h('span', { class: 'dl__dot', 'aria-hidden': 'true' }), h('span', { class: 'dl__name', text: c.name })),
         h('ul', { class: 'dl__links', role: 'list' }),
         h('a', { class: 'btn btn--small dl__cta', href: '#contact' }, h('span', { text: c.cta.label }), GG.icon('arrow-right', 'btn__arrow'))));
@@ -221,7 +227,7 @@
   function standIn(tone, n) {
     var r = rng(n * 7919 + 101);
     var cx = 194 + r() * 12, top = 76 + r() * 22, half = 98 + r() * 24, base = 246;
-    var lit = mix(tone, '#FFFFFF', 0.42), shade = mix(tone, '#15222C', 0.32);
+    var lit = mix(tone, '#FFFFFF', 0.42), shade = mix(tone, '#12231C', 0.32);
     var id = 'pr-ph' + n;
     var k = (base - top) * 0.32;
     var f = function (v) { return v.toFixed(1); };
@@ -243,7 +249,7 @@
       '</defs>' +
       '<rect width="400" height="198" fill="url(#' + id + 'w)"/>' +
       '<rect y="198" width="400" height="102" fill="url(#' + id + 't)"/>' +
-      '<ellipse cx="' + f(cx + 26) + '" cy="' + (base + 3) + '" rx="' + f(half * 1.2) + '" ry="11" fill="#15222C" opacity=".16" filter="url(#pr-soft)"/>' +
+      '<ellipse cx="' + f(cx + 26) + '" cy="' + (base + 3) + '" rx="' + f(half * 1.2) + '" ry="11" fill="#12231C" opacity=".16" filter="url(#pr-soft)"/>' +
       '<path d="' + heap + '" fill="url(#' + id + 'h)"/>' +
       '<path d="' + heap + '" fill="#000" filter="url(#pr-grain)" style="mix-blend-mode:soft-light"/>' +
       grains +

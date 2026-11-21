@@ -45,6 +45,43 @@
 }
 .about__img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
 
+/* The film in the frame: its poster shows until the video is really playing */
+.about__frame.has-film {
+  max-height: max(340px, calc(100svh - 134px));   /* the whole frame and its button fit under the header */
+  background: #CFC6B4;
+}
+.about__poster, .about__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus, 50% 50%);
+}
+.about__video { opacity: 0; transition: opacity 600ms var(--ease-out); }
+.about__frame.is-playing .about__video { opacity: 1; }
+.about__frame.is-failed .about__video { display: none; }
+.about__pause {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(var(--scrim-light), 0.9);
+  color: var(--text-primary);
+  box-shadow: 0 6px 18px -8px rgba(15, 26, 33, 0.55);
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+.about__pause:hover { background: var(--panel-raised); }
+.about__pause .icon { width: 16px; height: 16px; }
+@media (pointer: coarse) { .about__pause { width: 44px; height: 44px; } }
+
 /* living element: a few grains of dust drifting up through the light */
 .about__dust span {
   position: absolute;
@@ -107,6 +144,15 @@
   .about__grid { grid-template-columns: 1fr; }
   .about__media { position: relative; top: 0; order: -1; }
   .about__frame { aspect-ratio: 16 / 10; }
+  /* square, so the bucket stays in view both low in the dig and high in the lift.
+     The width limit keeps all of it on one screen, even on a phone held sideways. */
+  .about__frame.has-film {
+    aspect-ratio: 1 / 1;
+    width: min(100%, calc(100svh - 104px));
+    max-height: none;
+    margin-inline: auto;
+  }
+  .about__poster, .about__video { object-position: var(--focus-small, 50% 50%); }
   .about__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-6); }
 }
 @media (max-width: 480px) {

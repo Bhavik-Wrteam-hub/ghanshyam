@@ -60,17 +60,17 @@
     function drawMesh(y, fine, shake) {
       ctx.save();
       ctx.translate(shake, 0);
-      ctx.strokeStyle = 'rgba(21,34,44,.45)';
+      ctx.strokeStyle = 'rgba(18,35,28,.45)';
       ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(W * 0.04, y); ctx.lineTo(W * 0.56, y); ctx.stroke();
-      ctx.strokeStyle = 'rgba(21,34,44,.22)';
+      ctx.strokeStyle = 'rgba(18,35,28,.22)';
       ctx.lineWidth = 1;
       var step = fine ? 4 : 8;
       ctx.beginPath();
       for (var x = W * 0.04; x <= W * 0.56; x += step) { ctx.moveTo(x, y - 2); ctx.lineTo(x, y + 3); }
       ctx.stroke();
       /* frame posts */
-      ctx.fillStyle = 'rgba(21,34,44,.55)';
+      ctx.fillStyle = 'rgba(18,35,28,.55)';
       ctx.fillRect(W * 0.04 - 3, y - 14, 3, 20);
       ctx.fillRect(W * 0.56, y - 14, 3, 20);
       ctx.restore();
@@ -85,8 +85,8 @@
         drawMesh(y.top, false, shake);
         drawMesh(y.mid, true, shake * 0.8);
         /* pan */
-        ctx.fillStyle = 'rgba(21,34,44,.08)';
-        ctx.strokeStyle = 'rgba(21,34,44,.4)';
+        ctx.fillStyle = 'rgba(18,35,28,.08)';
+        ctx.strokeStyle = 'rgba(18,35,28,.4)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(W * 0.04, y.pan - 12); ctx.lineTo(W * 0.06, y.pan + 2); ctx.lineTo(W * 0.54, y.pan + 2); ctx.lineTo(W * 0.56, y.pan - 12);

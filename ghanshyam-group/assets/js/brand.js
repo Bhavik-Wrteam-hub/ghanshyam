@@ -19,6 +19,7 @@
   /* logos placed in the markup */
   document.querySelectorAll('[data-logo]').forEach(function (el) {
     var logo = GG.logo({ label: el.getAttribute('data-logo'), layout: el.getAttribute('data-layout') || 'stacked' });
+    if (el.hasAttribute('data-clear')) logo.style.setProperty('--lw', 'var(--cl)');
     if (el.getAttribute('data-size')) logo.style.setProperty('--lw', el.getAttribute('data-size') + 'px');
     if (el.tagName === 'A') { logo.removeAttribute('role'); logo.setAttribute('aria-hidden', 'true'); }
     el.appendChild(logo);
@@ -35,6 +36,29 @@
   family(document.querySelector('[data-family]'));
   family(document.querySelector('[data-family-dark]'), true);
 
+  /* the seal and the small marks */
+  var marks = document.querySelector('[data-marks]');
+  function markItem(art, name, note) {
+    return h('li', { class: 'bg-mark' },
+      h('span', { class: 'bg-mark__art' }, art),
+      h('strong', null, name),
+      h('span', { class: 'bg-mark__note' }, note));
+  }
+  function icon(src, size, alt) { return h('img', { src: src, width: size, height: size, alt: alt, loading: 'lazy' }); }
+  var seal = GG.seal();
+  seal.setAttribute('role', 'img');
+  seal.removeAttribute('aria-hidden');
+  seal.setAttribute('aria-label', 'The GHANSHYAM GROUP monogram seal');
+  seal.style.width = seal.style.height = '120px';
+  marks.appendChild(markItem(seal, 'The seal', 'Round places, stamps, the end of the journey line'));
+  var darkSeal = h('span', { class: 'bg-mark__dark' }, (function () { var s = GG.seal(); s.style.width = s.style.height = '88px'; return s; })());
+  marks.appendChild(markItem(darkSeal, 'On dark', 'It keeps its own colours on any surface'));
+  marks.appendChild(markItem(h('span', { class: 'bg-mark__row' },
+    icon('assets/img/brand/favicon.svg', 48, 'The browser icon at 48 pixels'),
+    icon('assets/img/brand/favicon.svg', 32, 'The browser icon at 32 pixels'),
+    icon('assets/img/brand/favicon.svg', 16, 'The browser icon at 16 pixels')), 'Browser icon', 'The G on Deep Slate, sharp down to 16 px'));
+  marks.appendChild(markItem(icon('assets/img/brand/icon-192.png', 96, 'The phone home screen icon'), 'Phone icon', 'A full square: the phone rounds the corners'));
+
   /* downloads */
   var dl = document.querySelector('[data-downloads]');
   var files = BRANCHES.map(function (b) { return ['ghanshyam-' + b[0], b[2]]; })
@@ -49,6 +73,11 @@
         h('a', { class: 'link', href: base + '-white.svg', download: '' }, 'SVG, reversed'),
         h('a', { class: 'link', href: base + '-white.png', download: '' }, 'PNG, reversed'))));
   });
+  dl.appendChild(h('li', { class: 'bg-dl' },
+    h('span', { class: 'bg-dl__name' }, 'The seal'),
+    h('span', { class: 'bg-dl__links' },
+      h('a', { class: 'link', href: 'assets/img/brand/ghanshyam-seal.svg', download: '' }, 'SVG'),
+      h('a', { class: 'link', href: 'assets/img/brand/ghanshyam-seal.png', download: '' }, 'PNG'))));
 
   /* the don'ts, drawn from the real logo */
   var donts = [
@@ -99,17 +128,24 @@
     .forEach(function (s) { lc.appendChild(swatch(s[0], s[1], s[2])); });
 
   var sw = document.querySelector('[data-swatches]');
-  [['Quartz White', '--canvas', 'Page background'],
-   ['Silica Flour', '--panel', 'Cards and raised areas'],
-   ['Deep Slate', '--text-primary', 'Headlines and body text', '--canvas', 'Quartz White'],
-   ['Shale', '--text-secondary', 'Supporting text', '--canvas', 'Quartz White'],
-   ['Glass Edge', '--accent', 'The main button, focus, rare emphasis', '--canvas', 'Quartz White'],
-   ['Glass Edge, lifted', '--accent-on-dark', 'Accent on dark surfaces', '--slate-900', 'Deep Slate']]
+  [['Limestone', '--canvas', 'Page background'],
+   ['Kaolin', '--panel', 'Alternate sections and raised areas'],
+   ['Warm White', '--panel-raised', 'Cards'],
+   ['Deep Slate', '--text-primary', 'Headlines and body text', '--canvas', 'Limestone'],
+   ['Shale', '--text-secondary', 'Supporting text', '--canvas', 'Limestone'],
+   ['Glass Edge', '--accent', 'The main button, focus, rare emphasis', '--canvas', 'Limestone'],
+   ['Basalt', '--basalt', 'The darkest band', '--on-dark', 'Quartz White'],
+   ['Glass Edge, lifted', '--accent-on-dark', 'Accent on dark surfaces', '--slate-900', 'Deep Slate'],
+   ['Kutch Ochre', '--ochre', 'Small warm accents only']]
     .forEach(function (s) { sw.appendChild(swatch(s[0], s[1], s[2], s[3], s[4])); });
 
   var tints = document.querySelector('[data-tints]');
   [['Silica Sand', '--tint-silica'], ['Kaolin', '--tint-kaolin'], ['Minerals', '--tint-minerals'], ['Processors', '--tint-processors'], ['Farm House', '--tint-farm']]
     .forEach(function (t) { tints.appendChild(swatch(t[0], t[1], 'Marker colour')); });
+
+  var strata = document.querySelector('[data-strata]');
+  [['White silica', '--stratum-1'], ['Cream kaolin', '--stratum-2'], ['Pink feldspar', '--stratum-3'], ['Grey stone', '--stratum-4'], ['Olive topsoil', '--stratum-5']]
+    .forEach(function (t) { strata.appendChild(swatch(t[0], t[1], 'Strata layer')); });
 
   /* icon set */
   var icons = document.querySelector('[data-icons]');

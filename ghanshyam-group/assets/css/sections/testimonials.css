@@ -1,7 +1,7 @@
 /* TESTIMONIALS ============================================================== */
 .testimonials {
   background:
-    radial-gradient(60% 80% at 15% 0%, rgba(92, 192, 187, 0.12), rgba(92, 192, 187, 0) 60%),
+    radial-gradient(60% 80% at 15% 0%, rgba(92, 207, 164, 0.12), rgba(92, 207, 164, 0) 60%),
     var(--slate-900);
   color: var(--on-dark);
   overflow: hidden;
@@ -42,6 +42,7 @@
 
 .testi__controls { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
 .testi__btn {
+  flex: none;
   display: grid;
   place-items: center;
   width: 48px;
@@ -89,7 +90,7 @@
   animation: grain-drift 16s linear infinite;
   animation-delay: calc(var(--i) * -1.37s);
 }
-.testi__grains span:nth-child(3n) { width: 2px; height: 2px; background: rgba(92, 192, 187, 0.6); animation-duration: 21s; }
+.testi__grains span:nth-child(3n) { width: 2px; height: 2px; background: rgba(92, 207, 164, 0.6); animation-duration: 21s; }
 @keyframes grain-drift {
   0% { transform: translate3d(0, 0, 0); opacity: 0; }
   10% { opacity: 1; }
@@ -100,6 +101,7 @@
 /* Clients under the quotes -------------------------------------------------- */
 .clients {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
   margin-top: clamp(2rem, 1rem + 3vw, 4rem);
   padding-top: var(--space-6);
@@ -145,4 +147,19 @@
 }
 @media (max-width: 760px) {
   .clients__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  /* one row you swipe, so the buyers do not push the page out */
+  .clients__list {
+    display: flex;
+    gap: 8px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 2px var(--gutter) 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .clients__list::-webkit-scrollbar { display: none; }
+  .clients__item { flex: 0 0 44%; min-height: 80px; padding: 12px; scroll-snap-align: start; }
 }

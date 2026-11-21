@@ -9,7 +9,7 @@
 
   function brand(C, cls) {
     var a = h('a', { class: 'brand ' + (cls || ''), href: GG.page.isHome ? '#top' : 'index.html', 'aria-label': GG.txt(C.nav.homeLabel) });
-    var logo = GG.logo({ label: GG.txt(C.facts.company.logoLabel || 'GROUP'), layout: 'horizontal', cls: 'brand__logo' });
+    var logo = GG.logo({ label: GG.txt(C.facts.company.logoLabel || 'GROUP'), layout: 'compact', cls: 'brand__logo' });
     logo.removeAttribute('role');               /* the link already carries the name */
     logo.setAttribute('aria-hidden', 'true');
     a.appendChild(logo);
@@ -100,6 +100,11 @@
 
     init: function (root, C) {
       var n = C.nav;
+      /* The logo draws itself once per visit, on the first page opened */
+      var firstPage = true;
+      try { firstPage = !sessionStorage.getItem('gg-logo-drawn'); sessionStorage.setItem('gg-logo-drawn', '1'); } catch (e) { /* storage off: still fine */ }
+      if (firstPage) GG.drawLogo(root.querySelector('.brand__logo'));
+
       /* Solid background once the page moves */
       var ticking = false;
       function onScroll() {

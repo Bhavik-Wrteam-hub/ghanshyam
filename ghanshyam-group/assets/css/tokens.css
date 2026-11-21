@@ -4,52 +4,68 @@
    and section follows. Documented in brand.html (the brand guidelines page).
 
    The palette is built from the logo's own colours:
-     Deep Slate  #15222C  the G and the GHANSHYAM wordmark
-     Glass Edge  #0B6C70  the sand wave inside the G
-     Shale       #4A5963  the branch label and its rules
+     Emerald  #0B7453  the G, the GHANSHYAM wordmark and the branch label
+     Gold     #D9A21F  the sand wave, the rules and the peaks in the A's
    ========================================================================== */
 
 :root {
   color-scheme: light;
 
-  /* ---- The logo colours: fixed, never restyle the logo --------------------- */
-  --logo-ink: #15222C;        /* Deep Slate: the G and GHANSHYAM */
-  --logo-wave: #0B6C70;       /* Glass Edge: the sand wave */
-  --logo-label: #4A5963;      /* Shale: the branch label and rules */
-  --logo-ink-rev: #EEF1EF;    /* on dark surfaces: Quartz White */
-  --logo-wave-rev: #5CC0BB;   /* on dark surfaces: Glass Edge, lifted */
-  --logo-label-rev: #EEF1EF;
+  /* ---- The logo colours ------------------------------------------------------ */
+  --logo-ink: #0B7453;        /* Emerald: the G, GHANSHYAM and the label */
+  --logo-ink-light: #0E8A63;  /* the G's soft gradient */
+  --logo-ink-deep: #075C42;
+  --logo-wave: #D9A21F;       /* Gold: the sand wave, the rules, the peaks */
+  --logo-wave-light: #F1C845; /* the wave's soft gradient */
+  --logo-wave-deep: #BC8413;
+  --logo-tag-gold: #9A7110;   /* Deep Gold: the gold words of the tagline */
+  --logo-label: #0B7453;
+  --logo-ink-rev: #F3F5F0;    /* on dark surfaces: Quartz White */
+  --logo-wave-rev: #E7B93B;   /* on dark surfaces: Gold, lifted */
+  --logo-label-rev: #F3F5F0;
 
-  /* ---- Site palette, taken from the logo: "Quartz and Glass Edge" ------------ */
-  --canvas: #EEF1EF;          /* Quartz White: page background (never pure white) */
-  --canvas-deep: #E6EBE8;     /* lower half of the hero floor, quiet bands */
-  --panel: #E1E7E5;           /* Silica Flour: cards and raised areas */
-  --panel-raised: #F6F8F7;    /* the brightest surface, for cards on panel */
-  --text-primary: #15222C;    /* Deep Slate (logo ink): headlines and body (14.2:1) */
-  --text-secondary: #4A5963;  /* Shale (logo label): supporting text (6.4:1) */
-  --text-tertiary: #5E6C75;   /* small print only (4.8:1) */
-  --accent: #0B6C70;          /* Glass Edge (logo wave): the CTA, focus and rare emphasis (5.4:1) */
-  --accent-hover: #08575B;
-  --accent-muted: rgba(11, 108, 112, 0.14);
-  --accent-glow: rgba(11, 108, 112, 0.28);
-  --on-accent: #F7F9F8;
+  /* ---- Site palette, "Strata": warm Kutch stone around the logo's colours ----- */
+  --canvas: #F2F1EC;          /* Limestone: page background (never pure white) */
+  --canvas-deep: #E9E7E1;     /* quiet bands */
+  --panel: #E7E4DD;           /* Kaolin: raised areas and alternate sections */
+  --panel-raised: #FBFAF7;    /* the brightest surface, for cards */
+  --text-primary: #14241D;    /* Forest Ink: headlines and body (14:1) */
+  --text-secondary: #46574E;  /* Moss: supporting text (6.5:1) */
+  --text-tertiary: #56665D;   /* small print only (5.1:1 on Limestone) */
+  --accent: #0B7453;          /* Emerald (logo): the CTA, focus and rare emphasis (5.1:1) */
+  --accent-hover: #085B41;
+  --accent-muted: rgba(11, 116, 83, 0.14);
+  --accent-glow: rgba(11, 116, 83, 0.28);
+  --on-accent: #F7F9F6;
+  --gold: #D9A21F;            /* Gold (logo): small marks and rules only, never body text */
 
   /* Dark surfaces: testimonials band and footer */
-  --slate-900: #15222C;
-  --slate-800: #1D2D38;
-  --slate-700: #2A3D4A;
-  --on-dark: #EEF1EF;
-  --on-dark-2: #A7B4BB;
-  --accent-on-dark: #5CC0BB;  /* Glass Edge, lifted for dark surfaces (7.5:1) */
+  --slate-900: #12231C;
+  --slate-800: #1A3128;
+  --slate-700: #274136;
+  --basalt: #0C1813;          /* the darkest band: journey, strength, footer edge */
+  --on-dark: #EEF2EE;
+  --on-dark-2: #A7B7AE;
+  --accent-on-dark: #5CCFA4;  /* Emerald, lifted for dark surfaces (8:1) */
 
   /* Lines */
-  --line: rgba(21, 34, 44, 0.12);         /* decorative hairlines */
-  --line-strong: #6F7C85;                 /* interactive borders, 3:1 or better */
-  --line-on-dark: rgba(238, 241, 239, 0.14);
+  --line: rgba(20, 36, 29, 0.12);         /* decorative hairlines */
+  --line-strong: #6E7F76;                 /* interactive borders, 3:1 or better */
+  --line-on-dark: rgba(238, 242, 238, 0.14);
+
+  /* ---- Strata: the mineral layers of the quarry wall (the brand's signature).
+     Decorative only: the thin five-colour rule, the footer edge, dividers. */
+  --ochre: #B8891A;           /* Kutch ochre, warmed toward the logo's gold: small accents */
+  --stratum-1: #F1EDE3;       /* white silica */
+  --stratum-2: #E3D3B4;       /* cream kaolin */
+  --stratum-3: #D6AFA2;       /* pink feldspar */
+  --stratum-4: #98A0A1;       /* grey stone */
+  --stratum-5: #6E6B43;       /* olive topsoil */
+  --strata: linear-gradient(90deg, var(--stratum-1) 0 20%, var(--stratum-2) 20% 40%, var(--stratum-3) 40% 60%, var(--stratum-4) 60% 80%, var(--stratum-5) 80% 100%);
 
   /* ---- Company tints: small decorative markers only (dots, layers, card edges) */
-  --tint-group: #0B6C70;
-  --tint-silica: #0B6C70;      /* Glass Edge */
+  --tint-group: #0B7453;
+  --tint-silica: #0B7453;      /* Emerald */
   --tint-kaolin: #7E5F4A;      /* China clay */
   --tint-minerals: #574F86;    /* Feldspar */
   --tint-processors: #355A74;  /* Mill steel */
@@ -61,9 +77,9 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --display-stretch: 100%;
 
-  --fs-hero: clamp(2.5rem, 1.1rem + 4.6vw, 5.75rem);
-  --fs-h1: clamp(2.2rem, 1.2rem + 3.4vw, 4.4rem);
-  --fs-h2: clamp(1.9rem, 1.15rem + 2.4vw, 3.4rem);
+  --fs-hero: clamp(2.8rem, 1.1rem + 5.4vw, 6.6rem);
+  --fs-h1: clamp(2.3rem, 1.2rem + 3.8vw, 4.8rem);
+  --fs-h2: clamp(2rem, 1.1rem + 2.9vw, 4rem);
   --fs-h3: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
   --fs-h4: clamp(1.05rem, 0.98rem + 0.3vw, 1.25rem);
   --fs-lede: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
@@ -90,10 +106,10 @@
   --space-8: 4rem;
   --space-9: 6rem;
   --space-10: 8rem;
-  --section-y: clamp(5rem, 3.5rem + 6vw, 9.5rem);
+  --section-y: clamp(4.5rem, 3rem + 6.5vw, 10rem);
 
   --gutter: clamp(16px, 4vw, 48px);
-  --container: 1240px;
+  --container: 1280px;
   --container-narrow: 860px;
 
   --radius-s: 6px;
@@ -101,9 +117,9 @@
   --radius-l: 20px;
   --radius-pill: 999px;
 
-  --shadow-1: 0 1px 2px rgba(21, 34, 44, 0.06), 0 6px 18px rgba(21, 34, 44, 0.06);
-  --shadow-2: 0 2px 6px rgba(21, 34, 44, 0.07), 0 22px 54px rgba(21, 34, 44, 0.12);
-  --shadow-3: 0 4px 10px rgba(21, 34, 44, 0.08), 0 40px 90px rgba(21, 34, 44, 0.18);
+  --shadow-1: 0 1px 2px rgba(18, 35, 28, 0.06), 0 6px 18px rgba(18, 35, 28, 0.06);
+  --shadow-2: 0 2px 6px rgba(18, 35, 28, 0.07), 0 22px 54px rgba(18, 35, 28, 0.12);
+  --shadow-3: 0 4px 10px rgba(18, 35, 28, 0.08), 0 40px 90px rgba(18, 35, 28, 0.18);
 
   /* ---- Motion: two curves, used everywhere ----------------------------------- */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);      /* arrivals */
@@ -115,6 +131,6 @@
   --stagger: 90ms;
 
   /* Hero legibility (light world: dark text over bright footage) */
-  --tshadow-light: 0 1px 1px rgba(238, 241, 239, 0.7), 0 0 10px rgba(238, 241, 239, 0.45);
-  --scrim-light: 238, 241, 239;
+  --tshadow-light: 0 1px 1px rgba(242, 241, 236, 0.75), 0 0 14px rgba(242, 241, 236, 0.5);
+  --scrim-light: 242, 241, 236;
 }

@@ -1,13 +1,15 @@
 /* ==========================================================================
    THE HOMEPAGE'S OWN SECTIONS (index.html): the group, not one company.
-     ghero       the first screen: the group's line beside five tall photo
-                 panels, one per business, like layers in a quarry wall
-     businesses  one stacking card per company, each leading to its page
+     businesses  the Strata: five stacked layers, one per company. One layer
+                 is open at a time, with the company's film, products and facts.
+     range       every company's products, one tab per company
+     apps        the industries each company supplies, one tab per company
      strength    who does what, quarry to customer, and the group in numbers
      values      vision, mission and values
      presence    the group's sites in Kutch, and where its materials go
-   Their words are in site-content.js (groupHero, businesses, strength,
-   values, presence) and in THE FIVE BUSINESSES.
+   The first screen (the five branch films) is film.js. Words are in site-content.js
+   (businesses, range, apps, strength, values, presence) and in THE FIVE
+   BUSINESSES, so nothing is written twice.
    ========================================================================== */
 (function () {
   'use strict';
@@ -26,168 +28,229 @@
     return { list: grades.map(function (g) { return GG.deep(g).name; }), src: grades };
   }
   /* A business's facts, then the year it began */
+  var S_MARK = { __sample: true, value: '' };
   function companyFacts(co, C, cls) {
     var rows = (GG.deep(co.facts) || []).concat([[GG.txt(C.division.since), GG.txt(co.since)]]);
     return GG.factList(rows, cls, GG.hasS(co.facts) || GG.fmt(co.since).sample ? S_MARK : null);
   }
-  var S_MARK = { __sample: true, value: '' };
+  /* A business's full product list: its own, or the five silica grades */
+  function productsOf(co, C) {
+    if (co.products) return { items: GG.deep(co.products.items) || [], src: co.products.items };
+    var grades = (C.silica && C.silica.grades) || [];
+    return {
+      items: grades.map(function (g) { var d = GG.deep(g); return { name: d.name, spec: d.code, text: d.short, image: d.image }; }),
+      src: grades
+    };
+  }
+  /* Where a company's own page lists its products (silica calls them grades) */
+  function productsHref(co) { return co.page + (co.id === 'silica' ? '#silica' : '#products'); }
+  /* Enquire links anywhere on the homepage pre-fill the enquiry form */
+  function wireEnquire(root) {
+    root.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-enquire]');
+      if (a) document.dispatchEvent(new CustomEvent('gg:enquire', { detail: { company: a.getAttribute('data-enquire'), product: a.getAttribute('data-product') || null } }));
+    });
+  }
+  /* A row of company tabs (Products, Applications) */
+  function companyTabs(prefix, label, panelId) {
+    return h('div', { class: 'ctabs', role: 'tablist', 'aria-label': label },
+      GG.companies().map(function (co, i) {
+        return h('button', {
+          class: 'ctab', type: 'button', role: 'tab', id: prefix + '-tab-' + co.id,
+          'aria-selected': i === 0 ? 'true' : 'false', 'aria-controls': panelId, tabindex: i === 0 ? '0' : '-1',
+          style: { '--tint': tint(co.id) }
+        }, h('span', { class: 'ctab__dot', 'aria-hidden': 'true' }), h('span', { text: co.short }));
+      }));
+  }
+  /* Swap a tab panel's content with a short, calm cross-fade */
+  function swap(panel, next, tabId) {
+    panel.setAttribute('aria-labelledby', tabId);
+    var M = GG.motion();
+    if (!M || !M.animate || GG.reduced()) { panel.replaceChildren(next); return; }
+    M.animate(panel, { opacity: [1, 0] }, { duration: 0.16, ease: [0.65, 0, 0.35, 1] }).then(function () {
+      panel.replaceChildren(next);
+      M.animate(panel, { opacity: [0, 1], transform: ['translateY(10px)', 'translateY(0)'] }, { duration: 0.45, ease: [0.22, 1, 0.36, 1] });
+    });
+  }
 
   /* ==========================================================================
-     GROUP HERO
+     OUR BUSINESSES: the Strata. Five layers, like a quarry wall.
      ========================================================================== */
-  GG.sections.ghero = {
+  GG.sections.businesses = {
     render: function (root, C) {
-      var g = C.groupHero, cos = GG.companies();
-      var titleText = GG.fmt(g.title);
-      var title = h('h1', { class: 'gh__title', id: 'ghero-title' });
-      GG.split(title, titleText.text, 5);
-      if (titleText.sample) title.setAttribute('data-sample', '');
+      var b = C.businesses, cos = GG.companies();
 
-      var copy = h('div', { class: 'gh__copy' },
-        h('p', { class: 'kicker gh__kicker', text: g.kicker }),
-        title,
-        h('p', { class: 'gh__text', text: g.text }),
-        h('div', { class: 'btn-row gh__ctas' },
-          h('a', { class: 'btn', href: g.ctaPrimary.href }, h('span', { text: g.ctaPrimary.label }), GG.icon('arrow-right', 'btn__arrow')),
-          h('a', { class: 'btn btn--ghost', href: g.ctaSecondary.href, text: g.ctaSecondary.label })),
-        h('ul', { class: 'gh__proof mono', role: 'list' },
-          g.proof.map(function (p) { return h('li', { text: p }); })));
+      var layers = cos.map(function (co, i) {
+        var kp = keyProducts(co, C);
+        var pid = 'stratum-' + co.id + '-panel', bid = 'stratum-' + co.id + '-btn';
+        var film = co.film ? GG.deep(co.film) : null;
+        var open = i === 0;
+        return h('li', { class: 'stratum' + (open ? ' is-open' : ''), id: 'company-' + co.id, style: { '--tint': tint(co.id), '--layer': 'var(--stratum-' + (i + 1) + ')', '--i': i } },
+          h('h3', { class: 'stratum__head' },
+            h('button', { class: 'stratum__btn', type: 'button', id: bid, 'aria-expanded': open ? 'true' : 'false', 'aria-controls': pid },
+              h('span', { class: 'stratum__index mono', text: pad(i + 1) }),
+              h('span', { class: 'stratum__name', text: co.name }),
+              h('span', { class: 'stratum__tag', text: co.tagline }),
+              co.flagship ? h('span', { class: 'stratum__badge mono', text: b.flagship }) : null,
+              h('span', { class: 'stratum__plus', 'aria-hidden': 'true' }))),
+          h('div', { class: 'stratum__panel', id: pid, role: 'region', 'aria-labelledby': bid, inert: open ? null : true },
+            h('div', { class: 'stratum__inner on-dark' },
+              h('div', { class: 'stratum__body' },
+                GG.logo({ label: GG.txt(co.logoLabel), name: GG.txt(co.name), layout: 'compact', cls: 'stratum__logo' }),
+                h('p', { class: 'stratum__text', text: co.summary }),
+                h('div', { class: 'stratum__makes' },
+                  h('p', { class: 'stratum__plabel mono', text: b.productsLabel }),
+                  h('ul', { class: 'stratum__products', role: 'list', sample: kp.src },
+                    kp.list.map(function (p) { return h('li', { text: p }); }))),
+                companyFacts(co, C, 'stratum__facts'),
+                h('div', { class: 'stratum__actions' },
+                  h('a', { class: 'btn btn--small', href: co.page },
+                    h('span', { text: GG.txt(b.visit, { name: GG.txt(co.short) }) }), GG.icon('arrow-right', 'btn__arrow')),
+                  h('a', { class: 'link', href: '#contact', 'data-enquire': co.id },
+                    h('span', { text: b.enquire }), h('span', { class: 'sr-only', text: ': ' + GG.txt(co.name) })))),
+              h('a', { class: 'stratum__media', href: co.page, tabindex: '-1', 'aria-hidden': 'true' },
+                film ? GG.loop(film, { cls: 'stratum__video' }) : GG.img(co.image, { alt: '', sizes: '(max-width: 900px) 92vw, 640px' })))));
+      });
 
-      var layers = h('ul', { class: 'gh__layers', role: 'list', 'aria-label': GG.txt(g.layersLabel) },
-        cos.map(function (co, i) {
-          return h('li', { class: 'gh-layer', style: { '--tint': tint(co.id), '--i': i } },
-            h('a', { class: 'gh-layer__link', href: co.page, 'aria-label': GG.txt(co.name) + ': ' + GG.txt(co.tagline) },
-              h('span', { class: 'gh-layer__media' },
-                GG.img(co.image, { alt: '', eager: true, sizes: '(max-width: 999px) 100vw, 104vh' })),
-              h('span', { class: 'gh-layer__shade', 'aria-hidden': 'true' }),
-              h('span', { class: 'gh-layer__index mono', 'aria-hidden': 'true' }, pad(i + 1)),
-              h('span', { class: 'gh-layer__name', 'aria-hidden': 'true', text: co.short }),
-              h('span', { class: 'gh-layer__more', 'aria-hidden': 'true' },
-                h('span', { class: 'gh-layer__company', text: co.name }),
-                h('span', { class: 'gh-layer__tag', text: co.tagline }),
-                h('span', { class: 'gh-layer__visit' }, h('span', { text: g.visit }), GG.icon('arrow-right')))));
-        }));
-
-      root.appendChild(h('div', { class: 'gh container' }, copy, layers));
+      root.appendChild(h('div', { class: 'container' },
+        h('div', { class: 'strata-head' }, GG.head(b, 'businesses-title'), h('span', { class: 'strata-rule', 'aria-hidden': 'true' })),
+        h('ol', { class: 'strata', role: 'list' }, layers)));
     },
 
     init: function (root) {
-      var wrap = root.querySelector('.gh__layers');
-      var layers = Array.prototype.slice.call(root.querySelectorAll('.gh-layer'));
-      var wide = matchMedia('(min-width: 1000px) and (pointer: fine)');
-      var cur = -1, timer = null, handsOn = false;
-
-      function set(i) {
-        if (i === cur) return;
-        cur = i;
-        layers.forEach(function (l, k) { l.classList.toggle('is-open', k === i); });
-        wrap.classList.toggle('has-open', i > -1);
+      var layers = Array.prototype.slice.call(root.querySelectorAll('.stratum'));
+      /* the layer just opened comes fully into view, under the menu bar. The open
+         layer above it is about to collapse, so its height is taken off first. */
+      function bringIntoView(i, above) {
+        var bar = document.querySelector('.site-header');
+        var barH = bar ? bar.offsetHeight : 0;
+        var layer = layers[i], inner = layer.querySelector('.stratum__inner');
+        var top = layer.getBoundingClientRect().top - above;
+        var height = layer.querySelector('.stratum__btn').offsetHeight + inner.scrollHeight;
+        if (top >= barH + 8 && top + height <= window.innerHeight - 8) return;
+        window.scrollTo({ top: window.scrollY + top - barH - 12, behavior: GG.reduced() ? 'auto' : 'smooth' });
       }
-      function takeOver() { handsOn = true; clearTimeout(timer); }
-
+      function open(i, focus, scroll) {
+        var was = layers.findIndex(function (l) { return l.classList.contains('is-open'); });
+        var above = was > -1 && was < i ? layers[was].querySelector('.stratum__inner').offsetHeight : 0;
+        layers.forEach(function (l, k) {
+          var on = k === i;
+          l.classList.toggle('is-open', on);
+          l.querySelector('.stratum__btn').setAttribute('aria-expanded', on ? 'true' : 'false');
+          var panel = l.querySelector('.stratum__panel');
+          if (on) panel.removeAttribute('inert'); else panel.setAttribute('inert', '');
+        });
+        if (focus) layers[i].querySelector('.stratum__btn').focus();
+        if (scroll) bringIntoView(i, above);
+        GG.refreshLoops(root);   /* the open layer's film plays, the others rest */
+      }
       layers.forEach(function (l, i) {
-        l.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && wide.matches) { takeOver(); set(i); } });
-        l.addEventListener('focusin', function () { takeOver(); if (wide.matches) set(i); });
+        var btn = l.querySelector('.stratum__btn');
+        btn.addEventListener('click', function () { if (!l.classList.contains('is-open')) open(i, false, true); });
+        btn.addEventListener('keydown', function (e) {
+          var n = layers.length, j = null;
+          if (e.key === 'ArrowDown') j = (i + 1) % n;
+          else if (e.key === 'ArrowUp') j = (i - 1 + n) % n;
+          else if (e.key === 'Home') j = 0;
+          else if (e.key === 'End') j = n - 1;
+          if (j !== null) { e.preventDefault(); layers[j].querySelector('.stratum__btn').focus(); }
+        });
       });
-      wrap.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') set(-1); });
-      wrap.addEventListener('focusout', function (e) { if (!wrap.contains(e.relatedTarget)) set(-1); });
-      wide.addEventListener('change', function () { if (!wide.matches) set(-1); });
-      /* "reduce motion" switched on mid-visit: stop the pass, show the rest state */
-      GG.reducedMQ.addEventListener('change', function (e) {
-        if (e.matches) { takeOver(); set(-1); root.classList.add('is-in', 'is-settled'); }
-      });
-
-      /* The entrance: the layers rise like core samples drawn from the ground.
-         Then one slow pass opens each business in turn, once, and rests. */
-      function enter() {
-        root.classList.add('is-in');
-        setTimeout(function () { root.classList.add('is-settled'); }, 2200);
-        if (GG.reduced() || !wide.matches) return;
-        var i = -1;
-        (function step() {
-          if (handsOn || GG.reduced()) return;
-          i++;
-          if (i >= layers.length) { set(-1); return; }
-          set(i);
-          timer = setTimeout(step, 2600);
-        })();
+      /* a link to #company-kaolin (the menu, the footer) opens that layer */
+      function fromHash() {
+        var m = /^#company-(\w+)$/.exec(location.hash);
+        if (!m) return;
+        layers.forEach(function (l, i) { if (l.id === 'company-' + m[1]) open(i, false); });
       }
-      if (GG.reduced()) { root.classList.add('is-in', 'is-settled'); return; }
-      /* wait for the page itself to fade in (main.js marks it ready) */
-      requestAnimationFrame(function () { requestAnimationFrame(function () { setTimeout(enter, 120); }); });
-      GG.pauseOffscreen([root]);
-    },
-
-    /* Leaving the first screen, the layers drift up at slightly different speeds */
-    enhance: function (root, C, M) {
-      if (GG.reduced() || !M.scroll || !M.animate || !matchMedia('(min-width: 1000px)').matches) return;
-      root.querySelectorAll('.gh-layer__link').forEach(function (el, i) {
-        var lift = [26, 52, 38, 64, 44][i % 5];
-        M.scroll(M.animate(el, { transform: ['translateY(0px)', 'translateY(-' + lift + 'px)'] }, { ease: 'linear' }),
-          { target: root, offset: ['start start', 'end start'] });
-      });
+      addEventListener('hashchange', fromHash);
+      fromHash();
+      wireEnquire(root);
+      GG.playLoops(root);
     }
   };
 
   /* ==========================================================================
-     OUR BUSINESSES: the five companies as stacking cards
+     PRODUCT RANGE: every company's products, one tab per company
      ========================================================================== */
-  GG.sections.businesses = {
+  function rangePanel(co, C) {
+    var r = C.range, p = productsOf(co, C);
+    return h('div', { class: 'range__set', style: { '--tint': tint(co.id) } },
+      h('div', { class: 'range__top' },
+        h('p', { class: 'range__co' },
+          h('span', { class: 'range__name', text: co.name }),
+          h('span', { class: 'range__tag', text: co.tagline })),
+        h('a', { class: 'link range__all', href: productsHref(co) },
+          h('span', { text: GG.txt(r.viewAll, { name: GG.txt(co.short) }) }), GG.icon('arrow-right'))),
+      h('ul', { class: 'range__grid', role: 'list', sample: p.src },
+        p.items.map(function (it) {
+          var name = GG.txt(it.name);
+          return h('li', { class: 'rcard' },
+            h('a', { class: 'rcard__media', href: productsHref(co), tabindex: '-1', 'aria-hidden': 'true' },
+              it.image && it.image.src ? GG.img(it.image, { alt: '', sizes: '(max-width: 600px) 78vw, (max-width: 1100px) 34vw, 300px' }) : null),
+            h('div', { class: 'rcard__body' },
+              it.spec ? h('p', { class: 'rcard__spec mono', text: it.spec }) : null,
+              h('h3', { class: 'rcard__name', text: it.name }),
+              h('p', { class: 'rcard__text', text: it.text }),
+              h('a', { class: 'link rcard__link', href: '#contact', 'data-enquire': co.id, 'data-product': name },
+                h('span', { text: r.enquire }), h('span', { class: 'sr-only', text: ': ' + name }), GG.icon('arrow-right'))));
+        })));
+  }
+
+  GG.sections.range = {
     render: function (root, C) {
-      var b = C.businesses, cos = GG.companies(), n = cos.length;
-
-      var cards = cos.map(function (co, i) {
-        var kp = keyProducts(co, C);
-        var logo = GG.logo({ label: GG.txt(co.logoLabel), name: GG.txt(co.name), cls: 'co-logo' });
-        return h('li', { class: 'co-card', style: { '--tint': tint(co.id), '--i': i }, id: 'company-' + co.id },
-          h('article', { class: 'co-card__inner', 'aria-labelledby': 'company-' + co.id + '-name' },
-            h('div', { class: 'co-card__body' },
-              h('p', { class: 'co-card__index mono' },
-                h('span', null, pad(i + 1) + ' / ' + pad(n)),
-                co.flagship ? h('span', { class: 'co-card__badge', text: b.flagship }) : null),
-              h('h3', { class: 'co-card__name', id: 'company-' + co.id + '-name' }, logo),
-              h('p', { class: 'co-card__tagline', text: co.tagline }),
-              h('p', { class: 'co-card__text', text: co.summary }),
-              h('div', { class: 'co-card__makes' },
-                h('p', { class: 'co-card__plabel mono', text: b.productsLabel }),
-                h('ul', { class: 'co-card__products', role: 'list', sample: kp.src },
-                  kp.list.map(function (p) { return h('li', { text: p }); }))),
-              companyFacts(co, C, 'co-facts'),
-              h('div', { class: 'co-card__actions' },
-                h('a', { class: 'btn btn--small', href: co.page },
-                  h('span', { text: GG.txt(b.visit, { name: GG.txt(co.short) }) }), GG.icon('arrow-right', 'btn__arrow')),
-                h('a', { class: 'link', href: '#contact', 'data-enquire': co.id },
-                  h('span', { text: b.enquire }), h('span', { class: 'sr-only', text: ': ' + GG.txt(co.name) })))),
-            h('a', { class: 'co-card__media', href: co.page, tabindex: '-1', 'aria-hidden': 'true' },
-              GG.img(co.image, { alt: '', sizes: '(max-width: 900px) 92vw, 600px' })),
-            h('span', { class: 'co-card__veil', 'aria-hidden': 'true' })));
-      });
-
+      var r = C.range, cos = GG.companies();
       root.appendChild(h('div', { class: 'container' },
-        GG.head(b, 'businesses-title'),
-        h('ol', { class: 'co-stack', role: 'list' }, cards)));
+        h('div', { class: 'range__head' },
+          GG.head(r, 'range-title'),
+          companyTabs('range', GG.txt(r.tabsLabel), 'range-panel')),
+        h('div', { class: 'range__panel', id: 'range-panel', role: 'tabpanel', 'aria-labelledby': 'range-tab-' + cos[0].id, tabindex: '0' },
+          rangePanel(cos[0], C))));
     },
-
-    init: function (root) {
-      root.addEventListener('click', function (e) {
-        var a = e.target.closest('[data-enquire]');
-        if (a) document.dispatchEvent(new CustomEvent('gg:enquire', { detail: { company: a.getAttribute('data-enquire') } }));
+    init: function (root, C) {
+      var cos = GG.companies(), panel = root.querySelector('.range__panel');
+      GG.tabs(Array.prototype.slice.call(root.querySelectorAll('.ctab')), function (i) {
+        swap(panel, rangePanel(cos[i], C), 'range-tab-' + cos[i].id);
       });
-    },
+      wireEnquire(root);
+    }
+  };
 
-    /* As each card is covered by the next, it settles back a little */
-    enhance: function (root, C, M) {
-      if (GG.reduced() || !M.scroll || !M.animate || !matchMedia('(min-width: 900px)').matches) return;
-      var cards = Array.prototype.slice.call(root.querySelectorAll('.co-card'));
-      cards.forEach(function (card, i) {
-        var next = cards[i + 1];
-        if (!next) return;
-        /* Fade with a veil in the page colour, not with opacity: a
-           see-through card would show the card stacked under it. */
-        M.scroll(M.animate(card.querySelector('.co-card__inner'), { transform: ['scale(1)', 'scale(0.94)'] }, { ease: 'linear' }),
-          { target: next, offset: ['start end', 'start 25%'] });
-        M.scroll(M.animate(card.querySelector('.co-card__veil'), { opacity: [0, 0.45] }, { ease: 'linear' }),
-          { target: next, offset: ['start end', 'start 25%'] });
+  /* ==========================================================================
+     APPLICATIONS: the industries each company supplies
+     ========================================================================== */
+  function appsPanel(co) {
+    var ind = co.industries || { items: [] };
+    return h('div', { class: 'apps__set', style: { '--tint': tint(co.id) } },
+      h('figure', { class: 'apps__media' },
+        GG.img(co.image, { alt: '', sizes: '(max-width: 900px) 92vw, 420px' }),
+        h('figcaption', { class: 'apps__caption mono' },
+          h('span', { class: 'apps__dot', 'aria-hidden': 'true' }), h('span', { text: co.name }))),
+      h('div', { class: 'apps__body' },
+        h('h3', { class: 'apps__title', text: ind.title || co.name }),
+        h('ul', { class: 'apps__grid', role: 'list' },
+          ind.items.map(function (it) {
+            return h('li', { class: 'app' },
+              h('span', { class: 'app__icon', 'aria-hidden': 'true' }, GG.icon(it.icon)),
+              h('span', { class: 'app__label', text: it.label }));
+          })),
+        h('a', { class: 'link apps__link', href: co.page + '#industries' },
+          h('span', { text: co.name }), GG.icon('arrow-right'))));
+  }
+
+  GG.sections.apps = {
+    render: function (root, C) {
+      var a = C.apps, cos = GG.companies();
+      root.appendChild(h('div', { class: 'container' },
+        h('div', { class: 'apps__head' },
+          GG.head(a, 'apps-title'),
+          companyTabs('apps', GG.txt(a.tabsLabel), 'apps-panel')),
+        h('div', { class: 'apps__panel', id: 'apps-panel', role: 'tabpanel', 'aria-labelledby': 'apps-tab-' + cos[0].id, tabindex: '0' },
+          appsPanel(cos[0]))));
+    },
+    init: function (root) {
+      var cos = GG.companies(), panel = root.querySelector('.apps__panel');
+      GG.tabs(Array.prototype.slice.call(root.querySelectorAll('.ctab')), function (i) {
+        swap(panel, appsPanel(cos[i]), 'apps-tab-' + cos[i].id);
       });
     }
   };

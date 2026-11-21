@@ -12,11 +12,14 @@
   <title>Brand Guidelines | GHANSHYAM GROUP</title>
   <meta name="description" content="The GHANSHYAM GROUP brand system: the logo and its branch lockups, colour, type, icons, imagery, motion and voice.">
   <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#EEF1EF">
-  <link rel="icon" type="image/svg+xml" href="assets/img/brand/ghanshyam-mark.svg">
+  <meta name="theme-color" content="#F2F1EC">
+  <link rel="icon" type="image/svg+xml" href="assets/img/brand/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/logo.css">
@@ -44,7 +47,7 @@
   <main id="main" tabindex="-1">
     <!-- Cover -->
     <section class="bg-cover container">
-      <p class="kicker">Brand guidelines · Version 2.0</p>
+      <p class="kicker">Brand guidelines · Version 3.0</p>
       <h1 class="bg-cover__title">One header. Six names.</h1>
       <p class="lede">GHANSHYAM GROUP and its five companies share one logo. The header, the G with its sand wave and the GHANSHYAM wordmark, never changes. Only the label beneath it names the company. That is how the group stays recognisable on a truck, a bag of sand, a spec sheet or a website.</p>
     </section>
@@ -79,14 +82,28 @@
       <p class="muted bg-subtext">The horizontal lockup uses the same parts side by side. Use it where height is short: the website header, letterheads, email signatures.</p>
       <div class="bg-tile bg-tile--light bg-tile--wide-h"><span data-logo="GROUP" data-layout="horizontal"></span></div>
 
+      <h3 class="h3 bg-subhead">Clear space</h3>
+      <p class="muted bg-subtext">Keep every side clear by the height of the GHANSHYAM letters, shown here as x. No text, photo edge or other logo enters the dashed line.</p>
+      <figure class="bg-clear" aria-label="The logo inside its clear space, one letter height on every side">
+        <div class="bg-clear__zone">
+          <span class="bg-clear__x bg-clear__x--t" aria-hidden="true">x</span>
+          <span class="bg-clear__x bg-clear__x--l" aria-hidden="true">x</span>
+          <span data-logo="GROUP" data-clear></span>
+        </div>
+      </figure>
+
+      <h3 class="h3 bg-subhead">The seal and the small marks</h3>
+      <p class="muted bg-subtext">For round and very small places. The seal holds the same G in its reversed colours, inside the five layers of the quarry wall. It is a stamp beside the logo and never replaces it. The browser and phone icons drop the ring so the G stays sharp.</p>
+      <ul class="bg-marks" role="list" data-marks></ul>
+
       <div class="bg-rules">
         <div>
-          <h3 class="h3">Clear space and size</h3>
+          <h3 class="h3">Minimum sizes</h3>
           <ul class="bg-list" role="list">
-            <li><span class="mono">Clear space</span> the height of the GHANSHYAM letters, on every side</li>
             <li><span class="mono">Stacked</span> at least 160 px wide on screen, 35 mm in print</li>
             <li><span class="mono">Horizontal</span> at least 180 px wide on screen, 40 mm in print</li>
             <li><span class="mono">Mark alone</span> at least 24 px on screen, 8 mm in print</li>
+            <li><span class="mono">Seal</span> at least 40 px on screen, 12 mm in print</li>
           </ul>
         </div>
         <div>
@@ -106,12 +123,16 @@
         <div class="bg-sec__head">
           <p class="kicker">02 · Colour</p>
           <h2 class="h2" id="colour-h">Built from the logo.</h2>
-          <p class="lede">The logo's three colours are fixed and never change. The website takes its palette from them: Deep Slate for text, Shale for supporting text, Glass Edge for the one main action, all on Quartz White.</p>
+          <p class="lede">The logo's three colours are fixed and never change. The site is built around them: Deep Slate for text, Shale for supporting text, Glass Edge for the one main action, on warm Limestone. The five Strata colours come from the quarry wall.</p>
         </div>
         <h3 class="h3 bg-subhead bg-subhead--first">Logo colours (fixed)</h3>
         <ul class="bg-swatches" role="list" data-logo-colours></ul>
         <h3 class="h3 bg-subhead">Website palette</h3>
         <ul class="bg-swatches" role="list" data-swatches></ul>
+        <h3 class="h3 bg-subhead">Strata, the quarry wall</h3>
+        <p class="muted bg-subtext">The brand's signature: five mineral layers in order, one for each company. Thin rules, the footer's top edge and the layers of the businesses section. Always all five, always in this order, and never for text.</p>
+        <div class="bg-strata" role="img" aria-label="The five strata colours in order, from white silica to olive topsoil"></div>
+        <ul class="bg-swatches bg-swatches--small" role="list" data-strata></ul>
         <h3 class="h3 bg-subhead">Company markers</h3>
         <p class="muted bg-subtext">Each company has a marker colour that tells its pages and cards apart. Small decorative marks only: dots, card edges, icons, a drawn line, and a faint wash behind the company's first screen. Never on the logo, never for text.</p>
         <ul class="bg-swatches bg-swatches--small" role="list" data-tints></ul>
@@ -143,9 +164,9 @@
         <caption class="sr-only">Type scale</caption>
         <thead><tr><th scope="col">Token</th><th scope="col">Use</th><th scope="col">Size</th></tr></thead>
         <tbody>
-          <tr><td class="mono">--fs-hero</td><td>Hero headline</td><td>40 to 92 px</td></tr>
-          <tr><td class="mono">--fs-h1</td><td>Page and hero captions</td><td>35 to 70 px</td></tr>
-          <tr><td class="mono">--fs-h2</td><td>Section titles</td><td>30 to 54 px</td></tr>
+          <tr><td class="mono">--fs-hero</td><td>Hero headline</td><td>45 to 106 px</td></tr>
+          <tr><td class="mono">--fs-h1</td><td>Page and hero captions</td><td>37 to 77 px</td></tr>
+          <tr><td class="mono">--fs-h2</td><td>Section titles</td><td>32 to 64 px</td></tr>
           <tr><td class="mono">--fs-h3</td><td>Card and panel titles</td><td>20 to 28 px</td></tr>
           <tr><td class="mono">--fs-lede</td><td>Section introductions</td><td>18 to 21 px</td></tr>
           <tr><td class="mono">--fs-body</td><td>Running text</td><td>17 px</td></tr>
@@ -161,13 +182,13 @@
         <div class="bg-sec__head">
           <p class="kicker">04 · Icons and motifs</p>
           <h2 class="h2" id="icons-h">Drawn with one pen.</h2>
-          <p class="lede">24 px line icons with a 1.6 px stroke and round joins. Three motifs carry the brand across the site: the short rule before every section label (taken from the logo's label rules), the sieve scale on every grade, and quarry strata in imagery.</p>
+          <p class="lede">24 px line icons with a 1.6 px stroke and round joins. Three motifs carry the brand across the site: the short rule before every section label (taken from the logo's label rules), the sieve scale on every grade, and the five strata layers.</p>
         </div>
         <ul class="bg-icons" role="list" data-icons></ul>
         <div class="bg-motifs">
           <div class="bg-motif"><p class="kicker">Quality assurance</p><span class="muted">The section label, with the logo's rule</span></div>
           <div class="bg-motif"><span class="bg-motif__scale"><span></span></span><span class="muted">The sieve scale</span></div>
-          <div class="bg-motif"><span class="bg-motif__strata"></span><span class="muted">Quarry strata</span></div>
+          <div class="bg-motif"><span class="bg-motif__strata"></span><span class="muted">The five strata layers</span></div>
         </div>
       </div>
     </section>
@@ -177,7 +198,7 @@
       <div class="bg-sec__head">
         <p class="kicker">05 · Imagery</p>
         <h2 class="h2" id="imagery-h">One bright, calm world.</h2>
-        <p class="lede">Two kinds of picture. Close views of the product in a calm studio: pale stone, quartz white sand, soft daylight, gentle shadows, close enough to see the grain. And the places where the work happens, the quarry, the plant and the farm, in natural light. Nobody posing, no stock handshakes, no text or logos inside images.</p>
+        <p class="lede">Two kinds of picture. Close views of the product in a calm studio: pale stone, quartz white sand, soft daylight, gentle shadows, close enough to see the grain. And the places where the work happens, the quarry, the plant and the farm, in natural light, often at dawn or dusk. Nobody posing, no stock handshakes, no text or logos inside images.</p>
       </div>
       <div class="bg-imagery">
         <img src="assets/img/photos/company-silica-1200.webp" srcset="assets/img/photos/company-silica-480.webp 480w, assets/img/photos/company-silica-800.webp 800w, assets/img/photos/company-silica-1200.webp 1200w" sizes="(max-width: 960px) 92vw, 490px" alt="A cone of white silica sand on a pale stone block" width="1200" height="896" loading="lazy" decoding="async">
@@ -193,14 +214,14 @@
         <div class="bg-sec__head">
           <p class="kicker">06 · Motion</p>
           <h2 class="h2" id="motion-h">Nothing snaps.</h2>
-          <p class="lede">Motion explains, it never decorates. Every change eases. Scroll drives the story; the visitor is always in control and can scroll back.</p>
+          <p class="lede">Motion explains, it never decorates. Every change eases. Scroll drives the story, and the visitor is always in control and can scroll back. The logo draws itself once per visit and then stays still.</p>
         </div>
         <ul class="bg-motion" role="list">
           <li><span class="bg-motion__demo" data-ease="out"><i></i></span><strong>Arrivals</strong><span class="mono">cubic-bezier(.22, 1, .36, 1)</span></li>
           <li><span class="bg-motion__demo" data-ease="inout"><i></i></span><strong>State changes</strong><span class="mono">cubic-bezier(.65, 0, .35, 1)</span></li>
           <li><span class="bg-motion__demo bg-motion__demo--stagger"><i></i><i></i><i></i></span><strong>Entrances</strong><span class="mono">720 ms, 90 ms stagger</span></li>
         </ul>
-        <p class="bg-note">Only transform and opacity animate. Visitors who turn on "reduce motion" see every element in its finished state, and the scroll scene is replaced by a still.</p>
+        <p class="bg-note">Almost everything animates with transform and opacity only. Phones get still pictures in place of films. Visitors who turn on "reduce motion" see every element in its finished state, and the scroll film is replaced by a still.</p>
       </div>
     </section>
 
@@ -235,7 +256,7 @@
   <footer class="bg-foot on-dark">
     <div class="container bg-foot__row">
       <span data-logo="GROUP" data-size="170"></span>
-      <p>Brand guidelines · Version 2.0</p>
+      <p>Brand guidelines · Version 3.0</p>
       <a class="link" href="index.html">Back to the website</a>
     </div>
   </footer>

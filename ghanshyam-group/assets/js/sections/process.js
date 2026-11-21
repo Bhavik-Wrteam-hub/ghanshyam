@@ -13,7 +13,7 @@
     var v = GG.deep(m);
     if (!v) return null;
     var el = v.video
-      ? h('video', { muted: true, loop: true, playsinline: true, preload: 'none', poster: v.poster, 'data-src': v.video, tabindex: '-1' })
+      ? h('video', { muted: true, loop: true, playsinline: true, preload: 'none', 'data-poster': v.poster, 'data-src': v.video, tabindex: '-1' })
       : GG.img(v, { alt: '', sizes: '(max-width: 900px) 0px, 520px' });
     if (v.video) el.muted = true;
     return h('span', { class: 'process__frame' + (i === 0 ? ' is-on' : ''), 'data-i': i }, el);
@@ -64,6 +64,9 @@
           f.classList.toggle('is-on', on);
           var v = f.querySelector('video');
           if (!v) return;
+          /* the preview picture loads only for the step on show and the next one */
+          var near = Number(f.getAttribute('data-i')) - i;
+          if (mediaOnScreen && (near === 0 || near === 1) && !v.getAttribute('poster')) v.setAttribute('poster', v.getAttribute('data-poster'));
           if (on && mediaOnScreen && !GG.reduced() && !saver) {
             if (!v.getAttribute('src')) v.src = v.getAttribute('data-src');
             var pr = v.play();

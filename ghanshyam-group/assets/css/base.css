@@ -186,7 +186,7 @@ main:focus { outline: none; }
   --btn-fg: var(--text-primary);
   border-color: var(--line-strong);
 }
-.btn--ghost:hover { --btn-bg: rgba(21, 34, 44, 0.05); box-shadow: none; border-color: var(--text-primary); }
+.btn--ghost:hover { --btn-bg: rgba(18, 35, 28, 0.05); box-shadow: none; border-color: var(--text-primary); }
 .btn--small { padding: 0.7em 1.15em; font-size: 0.9375rem; }
 .on-dark .btn--ghost { --btn-fg: var(--on-dark); border-color: rgba(238, 241, 239, 0.4); }
 .on-dark .btn--ghost:hover { --btn-bg: rgba(238, 241, 239, 0.08); border-color: var(--on-dark); }
@@ -226,7 +226,7 @@ main:focus { outline: none; }
   inset: -30%;
   background:
     radial-gradient(36% 30% at 22% 28%, rgba(255, 255, 255, 0.75), transparent 70%),
-    radial-gradient(30% 26% at 78% 66%, rgba(11, 108, 112, 0.045), transparent 70%);
+    radial-gradient(30% 26% at 78% 66%, rgba(11, 116, 83, 0.045), transparent 70%);
   animation: env-drift 72s var(--ease-in-out) infinite alternate;
   animation-delay: -18s;
 }
@@ -287,7 +287,7 @@ body.paused *, body.paused *::before, body.paused *::after { animation-play-stat
   border-left: 4px solid #B42318;
   border-radius: 10px;
   background: #FFF6F5;
-  color: #15222C;
+  color: #12231C;
   font: 1rem/1.55 system-ui, sans-serif;
 }
 

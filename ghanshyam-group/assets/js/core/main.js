@@ -77,6 +77,17 @@
 
   requestAnimationFrame(function () { document.body.classList.add('is-ready'); });
 
+  /* A row of cards you swipe on a phone can also be reached and moved by keyboard */
+  function swipeRows() {
+    document.querySelectorAll('.team, .clients__list').forEach(function (el) {
+      if (el.scrollWidth > el.clientWidth + 1) el.setAttribute('tabindex', '0');
+      else el.removeAttribute('tabindex');
+    });
+  }
+  swipeRows();
+  var swipeT = null;
+  addEventListener('resize', function () { clearTimeout(swipeT); swipeT = setTimeout(swipeRows, 200); });
+
   /* Motion-powered enhancements run once the library arrives (or never, safely) */
   GG.whenMotion(function (M) { each('enhance', M); });
 })();

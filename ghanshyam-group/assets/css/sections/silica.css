@@ -112,7 +112,7 @@
   height: 160px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 1px rgba(21, 34, 44, 0.18), var(--shadow-3);
+  box-shadow: 0 0 0 1px rgba(18, 35, 28, 0.18), var(--shadow-3);
   background-repeat: no-repeat;
   background-color: var(--panel);
   pointer-events: none;
@@ -126,7 +126,7 @@
   top: 14px;
   padding: 6px 10px;
   border-radius: 8px;
-  background: rgba(246, 248, 247, 0.82);
+  background: rgba(251, 250, 247, 0.82);
   backdrop-filter: blur(8px);
   color: var(--accent);
   font-size: 12px;
@@ -170,7 +170,7 @@
   top: 10px;
   height: 8px;
   border-radius: 8px;
-  background: linear-gradient(90deg, #F6F8F7, #D7DEDB);
+  background: linear-gradient(90deg, #FBFAF7, #D7DEDB);
   box-shadow: inset 0 0 0 1px var(--line);
 }
 .sieve__range {
@@ -191,7 +191,7 @@
   left: calc(var(--x) * 100%);
   width: 1px;
   height: 16px;
-  background: rgba(21, 34, 44, 0.35);
+  background: rgba(18, 35, 28, 0.35);
 }
 .sieve__tick span {
   position: absolute;

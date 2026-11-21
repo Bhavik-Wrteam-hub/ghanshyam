@@ -58,5 +58,13 @@
   .why__head { position: static; }
 }
 @media (max-width: 600px) {
-  .why__list { grid-template-columns: 1fr; }
+  .why__list { grid-template-columns: 1fr; gap: 10px; }
+  /* the icon beside the words, so four reasons fit in about two screens */
+  .why-card { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 14px; row-gap: 4px; padding: 16px; }
+  .why-card__top { display: contents; }
+  .why-card__icon { grid-row: 1 / span 3; width: 40px; height: 40px; }
+  .why-card__icon .icon { width: 19px; height: 19px; }
+  .why-card__num { display: none; }
+  .why-card__title, .why-card__text, .why-card__link { grid-column: 2; }
+  .why-card__text { max-width: none; margin-bottom: 4px; font-size: 0.9375rem; line-height: 1.5; }
 }

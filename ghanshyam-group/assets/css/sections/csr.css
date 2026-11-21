@@ -53,5 +53,19 @@
   .csr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .csr-grid { grid-template-columns: 1fr; }
+  /* each card: the icon and the number on one line, then the words */
+  .csr-grid { grid-template-columns: 1fr; gap: 10px; }
+  .csr-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 6px;
+    padding: 16px 16px 18px;
+  }
+  .csr-card__icon { grid-row: 1; align-self: center; margin: 0; }
+  .csr-card__icon .icon { width: 22px; height: 22px; }
+  .csr-card__figure { grid-row: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 0; border: 0; }
+  .csr-card__value { font-size: 1.6rem; }
+  .csr-card__title, .csr-card__text { grid-column: 1 / -1; margin: 0; }
+  .csr-card__title { margin-top: 4px; }
 }

@@ -1,9 +1,11 @@
 /* ==========================================================================
-   LOGO: proportions taken from the finalized artwork (1107 units wide).
-   Set the size with --lw (the wordmark width). Everything else scales from it:
-     label size 62.9u (Montserrat Medium, tracked 0.496em), rules 6u thick,
-     30u between rule and label, 35u between wordmark and label.
-   Colours are fixed brand tokens (tokens.css): the logo is never recoloured.
+   LOGO: the G with its gold wave, the GHANSHYAM wordmark, the branch label and
+   the tagline. Set the size with --lw (the wordmark's width). Everything else
+   scales from it. Colours are brand tokens (tokens.css).
+
+     stacked     the primary logo: G, name, label, tagline
+     compact     the same order without the tagline, for slim bars
+     horizontal  the G beside the name and label
    ========================================================================== */
 .logo {
   --lw: 220px;
@@ -12,12 +14,15 @@
   vertical-align: middle;
 }
 .logo svg { display: block; }
-.logo__body, .logo__ink { fill: var(--logo-ink); }
-.logo__wave { fill: var(--logo-wave); }
+.logo__ink { fill: var(--logo-ink); }
+.logo__peak { fill: var(--logo-wave); }
+.logo__mark { flex: none; aspect-ratio: 1; height: auto; }
+.logo__word { width: 100%; height: auto; aspect-ratio: 1108 / 120; }
 
-/* Stacked: the master lockup (mark over wordmark over label) */
-.logo--stacked { flex-direction: column; width: var(--lw); }
-.logo--stacked .logo__head { width: 100%; height: auto; aspect-ratio: 1108 / 571; }
+/* Stacked: the mark is 40% of the name's width, so the G never outweighs it */
+.logo--stacked, .logo--compact { flex-direction: column; align-items: center; width: var(--lw); }
+.logo--stacked .logo__mark { width: 40%; margin-bottom: calc(var(--lw) * 0.05); }
+.logo--compact .logo__mark { width: 25%; margin-bottom: calc(var(--lw) * 0.03); }
 
 /* The label row: rule, label, rule. Only the label text changes per branch. */
 .logo__label {
@@ -25,39 +30,88 @@
   align-items: center;
   width: 100%;
   height: calc(var(--lw) * 0.0568);
-  margin-top: calc(var(--lw) * 0.0231);
-  gap: calc(var(--lw) * 0.0271);
+  margin-top: calc(var(--lw) * 0.0295);
+  gap: calc(var(--lw) * 0.034);
   color: var(--logo-label);
 }
 .logo__label i {
   flex: 1 1 0;
   min-width: calc(var(--lw) * 0.04);
-  height: max(1px, calc(var(--lw) * 0.0054));
-  background: currentColor;
+  height: max(1px, calc(var(--lw) * 0.0036));
+  background: linear-gradient(90deg, transparent, var(--logo-wave) 34%);
 }
+.logo__label i:last-child { background: linear-gradient(270deg, transparent, var(--logo-wave) 34%); }
 .logo__label b {
   font-family: "Montserrat", var(--font-body);
   font-weight: 500;
   font-size: calc(var(--lw) * 0.0568);
-  letter-spacing: 0.496em;
-  margin-right: -0.496em;   /* tracking adds space after the last letter: take it back */
+  letter-spacing: 0.32em;
+  margin-right: -0.32em;   /* tracking adds space after the last letter: take it back */
   line-height: 1;
   white-space: nowrap;
 }
 
-/* Horizontal: the same parts side by side, for slim bars like the site header */
-.logo--h { align-items: center; gap: calc(var(--lw) * 0.055); }
-.logo--h .logo__mark { height: calc(var(--lw) * 0.19); width: auto; aspect-ratio: 497 / 400; flex: none; }
-.logo--h .logo__text { display: flex; flex-direction: column; width: var(--lw); }
-.logo--h .logo__word { width: 100%; height: auto; aspect-ratio: 1108 / 120; }
+/* The tagline, on one line under the label */
+.logo__tag {
+  display: block;
+  margin-top: calc(var(--lw) * 0.031);
+  margin-right: -0.17em;
+  color: var(--logo-label);
+  font-family: "Montserrat", var(--font-body);
+  font-weight: 500;
+  font-size: calc(var(--lw) * 0.0292);
+  letter-spacing: 0.17em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.logo__tag em { color: var(--logo-tag-gold); font-style: normal; }
 
-/* Reversed colours on dark surfaces (the brand's own reversed set) */
+/* Horizontal: the same parts side by side */
+.logo--h { align-items: center; gap: calc(var(--lw) * 0.06); }
+.logo--h .logo__mark { height: calc(var(--lw) * 0.25); width: calc(var(--lw) * 0.25); }
+.logo--h .logo__text { display: flex; flex-direction: column; width: var(--lw); }
+
+/* Reversed colours on dark surfaces. The wave keeps its gold. */
 .on-dark .logo, .logo--light {
   --logo-ink: var(--logo-ink-rev);
-  --logo-wave: var(--logo-wave-rev);
   --logo-label: var(--logo-label-rev);
+  --logo-tag-gold: var(--logo-wave-rev);
 }
+.on-dark .logo .logo__body, .logo--light .logo__body { fill: var(--logo-ink-rev); }
+.on-dark .logo .logo__wave, .logo--light .logo__wave { fill: var(--logo-wave-rev); }
+.on-dark .logo .logo__peak, .logo--light .logo__peak { fill: var(--logo-wave-rev); }
 
-/* The mark on its own, in the same fixed colours */
-.mark .logo__body { fill: var(--logo-ink); }
-.mark .logo__wave { fill: var(--logo-wave); }
+/* The monogram seal keeps its own colours on any surface */
+.seal { display: block; overflow: visible; }
+
+/* The one-time drawn reveal (GG.drawLogo). It runs on the page's first load of
+   a visit, for 1.5 seconds, and ends on the exact, unchanged logo. */
+.logo--draw .logo__mark path {
+  stroke-width: 10;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  fill-opacity: 0;
+  animation:
+    logo-trace 880ms cubic-bezier(0.65, 0, 0.35, 1) 120ms forwards,
+    logo-fill 460ms cubic-bezier(0.22, 1, 0.36, 1) 760ms forwards;
+}
+.logo--draw .logo__body { stroke: var(--logo-ink); }
+.logo--draw .logo__wave { stroke: var(--logo-wave); }
+.logo--draw .logo__word {
+  clip-path: inset(-2% 100% -2% 0);
+  animation: logo-wipe 640ms cubic-bezier(0.22, 1, 0.36, 1) 620ms forwards;
+}
+.logo--draw .logo__label, .logo--draw .logo__tag {
+  opacity: 0;
+  animation: logo-settle 460ms cubic-bezier(0.22, 1, 0.36, 1) 980ms forwards;
+}
+@keyframes logo-trace { to { stroke-dashoffset: 0; } }
+@keyframes logo-fill { to { fill-opacity: 1; stroke-opacity: 0; } }
+@keyframes logo-wipe { to { clip-path: inset(-2% 0 -2% 0); } }
+@keyframes logo-settle { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .logo--draw .logo__mark path { animation: none; stroke: none; fill-opacity: 1; }
+  .logo--draw .logo__word { animation: none; clip-path: none; }
+  .logo--draw .logo__label, .logo--draw .logo__tag { animation: none; opacity: 1; }
+}

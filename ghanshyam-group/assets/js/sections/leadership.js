@@ -1,6 +1,6 @@
 /* LEADERSHIP: the people behind the group. A portrait is optional: until one
    exists (image: photo(...) in site-content.js), the card shows the person's
-   initials in the same 4:5 frame, so a photo drops in without moving anything. */
+   initials in the same square frame, so a photo drops in without moving anything. */
 (function () {
   'use strict';
   var GG = window.GG, h = GG.h;

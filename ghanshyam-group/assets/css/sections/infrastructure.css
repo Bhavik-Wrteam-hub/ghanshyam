@@ -60,7 +60,7 @@
   width: min(250px, 60%);
   padding: 12px 14px;
   border-radius: var(--radius-m);
-  background: rgba(246, 248, 247, 0.94);
+  background: rgba(251, 250, 247, 0.94);
   backdrop-filter: blur(10px);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-3);

@@ -13,7 +13,7 @@
   isolation: isolate;
   background:
     radial-gradient(55% 48% at 22% 10%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%),
-    radial-gradient(40% 30% at 50% 88%, rgba(21, 34, 44, 0.05), rgba(21, 34, 44, 0) 70%),
+    radial-gradient(40% 30% at 50% 88%, rgba(18, 35, 28, 0.05), rgba(18, 35, 28, 0) 70%),
     linear-gradient(180deg, #F4F6F5 0%, #EEF1EF 58%, #E3E8E5 82%, #DCE2DF 86.5%, #E6EAE8 100%);
 }
 .hero__canvas, .hero__video, .hero__poster, .hero__scrim {
@@ -134,7 +134,7 @@
 
 /* ---- Lot readout, scroll cue, loading ring ---------------------------------- */
 .chip {
-  background: rgba(246, 248, 247, 0.72);
+  background: rgba(251, 250, 247, 0.72);
   border: 1px solid var(--line);
   border-radius: 10px;
   -webkit-backdrop-filter: blur(10px);

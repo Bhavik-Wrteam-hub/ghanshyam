@@ -5,7 +5,7 @@
 .journey.on-dark {
   background:
     radial-gradient(55% 30% at 50% 0%, rgba(243, 232, 207, 0.08), rgba(243, 232, 207, 0) 70%),
-    radial-gradient(40% 30% at 0% 60%, rgba(92, 192, 187, 0.05), rgba(92, 192, 187, 0) 70%),
+    radial-gradient(40% 30% at 0% 60%, rgba(92, 207, 164, 0.05), rgba(92, 207, 164, 0) 70%),
     var(--slate-900);
   overflow: clip;
 }
@@ -32,7 +32,7 @@
   transform-origin: top;
   transform: scaleY(0);
 }
-.jt__rows { position: relative; z-index: 2; display: grid; gap: clamp(3rem, 1.5rem + 5vw, 7rem); margin: 0; padding: clamp(1rem, 2vw, 2rem) 0 0; }
+.jt__rows { position: relative; z-index: 2; display: grid; gap: clamp(1.5rem, 0.75rem + 2.2vw, 3rem); margin: 0; padding: clamp(0.5rem, 1vw, 1rem) 0 0; }
 
 /* One year ------------------------------------------------------------------ */
 .jt-row {
@@ -84,10 +84,10 @@
 .jt-card {
   display: grid;
   justify-items: start;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   max-width: 480px;
-  padding: clamp(1.25rem, 1rem + 1vw, 1.9rem) clamp(1.25rem, 1rem + 1.2vw, 2.1rem);
+  padding: clamp(1.1rem, 0.95rem + 0.6vw, 1.5rem) clamp(1.25rem, 1rem + 1vw, 1.9rem);
   border: 1px solid var(--line-on-dark);
   border-radius: 20px;
   background: linear-gradient(160deg, rgba(238, 241, 239, 0.07), rgba(238, 241, 239, 0.025));
@@ -97,21 +97,34 @@
   transition: border-color 700ms var(--ease-out);
 }
 .jt-row.is-lit .jt-card { border-color: rgba(243, 232, 207, 0.28); }
-.jt-row.is-beat .jt-card { max-width: 420px; }
+/* a smaller step: the year beside its words, half the height of a big moment */
+.jt-row.is-beat .jt-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 20px;
+  row-gap: 3px;
+  max-width: 460px;
+  padding-block: clamp(0.9rem, 0.8rem + 0.4vw, 1.15rem);
+}
+.jt-row.is-beat .jt-card__year { grid-row: 1 / span 3; align-self: start; }
+.jt-row.is-beat .jt-card__co,
+.jt-row.is-beat .jt-card__title,
+.jt-row.is-beat .jt-card__text { grid-column: 2; }
+.jt-row.is-beat .jt-card__co { font-size: 0.8125rem; }
+.jt-row.is-beat .jt-card__text { font-size: 0.9375rem; line-height: 1.5; }
 .jt-card__year {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
+  font-size: clamp(2.2rem, 1.7rem + 1.5vw, 3.1rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   color: var(--on-dark);
 }
-.jt-row.is-beat .jt-card__year { font-size: clamp(1.9rem, 1.5rem + 1.2vw, 2.5rem); }
+.jt-row.is-beat .jt-card__year { font-size: clamp(1.6rem, 1.35rem + 0.7vw, 2rem); }
 .jt-card__co { display: inline-flex; align-items: center; gap: 9px; color: var(--on-dark-2); font-weight: 600; font-size: 0.9375rem; }
 .jt-card__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--tint); box-shadow: 0 0 0 1.5px rgba(238, 241, 239, 0.6); flex: none; }
 .jt-card__new { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 2px 0; color: var(--on-dark-2); font-size: 0.875rem; }
-.jt-card__badge { padding: 5px 9px; border-radius: var(--radius-pill); background: rgba(92, 192, 187, 0.16); color: var(--accent-on-dark); font-size: 10.5px; }
+.jt-card__badge { padding: 5px 9px; border-radius: var(--radius-pill); background: rgba(92, 207, 164, 0.16); color: var(--accent-on-dark); font-size: 10.5px; }
 /* how many companies the group had that year: five little layers */
 .jt-strata { display: inline-flex; gap: 3px; }
 .jt-strata span { width: 14px; height: 6px; border-radius: 2px; background: rgba(238, 241, 239, 0.16); }
@@ -125,8 +138,8 @@
 .jt-media {
   position: relative;
   width: 100%;
-  max-width: 560px;
-  aspect-ratio: 4 / 3;
+  max-width: 480px;
+  aspect-ratio: 16 / 10;
   margin: 0;
   border-radius: 20px;
   overflow: hidden;
@@ -147,7 +160,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(21, 34, 44, 0) 60%, rgba(21, 34, 44, 0.35));
+  background: linear-gradient(180deg, rgba(18, 35, 28, 0) 60%, rgba(18, 35, 28, 0.35));
   pointer-events: none;
 }
 .jt-media__video, .jt-media__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -160,8 +173,8 @@
   max-width: 15ch;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.8rem);
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 1.05rem + 1.1vw, 2rem);
+  line-height: 1.08;
   letter-spacing: -0.025em;
   color: rgba(238, 241, 239, 0.88);
 }
@@ -191,8 +204,24 @@
 .js .jt-row.is-in .jt-card, .js .jt-row.is-in .jt-media { opacity: 1; transform: none; }
 
 /* Today, where the line ends -------------------------------------------------- */
-.jt-today { position: relative; z-index: 2; padding-top: clamp(4rem, 2.5rem + 5vw, 7.5rem); }
-.jt-node--end { position: absolute; top: calc(clamp(4rem, 2.5rem + 5vw, 7.5rem) / 2); left: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+.jt-today { position: relative; z-index: 2; padding-top: clamp(5rem, 3.5rem + 4vw, 7rem); }
+/* the line of sand ends at the group's seal */
+.jt-node--end {
+  position: absolute;
+  top: calc(clamp(5rem, 3.5rem + 4vw, 7rem) / 2);
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border: 0;
+  background: none;
+}
+.jt-seal { display: block; width: 100%; height: 100%; }
+.is-lit > .jt-node--end { background: none; box-shadow: 0 0 0 5px rgba(243, 232, 207, 0.1), 0 0 30px rgba(243, 232, 207, 0.4); }
+.is-lit > .jt-node--end::after { inset: -6px; }
+
+/* the phone button: shown only where the short version applies */
+.jt__more { display: none; }
 .jt-today__card {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -213,7 +242,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--line-on-dark);
   border-radius: var(--radius-pill);
@@ -234,14 +263,70 @@
   .jt-row { grid-template-columns: 30px minmax(0, 1fr); column-gap: 18px; row-gap: 14px; align-items: start; }
   .jt-row .jt-node { grid-column: 1; grid-row: 1; margin-top: 28px; }
   .jt-row.is-left .jt-card, .jt-row.is-right .jt-card { grid-column: 2; grid-row: 1; justify-self: stretch; max-width: none; }
-  .jt-row.is-left .jt-media, .jt-row.is-right .jt-media { grid-column: 2; grid-row: 2; justify-self: stretch; max-width: none; aspect-ratio: 16 / 10; }
+  .jt-row.is-left .jt-media, .jt-row.is-right .jt-media { grid-column: 2; grid-row: 2; justify-self: stretch; max-width: none; aspect-ratio: 2 / 1; }
+  .jt-row.is-beat .jt-card { max-width: none; }
   .js .jt-row.is-right .jt-card { transform: translateX(-32px); }
   .jt-theme { display: none; }
   .jt-today { padding-left: 48px; }
-  .jt-node--end { left: 15px; }
+  .jt-node--end { left: 15px; width: 40px; height: 40px; margin: -20px 0 0 -20px; }
   .jt-today__card { grid-template-columns: 1fr; padding: 14px; }
   .jt-today__copy { padding: 0.75rem 0.5rem 0.5rem; }
   .jt-today__card .jt-media { order: -1; }
+}
+
+/* Phones: the years a company began, and one button for the rest */
+@media (max-width: 720px) {
+  .jt.is-short .jt-row:not(.is-founding) { display: none; }
+  .jt__rows { row-gap: 1.25rem; }
+  .jt-card { border-radius: 16px; }
+  /* the picture sits in the card's corner, so a year costs one short card */
+  .jt-row.is-left .jt-media, .jt-row.is-right .jt-media {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    width: 96px;
+    height: 96px;
+    aspect-ratio: auto;
+    margin: 14px 14px 0 0;
+    border-radius: 12px;
+    z-index: 2;
+  }
+  .jt-row.has-media .jt-card__year,
+  .jt-row.has-media .jt-card__co,
+  .jt-row.has-media .jt-card__new,
+  .jt-row.has-media:not(.is-founding) .jt-card__title { margin-right: 106px; }
+  .jt-row.has-media .jt-card__new { row-gap: 4px; column-gap: 8px; }
+  .jt-strata span { width: 10px; }
+  .jt-card__count { flex-basis: 100%; }
+  .jt-card__text { max-width: none; }
+  .js .jt-row .jt-card, .js .jt-row.is-right .jt-card { transform: translateY(16px); }
+  .js .jt-row .jt-media { transform: translateY(16px); }
+  .js .jt-row.is-in .jt-card, .js .jt-row.is-in .jt-media { transform: none; }
+  .jt__more {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: calc(100% - 48px);
+    min-height: 48px;
+    margin: 1.25rem 0 0 48px;
+    border: 1px solid rgba(243, 232, 207, 0.32);
+    border-radius: var(--radius-pill);
+    background: rgba(238, 241, 239, 0.06);
+    color: var(--on-dark);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .jt__more .icon { width: 18px; height: 18px; transition: transform var(--dur-2) var(--ease-out); }
+  .jt__more[aria-expanded="true"] .icon { transform: rotate(180deg); }
+  .jt-today { padding-top: 4.5rem; }
+  .jt-node--end { top: 2.25rem; }
+  /* the same quarry wall is already on screen higher up the page */
+  .jt-today .jt-media { display: none; }
+  .jt-today__copy { padding: 0.5rem 0.25rem 0.25rem; }
 }
 
 /* Achievements under the timeline ------------------------------------------- */
@@ -287,8 +372,21 @@
   .award:nth-child(odd) { padding-left: 0; border-left: 0; }
 }
 @media (max-width: 560px) {
+  .jr-awards { margin-top: 3rem; }
   .jr-awards__list { grid-template-columns: 1fr; row-gap: 0; }
-  .award, .award:nth-child(odd) { padding: var(--space-5) 0; border-left: 0; border-top: 1px solid var(--line); }
+  /* compact rows: the icon, then the words */
+  .award, .award:nth-child(odd) {
+    grid-template-columns: 40px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 2px;
+    padding: var(--space-4) 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .award__top { display: contents; }
+  .award__icon { grid-column: 1; grid-row: 1 / span 3; }
+  .award__year { grid-column: 2; font-size: 11px; }
+  .award__title, .award__text { grid-column: 2; }
   .on-dark .award, .on-dark .award:nth-child(odd) { border-top-color: var(--line-on-dark); }
   .award:first-child { padding-top: 0; border-top: 0; }
 }
