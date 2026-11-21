@@ -29,7 +29,7 @@
   function family(target, dark) {
     BRANCHES.forEach(function (b) {
       var logo = GG.logo({ label: b[1], name: b[2] });
-      logo.style.setProperty('--lw', '200px');
+      logo.style.setProperty('--lw', '240px');
       target.appendChild(h('li', { class: 'bg-family__item' }, logo));
     });
   }
@@ -56,7 +56,7 @@
   marks.appendChild(markItem(h('span', { class: 'bg-mark__row' },
     icon('assets/img/brand/favicon.svg', 48, 'The browser icon at 48 pixels'),
     icon('assets/img/brand/favicon.svg', 32, 'The browser icon at 32 pixels'),
-    icon('assets/img/brand/favicon.svg', 16, 'The browser icon at 16 pixels')), 'Browser icon', 'The G on Deep Slate, sharp down to 16 px'));
+    icon('assets/img/brand/favicon.svg', 16, 'The browser icon at 16 pixels')), 'Browser icon', 'The G on deep emerald, sharp down to 16 px'));
   marks.appendChild(markItem(icon('assets/img/brand/icon-192.png', 96, 'The phone home screen icon'), 'Phone icon', 'A full square: the phone rounds the corners'));
 
   /* downloads */
@@ -81,7 +81,10 @@
 
   /* the don'ts, drawn from the real logo */
   var donts = [
-    ['Recolour any part', function (l) { l.style.setProperty('--logo-ink', '#7E5F4A'); l.style.setProperty('--logo-wave', '#C2410C'); }],
+    ['Recolour any part', function (l) {
+      ['--logo-ink', '--logo-ink-light', '--logo-ink-deep', '--logo-label'].forEach(function (t) { l.style.setProperty(t, '#7E5F4A'); });
+      ['--logo-wave', '--logo-wave-light', '--logo-wave-deep'].forEach(function (t) { l.style.setProperty(t, '#C2410C'); });
+    }],
     ['Stretch or squash it', function (l) { l.style.transform = 'scaleX(1.35)'; }],
     ['Rotate it', function (l) { l.style.transform = 'rotate(-12deg)'; }],
     ['Change the label typeface', function (l) { l.querySelector('.logo__label b').style.cssText = 'font-family:Georgia,serif;font-style:italic;letter-spacing:0.05em;margin-right:0'; }],
@@ -90,7 +93,7 @@
   ];
   var dt = document.querySelector('[data-donts]');
   donts.forEach(function (d) {
-    var logo = GG.logo({ label: 'SILICA SAND' });
+    var logo = GG.logo({ label: 'SILICA SAND', layout: 'compact' });
     logo.style.setProperty('--lw', '120px');
     logo.removeAttribute('role');
     logo.setAttribute('aria-hidden', 'true');
@@ -120,22 +123,22 @@
   }
 
   var lc = document.querySelector('[data-logo-colours]');
-  [['Deep Slate', '--logo-ink', 'The G and the GHANSHYAM wordmark'],
-   ['Glass Edge', '--logo-wave', 'The sand wave in the G'],
-   ['Shale', '--logo-label', 'The label and its rules'],
+  [['Emerald', '--logo-ink', 'The G, the GHANSHYAM wordmark and the label'],
+   ['Gold', '--logo-wave', 'The sand wave, the rules and the peaks in the A'],
+   ['Deep Gold', '--logo-tag-gold', 'The gold words of the tagline'],
    ['Quartz White', '--logo-ink-rev', 'Reversed: G, wordmark and label'],
-   ['Glass Edge, lifted', '--logo-wave-rev', 'Reversed: the sand wave']]
+   ['Gold, lifted', '--logo-wave-rev', 'Reversed: wave, rules and gold words']]
     .forEach(function (s) { lc.appendChild(swatch(s[0], s[1], s[2])); });
 
   var sw = document.querySelector('[data-swatches]');
   [['Limestone', '--canvas', 'Page background'],
    ['Kaolin', '--panel', 'Alternate sections and raised areas'],
    ['Warm White', '--panel-raised', 'Cards'],
-   ['Deep Slate', '--text-primary', 'Headlines and body text', '--canvas', 'Limestone'],
-   ['Shale', '--text-secondary', 'Supporting text', '--canvas', 'Limestone'],
-   ['Glass Edge', '--accent', 'The main button, focus, rare emphasis', '--canvas', 'Limestone'],
+   ['Forest Ink', '--text-primary', 'Headlines and body text', '--canvas', 'Limestone'],
+   ['Moss', '--text-secondary', 'Supporting text', '--canvas', 'Limestone'],
+   ['Emerald', '--accent', 'The main button, focus, rare emphasis', '--canvas', 'Limestone'],
    ['Basalt', '--basalt', 'The darkest band', '--on-dark', 'Quartz White'],
-   ['Glass Edge, lifted', '--accent-on-dark', 'Accent on dark surfaces', '--slate-900', 'Deep Slate'],
+   ['Emerald, lifted', '--accent-on-dark', 'Accent on dark surfaces', '--slate-900', 'Forest'],
    ['Kutch Ochre', '--ochre', 'Small warm accents only']]
     .forEach(function (s) { sw.appendChild(swatch(s[0], s[1], s[2], s[3], s[4])); });
 

@@ -11,7 +11,7 @@
 }
 .bg-top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); min-height: 76px; flex-wrap: wrap; }
 .bg-brand { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; border-radius: 6px; }
-.bg-brand .logo { --lw: 188px; }
+.bg-brand .logo { --lw: 142px; }
 .bg-toc { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; font-size: 0.9375rem; }
 .bg-toc a { text-decoration: none; color: var(--text-secondary); display: inline-block; padding: 8px 0; }
 .bg-toc a:hover { color: var(--accent); }
@@ -73,6 +73,8 @@
 }
 .bg-tile--light { background: var(--panel-raised); border: 1px solid var(--line); }
 .bg-tile--wide-h .logo { --lw: min(420px, 62vw); }
+.bg-tile--pair { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-7); }
+.bg-tile--pair .logo--h { --lw: min(330px, 56vw); }
 
 .bg-rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-7); margin-top: var(--space-8); }
 .bg-list { display: grid; gap: 10px; margin: var(--space-3) 0 0; padding: 0; list-style: none; }

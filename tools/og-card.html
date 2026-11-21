@@ -20,25 +20,25 @@
   <link rel="stylesheet" href="../ghanshyam-group/assets/css/tokens.css">
   <link rel="stylesheet" href="../ghanshyam-group/assets/css/logo.css">
   <style>
-    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0E1419; }
-    .card { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #0E1419; }
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0C1813; }
+    .card { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #0C1813; }
 
     /* the group: five layers, one per company, like the homepage */
     .layers { position: absolute; top: 34px; right: 34px; bottom: 34px; width: 560px; display: flex; gap: 7px; }
     .layers span { position: relative; flex: 1; overflow: hidden; border-radius: 14px; }
     .layers img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .layers span::before { content: ""; position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 4px; background: var(--tint); }
-    .layers span::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14, 20, 25, 0) 55%, rgba(14, 20, 25, 0.45)); }
+    .layers span::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12, 24, 19, 0) 55%, rgba(12, 24, 19, 0.45)); }
 
     /* a company: its own photo */
     .photo { position: absolute; top: 0; right: 0; bottom: 0; width: 660px; }
     .photo img { width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 42%); mask-image: linear-gradient(90deg, transparent 0%, #000 42%); }
     .photo--full img { -webkit-mask-image: none; mask-image: none; }
     .photo::before { content: ""; position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 5px; background: var(--tint); }
-    .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 20, 25, 0.5) 40%, rgba(14, 20, 25, 0) 66%); }
+    .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(12, 24, 19, 0.5) 40%, rgba(12, 24, 19, 0) 66%); }
     /* the silica card keeps the approved dark pour photo, full width */
     .photo--full { width: 1200px; }
-    .photo--full + .shade { background: linear-gradient(90deg, rgba(10, 15, 19, 0.62) 0%, rgba(10, 15, 19, 0.38) 38%, rgba(10, 15, 19, 0) 62%); }
+    .photo--full + .shade { background: linear-gradient(90deg, rgba(9, 19, 15, 0.62) 0%, rgba(9, 19, 15, 0.38) 38%, rgba(9, 19, 15, 0) 62%); }
 
     .body { position: absolute; left: 80px; top: 50%; transform: translateY(-50%); display: grid; justify-items: start; gap: 30px; width: 500px; }
     .body .logo { --lw: 270px; }
