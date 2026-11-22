@@ -141,3 +141,71 @@
   height: 8px;
   background: var(--strata);
 }
+
+/* ---- The WhatsApp button: the bottom right corner of every page (footer.js) ------
+   A round call button in the brand's Emerald. It rings softly now and then, and
+   on a mouse its name slides out beside it. Size and corner are the --fab-*
+   tokens, which the first screens use to keep their own corner clear. */
+.wa-fab {
+  position: fixed;
+  right: max(var(--fab-inset), env(safe-area-inset-right));
+  bottom: max(var(--fab-inset), env(safe-area-inset-bottom));
+  z-index: 45;                        /* over the page, under the menu (50) */
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  /* a thin Limestone ring keeps it apart from anything it floats over, even an Emerald button */
+  box-shadow: 0 0 0 2px rgba(var(--scrim-light), 0.9), 0 2px 6px rgba(18, 35, 28, 0.18), 0 12px 28px -10px rgba(11, 116, 83, 0.65);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out),
+    opacity var(--dur-2) var(--ease-out), visibility 0s linear;
+}
+.wa-fab:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.wa-fab:active { transform: scale(0.96); }
+.wa-fab:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.wa-fab__icon { width: 28px; height: 28px; stroke-width: 1.7; }
+/* the ring: two soft waves, then a rest */
+.wa-fab::before, .wa-fab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  animation: wa-ring 3.2s var(--ease-out) 1.2s infinite;
+}
+.wa-fab::after { animation-delay: 1.65s; }
+@keyframes wa-ring { 0% { transform: scale(1); opacity: 0.32; } 45%, 100% { transform: scale(1.75); opacity: 0; } }
+/* it arrives just after the page does */
+.js body.is-ready .wa-fab { animation: wa-in 560ms var(--ease-out) 380ms backwards; }   /* backwards: hover stays free */
+@keyframes wa-in { from { opacity: 0; transform: translateY(10px) scale(0.85); } }
+/* its name, for a mouse or the keyboard */
+.wa-fab__label {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--panel-raised);
+  color: var(--text-primary);
+  font: 600 0.875rem/1.2 var(--font-body);
+  white-space: nowrap;
+  box-shadow: var(--shadow-1);
+  opacity: 0;
+  transform: translate(6px, -50%);
+  transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  pointer-events: none;
+}
+@media (hover: hover) { .wa-fab:hover .wa-fab__label { opacity: 1; transform: translate(0, -50%); } }
+.wa-fab:focus-visible .wa-fab__label { opacity: 1; transform: translate(0, -50%); }
+/* on a phone it steps aside while a form field has the keyboard */
+@media (max-width: 720px) {
+  body:has(:is(input, textarea, select):focus) .wa-fab { opacity: 0; visibility: hidden; transition-delay: 0s, 0s, 0s, var(--dur-2); }
+}

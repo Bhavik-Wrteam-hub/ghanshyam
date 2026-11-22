@@ -49,6 +49,20 @@
           h('a', { class: 'footer__top-link', href: '#main' }, h('span', { text: f.backToTop }), GG.icon('arrow-up'))),
         h('div', { class: 'footer__giant', 'aria-hidden': 'true', html:
           '<svg viewBox="-1 450 1108 120" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" fill-rule="evenodd" d="' + GG.LOGO_PATHS.word + '"/></svg>' })));
+
+      /* The WhatsApp button, fixed in the bottom right corner (footer.css). It goes on
+         <body>, so no transformed ancestor can pin it. The chat opens with a message
+         naming this page's company, ready to send. */
+      var wb = C.whatsappButton, wa = GG.txt(c.whatsapp).replace(/[^\d]/g, '');
+      if (wb && wa) {
+        var text = GG.txt(wb.message, { name: page ? GG.txt(page.name) : GG.txt(co.groupName) });
+        document.body.appendChild(h('a', {
+          class: 'wa-fab', href: 'https://wa.me/' + wa + '?text=' + encodeURIComponent(text),
+          target: '_blank', rel: 'noopener', 'aria-label': GG.txt(wb.label) + ' ' + GG.txt((C.ui || {}).opensInNewTab)
+        },
+          GG.icon('whatsapp', 'wa-fab__icon'),
+          h('span', { class: 'wa-fab__label', 'aria-hidden': 'true', text: wb.label })));
+      }
     },
     init: function (root) {
       var dlg = document.getElementById('privacy');

@@ -128,7 +128,7 @@ window.SITE_CONTENT = {
     },
     contact: {
       phone: S("+91 98250 00000"),
-      whatsapp: S("+91 98250 00000"),
+      whatsapp: "+91 93131 36232",          /* also the round WhatsApp button on every page */
       email: S("info@ghanshyamgroup.example"),
       hours: S("Monday to Saturday, 9:00 to 18:30 IST"),
       headOffice: S(["Ghanshyam House, Station Road", "Bhuj, Kutch, Gujarat 370001", "India"]),
@@ -1265,6 +1265,15 @@ window.SITE_CONTENT = {
     privacyLabel: "Privacy",
     brandLabel: "Brand guidelines",
     backToTop: "Back to top"
+  },
+
+  /* THE WHATSAPP BUTTON: the round button in the bottom right corner of every
+     page. It opens a WhatsApp chat with the number under contact (whatsapp).
+     "message" is typed into the chat for the visitor, ready to send. {name} is
+     the company whose page they are on, or the group on the homepage. */
+  whatsappButton: {
+    label: "Chat with us on WhatsApp",
+    message: "Hello {name}, I found you on your website and would like to know more."
   },
 
   privacy: {

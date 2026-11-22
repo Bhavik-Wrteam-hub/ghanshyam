@@ -133,4 +133,13 @@
   /* Hero legibility (light world: dark text over bright footage) */
   --tshadow-light: 0 1px 1px rgba(242, 241, 236, 0.75), 0 0 14px rgba(242, 241, 236, 0.5);
   --scrim-light: 242, 241, 236;
+
+  /* ---- The WhatsApp button's corner (footer.css) --------------------------------
+     Anything resting in the bottom right of a first screen keeps clear of it. */
+  --fab-size: 56px;
+  --fab-inset: 24px;                                             /* from the right and bottom edges */
+  --fab-clear: calc(var(--fab-size) + var(--fab-inset) + 12px);   /* the height of its corner */
+}
+@media (max-width: 720px), (max-height: 560px) {
+  :root { --fab-size: 52px; --fab-inset: 16px; }
 }

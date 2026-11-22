@@ -64,7 +64,7 @@ If a page ever shows "This page could not load its content", a comma, quote or b
 | Area | Sample content to replace |
 |---|---|
 | Group facts | Legal name, founding year, region, GSTIN, website, people, buyers |
-| Contact | Phone, WhatsApp, email, hours, head office and plant addresses |
+| Contact | Phone, email, hours, head office and plant addresses (WhatsApp is real: +91 93131 36232) |
 | Each company | Year it began, summary, facts, products and specs, process steps, questions and answers |
 | Silica grades | All five grades: codes, chemistry, physical specs, packing, uses |
 | Group strength | The six group numbers (tonnes, people, buyers, acres, trucks, plants) |
@@ -119,6 +119,10 @@ When a page is shared on WhatsApp, LinkedIn or elsewhere, the preview shows its 
 ### The loader
 
 While a page builds, a Limestone cover shows the G and a core sample: the five Strata uncovered left to right, a gold grain of sand at the working edge with grains falling onto it. The fill creeps forward on its own; once the page is ready it runs to the end and the cover fades into the page. "Reduce motion" gets a still bar. The markup sits right after `<body>` on each page, the look and the creep are in `assets/css/base.css`, and `GG.finishLoader()` in `assets/js/core/utils.js` ends it. If a script fails, the page's 3-second safety net still lifts the cover.
+
+### The WhatsApp button
+
+A round Emerald button in the bottom right corner of every page opens a WhatsApp chat with `contact.whatsapp`, with a message already typed that names the company of the page ("Hello Ghanshyam Kaolin, ..."). Its label and message are under `whatsappButton` in `site-content.js`. It rings softly now and then, shows its name on hover, steps aside on a phone while a form field is being typed in, and sits under the open menu. The first screen keeps its corner clear (the `--fab-*` tokens in `tokens.css`): on the homepage the film's pause button sits just above it, and on phones the opening words end above it.
 
 ### The branch films
 

@@ -283,13 +283,15 @@
   pointer-events: none;
 }
 .film__pause {
+  --size: 40px;
   position: absolute;
-  right: max(var(--gutter), calc((100vw - var(--container)) / 2));
-  bottom: 22px;
+  /* straight above the WhatsApp button, centred on it (footer.css) */
+  right: calc(var(--fab-inset) + (var(--fab-size) - var(--size)) / 2);
+  bottom: var(--fab-clear);
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: var(--size);
+  height: var(--size);
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -332,7 +334,7 @@
 
 /* ---- Touch screens: a full-size target ------------------------------------------ */
 @media (pointer: coarse) {
-  .film__pause { width: 44px; height: 44px; }
+  .film__pause { --size: 44px; }
 }
 
 /* ---- Tablets and phones --------------------------------------------------------- */
@@ -350,12 +352,14 @@
   .fstep__inner { align-items: flex-end; }
   .fstep--intro {
     align-items: flex-end;
-    padding-block: 132px max(20px, env(safe-area-inset-bottom));
+    /* the words end above the WhatsApp button's corner */
+    padding-block: 132px max(var(--fab-clear), env(safe-area-inset-bottom));
   }
   .fintro { width: 100%; gap: var(--space-3); container-type: inline-size; }
   /* a soft band of light behind the words, full width, fading out above them */
   .fintro::before {
-    inset: -64px calc(var(--gutter) * -1) -32px;
+    /* down past the screen's edge, under the WhatsApp button's corner too */
+    inset: -64px calc(var(--gutter) * -1) calc(-12px - max(var(--fab-clear), env(safe-area-inset-bottom)));
     background: linear-gradient(180deg, rgba(var(--scrim-light), 0) 0, rgba(var(--scrim-light), 0.84) 60px, rgba(var(--scrim-light), 0.9) 100%);
   }
   .fintro__title { font-size: clamp(2.6rem, 13vw, 3.6rem); max-width: none; }
@@ -373,7 +377,7 @@
   .fintro__ctas .btn { flex: 1 1 100%; }
   .fcard {
     top: auto;
-    bottom: max(14px, env(safe-area-inset-bottom));
+    bottom: max(var(--fab-clear), env(safe-area-inset-bottom));   /* clear of the WhatsApp button */
     width: 100%;
     padding: 20px;
     border-radius: 22px;
