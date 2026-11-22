@@ -46,6 +46,11 @@
       var isPlaceholder = GG.hasS(f.branches);
       var visit = C.businesses.visit;
 
+      var proof = h('ul', { class: 'fintro__proof mono', role: 'list' }, g.proof.map(function (p) { return h('li', { text: p }); }));
+      /* phones fit the facts on one line, sizing the type from their length (film.css) */
+      proof.style.setProperty('--proof-chars', String(proof.textContent.length));
+      proof.style.setProperty('--proof-items', String(proof.children.length));
+
       var intro = h('div', { class: 'fstep fstep--intro', 'data-i': '0' },
         h('div', { class: 'container fstep__inner' },
           h('div', { class: 'fintro' },
@@ -53,7 +58,7 @@
             h('h1', { class: 'fintro__title', id: 'film-title', text: g.title }),
             h('p', { class: 'fintro__text', text: g.text }),
             ctas(g),
-            h('ul', { class: 'fintro__proof mono', role: 'list' }, g.proof.map(function (p) { return h('li', { text: p }); })))),
+            proof)),
         h('div', { class: 'film__cue container', 'aria-hidden': 'true' },
           h('span', { text: f.scrollCue }), h('span', { class: 'film__cue-line' }, h('span', { class: 'film__cue-grain' }))));
 

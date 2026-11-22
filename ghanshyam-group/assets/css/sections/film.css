@@ -352,7 +352,7 @@
     align-items: flex-end;
     padding-block: 132px max(20px, env(safe-area-inset-bottom));
   }
-  .fintro { width: 100%; gap: var(--space-3); }
+  .fintro { width: 100%; gap: var(--space-3); container-type: inline-size; }
   /* a soft band of light behind the words, full width, fading out above them */
   .fintro::before {
     inset: -64px calc(var(--gutter) * -1) -32px;
@@ -360,7 +360,15 @@
   }
   .fintro__title { font-size: clamp(2.6rem, 13vw, 3.6rem); max-width: none; }
   .fintro__text { font-size: 1rem; }
-  .fintro__proof { --proof-gap: 24px; }   /* a tighter dot, like the kicker's */
+  /* The facts stay on one line: the type shrinks to fit, from 11.5px to 10px.
+     film.js counts the characters. Each is 0.64em wide (a 0.6em Plex Mono glyph
+     plus 0.04em tracking) and each gap is 1.6em; 98cqi leaves a little slack.
+     Facts too long even at 10px wrap, still without a leading dot. */
+  .fintro__proof {
+    --proof-gap: 1.6em;
+    letter-spacing: 0.04em;
+    font-size: clamp(10px, 98cqi / (var(--proof-chars, 46) * 0.64 + (var(--proof-items, 3) - 1) * 1.6), 11.5px);
+  }
   .fintro__ctas { width: 100%; }
   .fintro__ctas .btn { flex: 1 1 100%; }
   .fcard {
