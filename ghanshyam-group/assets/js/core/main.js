@@ -15,6 +15,7 @@
   /* A typo in site-content.js (a missing comma, quote or bracket) stops that
      file from loading. Say so plainly instead of showing an empty page. */
   if (!GG || !C) {
+    if (GG && GG.finishLoader) GG.finishLoader();
     document.body.classList.add('is-ready');
     var main = document.getElementById('main') || document.body;
     var box = document.createElement('div');
@@ -75,7 +76,7 @@
     if (target) requestAnimationFrame(function () { target.scrollIntoView(); });
   }
 
-  requestAnimationFrame(function () { document.body.classList.add('is-ready'); });
+  requestAnimationFrame(function () { GG.finishLoader(); document.body.classList.add('is-ready'); });
 
   /* A row of cards you swipe on a phone can also be reached and moved by keyboard */
   function swipeRows() {

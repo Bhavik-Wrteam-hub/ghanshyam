@@ -25,9 +25,84 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-/* The page eases in once it is rendered (only when JavaScript runs). */
-.js body { opacity: 0; transition: opacity var(--dur-3) var(--ease-out); }
-.js body.is-ready { opacity: 1; }
+/* ---- The loader: the page eases in once it is rendered (only with JavaScript) ----
+   Until body.is-ready, a Limestone cover holds the G and a core sample: the five
+   Strata, uncovered left to right as the page builds, a gold grain of sand at the
+   working edge with grains falling onto it. The fill creeps on its own, on the
+   compositor, so it stays smooth while scripts run. When the page is ready,
+   GG.finishLoader() (utils.js) runs it to the end and the cover fades, revealing
+   the page. Each page carries the markup right after <body>. */
+.loader { display: none; }
+.js .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: var(--canvas);
+  transition: opacity var(--dur-3) var(--ease-out) 120ms, visibility 0s linear calc(var(--dur-3) + 120ms);
+}
+.js body.is-ready .loader { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader__inner {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  animation: loader-in 480ms var(--ease-out) 90ms both;   /* a quick load never flashes it */
+}
+.loader__mark { width: 52px; height: 52px; }
+.loader__core { position: relative; width: 184px; height: 6px; }
+.loader__track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: rgba(20, 36, 29, 0.08);
+  box-shadow: inset 0 1px 2px rgba(20, 36, 29, 0.14);
+}
+/* the fill is a window sliding right while the strata inside slide back, so the
+   layers stay put and are uncovered in place */
+.loader__fill, .loader__strata, .loader__edge { position: absolute; inset: 0; }
+.loader__fill { overflow: hidden; border-radius: inherit; animation: loader-fill 9s linear both; }
+.loader__strata {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 55%, rgba(20, 36, 29, 0.14)),
+    var(--strata);
+  animation: loader-strata 9s linear both;
+}
+.loader__edge { pointer-events: none; animation: loader-edge 9s linear both; }
+.loader__edge::before {   /* the gold grain */
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--logo-wave-light), var(--logo-wave) 60%, var(--logo-wave-deep));
+  box-shadow: 0 0 0 3px rgba(217, 162, 31, 0.16), 0 0 12px 2px rgba(241, 200, 69, 0.5);
+}
+.loader__grain {
+  position: absolute;
+  left: -1px;
+  top: -14px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--logo-wave-deep);
+  animation: loader-grain 1100ms cubic-bezier(0.55, 0, 1, 0.45) infinite both;
+}
+.loader__grain:nth-child(2) { left: 2px; animation-delay: 360ms; }
+.loader__grain:nth-child(3) { left: -3px; animation-delay: 720ms; }
+/* ready: from wherever the creep got to, run to the end */
+.loader.is-done .loader__fill, .loader.is-done .loader__strata { transform: none; transition: transform 380ms var(--ease-out); }
+.loader.is-done .loader__edge { transform: translateX(100%); transition: transform 380ms var(--ease-out); }
+.loader.is-done .loader__grain { animation: none; opacity: 0; }
+@keyframes loader-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes loader-grain { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(13px); opacity: 0; } }
+/* the creep: quick at first, then ever slower toward 92% (p = 0.92(1 - e^(-t/1.6s))) */
+@keyframes loader-fill { 0% { transform: translateX(-100%); } 2.78% { transform: translateX(-86.7%); } 5.56% { transform: translateX(-75.3%); } 11.11% { transform: translateX(-57.2%); } 16.67% { transform: translateX(-44%); } 22.22% { transform: translateX(-34.4%); } 33.33% { transform: translateX(-22.1%); } 44.44% { transform: translateX(-15.6%); } 66.67% { transform: translateX(-10.2%); } 100% { transform: translateX(-8.3%); } }
+@keyframes loader-strata { 0% { transform: translateX(100%); } 2.78% { transform: translateX(86.7%); } 5.56% { transform: translateX(75.3%); } 11.11% { transform: translateX(57.2%); } 16.67% { transform: translateX(44%); } 22.22% { transform: translateX(34.4%); } 33.33% { transform: translateX(22.1%); } 44.44% { transform: translateX(15.6%); } 66.67% { transform: translateX(10.2%); } 100% { transform: translateX(8.3%); } }
+@keyframes loader-edge { 0% { transform: translateX(0%); } 2.78% { transform: translateX(13.3%); } 5.56% { transform: translateX(24.7%); } 11.11% { transform: translateX(42.8%); } 16.67% { transform: translateX(56%); } 22.22% { transform: translateX(65.6%); } 33.33% { transform: translateX(77.9%); } 44.44% { transform: translateX(84.4%); } 66.67% { transform: translateX(89.8%); } 100% { transform: translateX(91.7%); } }
 
 [hidden] { display: none !important; }
 img, svg, video, canvas { display: block; max-width: 100%; }

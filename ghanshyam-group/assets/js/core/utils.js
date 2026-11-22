@@ -197,6 +197,24 @@
     return isFinite(x) ? x.toLocaleString('en-IN') : String(n);
   };
 
+  /* ---- The loader (base.css): call as the page becomes ready ------------------ */
+  /* Each part of the bar is held where its creep has got to, then .is-done runs it
+     to the end from there while the cover fades (body.is-ready). Then it leaves. */
+  GG.finishLoader = function () {
+    var loader = document.querySelector('.loader');
+    if (!loader || loader.classList.contains('is-done')) return;
+    var parts = Array.prototype.slice.call(loader.querySelectorAll('.loader__fill, .loader__strata, .loader__edge'));
+    parts.forEach(function (el) {
+      var now = getComputedStyle(el).transform;
+      el.style.animation = 'none';
+      if (now && now !== 'none') el.style.transform = now;
+    });
+    void loader.offsetWidth;   /* commit the held positions before letting go */
+    loader.classList.add('is-done');
+    parts.forEach(function (el) { el.style.removeProperty('transform'); });
+    setTimeout(function () { loader.remove(); }, 1500);   /* after the run and the fade */
+  };
+
   /* ---- Motion preferences and the Motion library ---------------------------- */
   GG.reducedMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
   GG.reduced = function () { return GG.reducedMQ.matches; };

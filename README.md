@@ -116,6 +116,10 @@ When a page is shared on WhatsApp, LinkedIn or elsewhere, the preview shows its 
 
 ## 4. The first screens
 
+### The loader
+
+While a page builds, a Limestone cover shows the G and a core sample: the five Strata uncovered left to right, a gold grain of sand at the working edge with grains falling onto it. The fill creeps forward on its own; once the page is ready it runs to the end and the cover fades into the page. "Reduce motion" gets a still bar. The markup sits right after `<body>` on each page, the look and the creep are in `assets/css/base.css`, and `GG.finishLoader()` in `assets/js/core/utils.js` ends it. If a script fails, the page's 3-second safety net still lifts the cover.
+
 ### The branch films
 
 The homepage opens with the group's headline over the first film. Scrolling alone moves through the five companies: each company's card rises and lands on the last one while its film fades in and plays. There is no slider to use, and mouse, trackpad, keyboard and touch all behave the same, on desktop and on phones.
