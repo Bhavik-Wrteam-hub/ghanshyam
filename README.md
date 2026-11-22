@@ -120,7 +120,7 @@ When a page is shared on WhatsApp, LinkedIn or elsewhere, the preview shows its 
 
 The homepage opens with the group's headline over the first film. Scrolling alone moves through the five companies: each company's card rises and lands on the last one while its film fades in and plays. There is no slider to use, and mouse, trackpad, keyboard and touch all behave the same, on desktop and on phones.
 
-- **One plays at a time.** `assets/js/core/branch-player.js` watches the page with IntersectionObserver (no scroll events). Leaving the first screen, hiding the tab or pressing the small round pause button stops the film.
+- **One plays at a time.** `assets/js/core/branch-player.js` watches the page with IntersectionObserver (no scroll events). Leaving the first screen, hiding the tab or pressing the small round pause button stops the film. Phones have no pause button on the first screen, so nothing sits over the film; there the About film's button pauses every film.
 - **Light to load.** Only the current film and its two neighbours load, and the neighbours wait until the current one can play. Films further away are released from memory.
 - **The right cut for each screen.** Each film has three cuts: up to 1080p for large screens, 720p for small or slow ones, and a 9:16 crop for phones and portrait tablets. Each comes as H.264 MP4 and WebM, with a poster frame, so nothing is blank before it plays.
 - **When a film cannot play.** "Reduce motion", data saver and very slow connections get the poster. If a video fails its poster stays, and if the poster fails too the original quarry picture (`assets/video/hero/group-poster.jpg`) shows.

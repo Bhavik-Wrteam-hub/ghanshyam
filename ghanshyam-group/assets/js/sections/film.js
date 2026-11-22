@@ -110,6 +110,11 @@
         });
       });
 
+      /* Phones have no pause button on this screen (film.css). A pause left from
+         earlier in the visit would freeze the films here with no way to restart
+         them, so it is cleared. The About film's button still pauses every film. */
+      if (getComputedStyle(pause.parentNode).display === 'none' && player.isPaused()) player.setPaused(false);
+
       function showPause() {
         var isPaused = player.isPaused();
         pause.setAttribute('aria-pressed', String(isPaused));

@@ -2,7 +2,7 @@
    Three layers share one grid cell:
      .film__stage     stays on screen and holds the five branch films
      .film__steps     the words: the opening, then one card per company
-     .film__controls  the pause button
+     .film__controls  the pause button (not on phones)
    Scrolling alone moves through the companies. Each card rises, lands in the
    same place, and the next one lands on top of it as its film fades in.
    Heights use lvh for the stage (it never resizes when a phone's address bar
@@ -129,8 +129,31 @@
 }
 .fintro__text { max-width: 40ch; font-size: var(--fs-lede); line-height: 1.5; }
 .fintro__ctas { margin-top: var(--space-2); text-shadow: none; }
-.fintro__proof { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding: 0; list-style: none; font-size: 11.5px; color: var(--text-primary); }
-.fintro__proof li + li::before { content: "·"; margin-right: 16px; color: var(--ochre); }
+/* The proof line: a dot between facts on the same line. Each dot sits in the gap
+   before its fact, so a dot that would start a wrapped line falls left of the
+   list and is clipped: no line ever starts with a dot. Keep the list start-aligned. */
+.fintro__proof {
+  --proof-gap: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px var(--proof-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11.5px;
+  color: var(--text-primary);
+  /* clips only those dots: the glow and ?review outlines keep room on every side */
+  clip-path: inset(-24px -24px -24px -6px);
+}
+.fintro__proof li { position: relative; }
+.fintro__proof li + li::before {
+  content: "·";
+  position: absolute;
+  right: 100%;
+  width: var(--proof-gap);
+  text-align: center;
+  color: var(--ochre);
+}
 .js .fintro > * { animation: fintro-in 900ms var(--ease-out) both; }
 .js .fintro > :nth-child(2) { animation-delay: 90ms; }
 .js .fintro > :nth-child(3) { animation-delay: 180ms; }
@@ -317,7 +340,9 @@
   .fintro { width: min(72vw, 560px); }
 }
 @media (max-width: 720px), (max-height: 560px) {
-  .film__pause { width: 44px; height: 44px; bottom: 14px; }
+  /* phones, upright or sideways: no pause button over the film. The About
+     film's button still pauses every film (film.js clears a leftover pause). */
+  .film__controls { display: none; }
   .film__cue { display: none; }
 }
 @media (max-width: 720px) {
@@ -327,8 +352,6 @@
     align-items: flex-end;
     padding-block: 132px max(20px, env(safe-area-inset-bottom));
   }
-  /* the pause button sits under the menu, clear of the words */
-  .film__pause { top: 80px; right: var(--gutter); bottom: auto; }
   .fintro { width: 100%; gap: var(--space-3); }
   /* a soft band of light behind the words, full width, fading out above them */
   .fintro::before {
@@ -337,6 +360,7 @@
   }
   .fintro__title { font-size: clamp(2.6rem, 13vw, 3.6rem); max-width: none; }
   .fintro__text { font-size: 1rem; }
+  .fintro__proof { --proof-gap: 24px; }   /* a tighter dot, like the kicker's */
   .fintro__ctas { width: 100%; }
   .fintro__ctas .btn { flex: 1 1 100%; }
   .fcard {
@@ -356,7 +380,6 @@
 @media (max-height: 560px) and (min-width: 561px) {
   .fstep__inner { align-items: flex-start; }
   .fstep--intro { align-items: center; padding-block: 72px 14px; }
-  .film__pause { top: auto; right: max(var(--gutter), env(safe-area-inset-right)); bottom: 14px; }
   .fintro { width: min(66vw, 560px); gap: 8px; }
   .fintro__title { font-size: min(2.5rem, 13vh); max-width: none; }
   .fintro__text { font-size: 0.9375rem; max-width: 52ch; }
