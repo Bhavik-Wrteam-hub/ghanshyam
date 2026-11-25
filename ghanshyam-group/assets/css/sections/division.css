@@ -221,6 +221,10 @@
 }
 
 /* ABOUT THE COMPANY ============================================================ */
+/* It sits right under the page's own bar, which already parts it from the first
+   screen, and its words are short, so it takes a calmer gap than a full section
+   (--section-y would leave up to 160px empty above and below them). */
+.doverview { padding-block: clamp(3rem, 1.5rem + 3.5vw, 6rem); }
 .dov {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
