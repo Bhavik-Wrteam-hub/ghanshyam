@@ -98,7 +98,7 @@
   100% { transform: translate3d(-30px, 900px, 0); opacity: 0; }
 }
 
-/* Clients under the quotes -------------------------------------------------- */
+/* Clients under the quotes: a slow running strip -------------------------- */
 .clients {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -108,22 +108,52 @@
   border-top: 1px solid var(--line-on-dark);
 }
 .clients__title { color: var(--on-dark-2); }
-.clients__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; }
+/* the strip fades out at both ends instead of being cut */
+.clients__run {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+.clients__track {
+  display: flex;
+  width: max-content;
+  animation: clients-run calc(var(--n, 10) * 4.2s) linear infinite;
+}
+.clients__run:hover .clients__track,
+.clients__run:focus-within .clients__track { animation-play-state: paused; }
+/* two identical copies, each ending in one gap, so -50% lands on the seam */
+@keyframes clients-run { to { transform: translate3d(-50%, 0, 0); } }
+.clients__list { flex: none; display: flex; gap: 12px; margin: 0; padding: 4px 12px 4px 0; list-style: none; }
 .clients__item {
   position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 92px;
-  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 80px;
+  padding: 14px 24px 14px 14px;
   border: 1px solid var(--line-on-dark);
   border-radius: var(--radius-m);
-  text-align: center;
+  background: linear-gradient(180deg, rgba(238, 241, 239, 0.05), rgba(238, 241, 239, 0.015));
+  white-space: nowrap;
   transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
 }
-.clients__item:hover { border-color: rgba(238, 241, 239, 0.32); background: rgba(238, 241, 239, 0.03); }
+.clients__item:hover { border-color: rgba(92, 207, 164, 0.45); background-color: rgba(92, 207, 164, 0.06); }
+.clients__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(92, 207, 164, 0.28);
+  background: rgba(92, 207, 164, 0.1);
+  color: var(--accent-on-dark);
+}
+.clients__icon .icon { width: 22px; height: 22px; }
 /* real logos sit in white on the dark band */
-.clients__item img { max-width: 72%; max-height: 40px; width: auto; height: auto; filter: brightness(0) invert(1); opacity: 0.82; }
-.clients__name { display: grid; gap: 6px; font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; line-height: 1.2; color: var(--on-dark); }
+.clients__item.has-logo { justify-content: center; min-width: 190px; padding-inline: 28px; }
+.clients__item img { max-width: 150px; max-height: 40px; width: auto; height: auto; filter: brightness(0) invert(1); opacity: 0.82; }
+.clients__name { display: grid; gap: 5px; font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.2; color: var(--on-dark); }
 .clients__place {
   font-family: var(--font-mono);
   font-weight: 400;
@@ -145,21 +175,17 @@
   letter-spacing: var(--track-mono);
   text-transform: uppercase;
 }
-@media (max-width: 760px) {
-  .clients__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 560px) {
-  /* one row you swipe, so the buyers do not push the page out */
-  .clients__list {
-    display: flex;
-    gap: 8px;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 2px var(--gutter) 10px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-  .clients__list::-webkit-scrollbar { display: none; }
-  .clients__item { flex: 0 0 44%; min-height: 80px; padding: 12px; scroll-snap-align: start; }
+  .clients__run { margin-inline: calc(var(--gutter) * -1); }
+  .clients__item { min-height: 68px; gap: 12px; padding: 10px 18px 10px 10px; }
+  .clients__icon { width: 42px; height: 42px; border-radius: 10px; }
+  .clients__name { font-size: 0.9375rem; }
+}
+/* "reduce motion": one still list that wraps, without the running copy */
+@media (prefers-reduced-motion: reduce) {
+  .clients__run { -webkit-mask-image: none; mask-image: none; margin-inline: 0; }
+  .clients__track { width: auto; animation: none; }
+  .clients__list { flex: 1 1 auto; flex-wrap: wrap; padding: 0; }
+  .clients__list[aria-hidden="true"], .clients__item[aria-hidden="true"] { display: none; }
+  .clients__item { white-space: normal; }
 }

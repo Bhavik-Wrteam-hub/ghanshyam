@@ -288,7 +288,9 @@
           stats.map(function (st) {
             var v = GG.fmt(st.value);
             return h('div', { class: 'gstat' },
-              h('dt', { class: 'gstat__label', text: st.label }),
+              h('dt', { class: 'gstat__label' },
+                st.icon ? h('span', { class: 'gstat__icon', 'aria-hidden': 'true' }, GG.icon(st.icon)) : null,
+                h('span', { text: st.label })),
               h('dd', { class: 'gstat__value' },
                 h('span', { class: 'gstat__num', 'data-to': v.text, 'data-suffix': st.suffix || '' }, GG.num(v.text) + (st.suffix || ''))));
           })));
@@ -358,9 +360,17 @@
       var p = C.presence;
       var sites = GG.deep(p.sites) || [];
 
-      function list(title, items, note, cls) {
-        return h('div', { class: 'pmk ' + (cls || '') },
-          h('h3', { class: 'pmk__title mono', text: title }),
+      /* a market: its title and list; with an icon and a count it becomes a
+         reach card (icon, title, "9 states", then the list) */
+      function list(title, items, note, reach) {
+        var heading = h('h3', { class: 'pmk__title mono', text: title });
+        return h('div', { class: 'pmk' + (reach ? ' pmk--reach' : '') },
+          reach
+            ? h('div', { class: 'pmk__head' },
+                h('span', { class: 'pmk__badge', 'aria-hidden': 'true' }, GG.icon(reach.icon)),
+                h('div', { class: 'pmk__heading' }, heading,
+                  reach.count ? h('p', { class: 'pmk__count', text: reach.count }) : null))
+            : heading,
           h('ul', { class: 'pmk__chips', role: 'list', sample: items },
             (GG.deep(items) || []).map(function (t) { return h('li', { class: 'chip-tag', text: t }); })),
           note ? h('p', { class: 'pmk__note', text: note }) : null);
@@ -384,8 +394,8 @@
             }))));
 
       var markets = h('div', { class: 'presence__markets', 'data-reveal': '' },
-        list(p.indiaTitle, p.states, null),
-        list(p.exportTitle, p.countries, p.exportNote),
+        list(p.indiaTitle, p.states, null, p.indiaIcon ? { icon: p.indiaIcon, count: p.indiaCount } : null),
+        list(p.exportTitle, p.countries, p.exportNote, p.exportIcon ? { icon: p.exportIcon, count: p.exportCount } : null),
         h('div', { class: 'pmk' },
           h('h3', { class: 'pmk__title mono', text: p.industriesTitle }),
           h('ul', { class: 'pmk__inds', role: 'list' },

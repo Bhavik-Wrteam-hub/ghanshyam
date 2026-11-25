@@ -3,21 +3,42 @@
   'use strict';
   var GG = window.GG, h = GG.h;
 
-  /* clients under the quotes: a real logo when there is one, else a named slot */
+  /* Clients under the quotes: a slow running strip, a real logo when there is
+     one, else a named slot with its icon. The strip is the list twice in a row
+     and slides by exactly one list, so the loop has no seam; the second copy is
+     hidden from screen readers and the keyboard. Short lists are repeated until
+     each copy is long enough to fill a wide screen. Hover or focus pauses it,
+     and "reduce motion" shows one still, wrapped list (testimonials.css). */
+  var CLIENTS_MIN = 10;
   function clients(cl) {
     if (!cl) return null;
     var list = GG.deep(cl.items) || [];
+    if (!list.length) return null;
+    var reps = Math.ceil(CLIENTS_MIN / list.length);
+    function item(c, hidden) {
+      return h('li', { class: 'clients__item' + (c.logo ? ' has-logo' : ' is-stand-in'), 'aria-hidden': hidden ? 'true' : null },
+        c.logo
+          ? h('img', { src: c.logo, alt: hidden ? '' : c.name, loading: 'lazy', decoding: 'async' })
+          : [
+              c.icon ? h('span', { class: 'clients__icon', 'aria-hidden': 'true' }, GG.icon(c.icon)) : null,
+              h('span', { class: 'clients__name' },
+                h('span', { text: c.name }),
+                c.place ? h('span', { class: 'clients__place', text: c.place }) : null)
+            ]);
+    }
+    function copy(clone) {
+      var items = [];
+      for (var r = 0; r < reps; r++) list.forEach(function (c) { items.push(item(c, clone || r > 0)); });
+      return h('ul', {
+        class: 'clients__list', role: 'list',
+        'aria-hidden': clone ? 'true' : null, inert: clone ? true : null,
+        'data-sample': !clone && GG.hasS(cl.items) ? '' : null
+      }, items);
+    }
     return h('div', { class: 'clients', 'data-reveal': '' },
       h('p', { class: 'clients__title mono', text: cl.title }),
-      h('ul', { class: 'clients__list', role: 'list', 'data-sample': GG.hasS(cl.items) ? '' : null },
-        list.map(function (c) {
-          return h('li', { class: 'clients__item' + (c.logo ? '' : ' is-stand-in') },
-            c.logo
-              ? h('img', { src: c.logo, alt: c.name, loading: 'lazy', decoding: 'async' })
-              : h('span', { class: 'clients__name' },
-                  h('span', { text: c.name }),
-                  c.place ? h('span', { class: 'clients__place', text: c.place }) : null));
-        })));
+      h('div', { class: 'clients__run' },
+        h('div', { class: 'clients__track', style: { '--n': list.length * reps } }, copy(false), copy(true))));
   }
 
   GG.sections.testimonials = {

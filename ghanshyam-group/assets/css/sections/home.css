@@ -354,17 +354,47 @@
   border-top: 1px solid var(--line-on-dark);
 }
 .gstats__title { color: var(--on-dark-2); }
-.gstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; }
+/* each number on its own card: an icon at the top, the number, then what it counts */
+.gstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); margin: 0; }
 .gstat {
+  position: relative;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
-  gap: 8px;
-  padding: var(--space-5) var(--space-5) var(--space-5) 0;
-  border-bottom: 1px solid var(--line-on-dark);
+  gap: 10px;
+  padding: 104px 28px 28px;
+  border: 1px solid var(--line-on-dark);
+  border-radius: var(--radius-l);
+  background: linear-gradient(180deg, rgba(238, 241, 239, 0.05), rgba(238, 241, 239, 0.012));
+  overflow: hidden;
 }
-.gstat:nth-child(3n+2), .gstat:nth-child(3n+3) { padding-left: var(--space-5); border-left: 1px solid var(--line-on-dark); }
-.gstat:nth-last-child(-n+3) { border-bottom: 0; }
+/* a thin light along the top edge */
+.gstat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(92, 207, 164, 0), rgba(92, 207, 164, 0.55), rgba(92, 207, 164, 0));
+}
+/* keep the entrance's timing (base.css) and let the edge follow it */
+.strength .gstats > .gstat { transition-property: opacity, transform, border-color, background-color; }
+.strength .gstats > .gstat:hover { border-color: rgba(92, 207, 164, 0.4); background-color: rgba(92, 207, 164, 0.04); }
+.gstat__icon {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(92, 207, 164, 0.3);
+  background: rgba(92, 207, 164, 0.1);
+  color: var(--accent-on-dark);
+}
+.gstat__icon .icon { width: 24px; height: 24px; }
 .gstat__value { margin: 0; }
 .gstat__num {
   font-family: var(--font-display);
@@ -387,10 +417,9 @@
   .chain__text { max-width: 36ch; }
   .chain__by { justify-content: flex-start; }
   .gstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .gstat, .gstat:nth-child(3n+2), .gstat:nth-child(3n+3) { padding: var(--space-4) var(--space-4) var(--space-4) 0; border-left: 0; }
-  .gstat:nth-child(2n) { padding-left: var(--space-4); border-left: 1px solid var(--line-on-dark); }
-  .gstat:nth-last-child(-n+3) { border-bottom: 1px solid var(--line-on-dark); }
-  .gstat:nth-last-child(-n+2) { border-bottom: 0; }
+  .gstat { padding: 86px 20px 22px; }
+  .gstat::before { left: 20px; right: 20px; }
+  .gstat__icon { top: 20px; left: 20px; width: 48px; height: 48px; border-radius: 12px; }
 }
 
 /* VISION, MISSION AND VALUES ================================================ */
@@ -519,6 +548,37 @@
 .presence__markets { display: grid; gap: var(--space-6); }
 .pmk { display: grid; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--line); }
 .pmk__title { color: var(--text-secondary); }
+/* reach cards: an icon, the title, the count, then the list */
+.pmk--reach {
+  gap: var(--space-4);
+  padding: 22px 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--panel-raised);
+  box-shadow: var(--shadow-1);
+}
+.pmk__head { display: flex; align-items: center; gap: 16px; }
+.pmk__badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+.pmk__badge .icon { width: 24px; height: 24px; }
+.pmk__heading { display: grid; gap: 4px; }
+.pmk__count {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 1.1rem + 0.6vw, 1.65rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.pmk--reach .pmk__note { padding-top: var(--space-3); border-top: 1px dashed var(--line); }
 .pmk__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
 .pmk__note { color: var(--text-secondary); font-size: var(--fs-small); }
 .pmk__inds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; margin: 0; padding: 0; }
@@ -576,4 +636,14 @@
   .pmk__inds { gap: 8px 10px; }
   .pmk__inds li { font-size: 0.875rem; }
   .pmk__icon { width: 32px; height: 32px; border-radius: 8px; }
+  .pmk--reach { padding: 16px 16px 18px; }
+  .pmk__badge { width: 44px; height: 44px; border-radius: 12px; }
+
+  /* The group in numbers: smaller cards, the icon beside the top edge */
+  .gstats { gap: 10px; }
+  .gstat { gap: 6px; padding: 70px 16px 18px; }
+  .gstat::before { left: 16px; right: 16px; }
+  .gstat__icon { top: 16px; left: 16px; width: 40px; height: 40px; border-radius: 10px; }
+  .gstat__icon .icon { width: 20px; height: 20px; }
+  .gstat__num { font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.2rem); }
 }

@@ -67,13 +67,13 @@ If a page ever shows "This page could not load its content", a comma, quote or b
 | Contact | Phone, email, hours, head office and plant addresses (WhatsApp is real: +91 93131 36232) |
 | Each company | Year it began, summary, facts, products and specs, process steps, questions and answers |
 | Silica grades | All five grades: codes, chemistry, physical specs, packing, uses |
-| Group strength | The six group numbers (tonnes, people, buyers, acres, trucks, plants) |
+| Group strength | The six group numbers (tonnes, people, buyers, acres, trucks, plants). Each card's `icon` is a name from the icon set |
 | Vision, mission, values | Use the group's own words |
 | Journey | Every year and milestone, and the four achievements |
-| Leadership | Names, roles and lines. Portraits are optional (until then, initials show) |
+| Leadership | Names, roles and lines. Portraits are optional (until then, the card shows the initials on the group's emerald, with the G mark behind them) |
 | Where we work | Site positions on the map, Indian states and export countries |
 | Testimonials | All five quotes. **Never publish the sample quotes as real.** Replace them with real, approved quotes or remove them. |
-| Clients | Eight named slots. Replace with real logos, only with each company's permission |
+| Clients | Eight named slots in a slow running strip, each with an icon. Replace with real logos, only with each company's permission; they run in the same strip |
 | Responsibility | All four figures |
 | Privacy notice | Sample legal text. Have it reviewed before launch. |
 | Images | The two maps and the plant plan are illustrations. Every photo and film is an AI-generated stand-in until real photography exists (section 3). |

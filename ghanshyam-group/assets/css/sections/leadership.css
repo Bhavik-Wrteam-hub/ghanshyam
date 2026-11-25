@@ -6,43 +6,75 @@
   margin: 0;
   padding: 0;
 }
-.person { display: grid; gap: var(--space-4); align-content: start; }
+/* one card per person: the portrait on top, the name and role below */
+.person {
+  display: grid;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--panel-raised);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+/* keep the entrance's timing (base.css) and let the shadow and edge follow it */
+.leadership .team > .person { transition-property: opacity, transform, box-shadow, border-color; }
+.leadership .team > .person:hover { box-shadow: var(--shadow-2); border-color: rgba(11, 116, 83, 0.32); }
 .person__portrait {
   position: relative;
   aspect-ratio: 1 / 1;
-  border-radius: var(--radius-l);
   overflow: hidden;
   background: var(--panel);
 }
 .person__portrait img { width: 100%; height: 100%; object-fit: cover; }
-/* the stand-in: initials on warm stone, lit from the upper left, resting on the
-   quarry wall's five layers, until a real portrait is added in site-content.js */
+/* the stand-in: the person's initials on the group's deep emerald, the G mark
+   large and faint behind them, resting on the quarry wall's five layers, until
+   a real portrait is added in site-content.js */
 .person__portrait.is-stand-in {
   display: grid;
   place-items: center;
   background:
     var(--strata) 0 100% / 100% 6px no-repeat,
-    radial-gradient(120% 90% at 18% 0%, #FBFAF7 0%, rgba(251, 250, 247, 0) 62%),
-    linear-gradient(180deg, var(--canvas-deep) 0%, var(--panel) 100%);
-  border: 1px solid var(--line);
+    radial-gradient(110% 80% at 12% 0%, rgba(92, 207, 164, 0.24), rgba(92, 207, 164, 0) 58%),
+    linear-gradient(160deg, #0F3A2B 0%, var(--slate-900) 62%, #0B1712 100%);
 }
 .person__portrait.is-stand-in::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.13 0 0 0 0 0.17 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.95 0 0 0 0 0.93 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
   pointer-events: none;
 }
+.person__mark {
+  position: absolute;
+  right: -16%;
+  bottom: -14%;
+  width: 82%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  transform: rotate(-8deg);
+  transition: transform var(--dur-4) var(--ease-out);
+  pointer-events: none;
+}
+.person__mark .logo__body { fill: rgba(243, 245, 240, 0.07); }
+.person__mark .logo__wave { fill: rgba(217, 162, 31, 0.22); }
+.leadership .person:hover .person__mark { transform: rotate(-3deg) translate3d(-3%, -3%, 0); }
 .person__initials {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.6rem, 2rem + 2vw, 3.8rem);
-  letter-spacing: 0.04em;
-  color: var(--text-primary);
-  opacity: 0.88;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--logo-ink-rev);
 }
-.person__body { display: grid; gap: 6px; padding-inline: 4px; }
+/* a short gold rule under the initials, like the rules in the logo */
+.person__initials::after { content: ""; width: 36px; height: 3px; border-radius: 2px; background: var(--logo-wave); }
+.person__body { display: grid; gap: 6px; padding: 18px 20px 22px; }
 .person__name { font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem); line-height: 1.2; }
 .person__role {
   font-family: var(--font-mono);
@@ -70,7 +102,7 @@
 }
 
 @media (max-width: 1100px) {
-  .team { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-7); }
+  .team { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 600px) {
   /* a row you swipe, like the grade and product cards */

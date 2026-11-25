@@ -1,6 +1,7 @@
-/* LEADERSHIP: the people behind the group. A portrait is optional: until one
-   exists (image: photo(...) in site-content.js), the card shows the person's
-   initials in the same square frame, so a photo drops in without moving anything. */
+/* LEADERSHIP: the people behind the group, one card each. A portrait is
+   optional: until one exists (image: photo(...) in site-content.js), the card
+   shows the person's initials on the group's colours, with the G mark behind
+   them, in the same square frame, so a photo drops in without moving anything. */
 (function () {
   'use strict';
   var GG = window.GG, h = GG.h;
@@ -26,7 +27,10 @@
               h('div', { class: 'person__portrait' + (hasPhoto ? '' : ' is-stand-in') },
                 hasPhoto
                   ? GG.img(p.image, { sizes: '(max-width: 600px) 72vw, (max-width: 1100px) 45vw, 290px' })
-                  : h('span', { class: 'person__initials', 'aria-hidden': 'true', text: initials(p.name) })),
+                  : [
+                      GG.mark ? GG.mark({ cls: 'person__mark' }) : null,
+                      h('span', { class: 'person__initials', 'aria-hidden': 'true', text: initials(p.name) })
+                    ]),
               h('div', { class: 'person__body' },
                 h('h3', { class: 'person__name', text: p.name }),
                 h('p', { class: 'person__role', text: p.role }),

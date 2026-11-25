@@ -15,6 +15,19 @@ Version 3, as built (21 Nov 2026). The redesign brief: a premium, client-ready c
 
 **The combined direction:** Shree Ram's section order, Sibelco's restraint and scale, Sharad's single bold promise, Mangalam's proof (real numbers, CSR evidence, direct WhatsApp).
 
+### Second review: the Optimatrix portfolio (25 Nov 2026)
+
+The client felt some sections did not look finished. All 80 sites in the Optimatrix portfolio (optimatrix.in/portfolio) were captured and reviewed. Most are templates for travel, accountants and shops; the closest to us are the industrial, mineral and group sites: Asteroid Microns and HD Microns (kaolin), TRP Global (minerals), Mahendra C. Shah, Morakhia and Kalikund (groups), Trimech, Parul, Kenwood, Peuro Metals, Sontech, Acon and Pollux. Four of their patterns fixed our four weakest sections, drawn in our own style:
+
+| Section | Pattern taken | What changed |
+|---|---|---|
+| Leadership | Promoter cards (Peuro Metals) | Each person is one card. Until a photo exists, the portrait shows the initials on deep emerald over a gold rule, the G mark faint behind them and the Strata at the base. |
+| Clients, under the quotes | The "trusted by" strip (Kenwood, Jainson Locks, Sontech, BOM GIM) | A slow running strip, one icon per buyer. It pauses on hover, focus and off screen, and "reduce motion" shows one still list. Real logos drop into the same strip. |
+| The group in numbers | Counter cards with icons (Trimech, Parul, Sontech) | Six cards: an icon, the number counting up, what it counts. |
+| Where we work | The "Global reach" legend (Asteroid Microns) | Across India and Export become cards with an icon and a count worked out from their lists ("9 states", "6 countries"). |
+
+Kept as they were, because they already beat the references: the first screen, the businesses, products, applications, journey, contact and footer. Not taken: slider heroes, pop-ups on arrival and dense headers. A thin contact bar above the menu (phone, email, hours) is common on these sites. It was left out because it would move the tuned first screen, and it is a possible next step.
+
 ## 2. The brand premise: Strata
 
 Kutch ground is laid down in layers: white silica, cream kaolin, pink feldspar, grey stone, green topsoil. GHANSHYAM GROUP works every layer: five companies, one ground. The site teaches that one idea.

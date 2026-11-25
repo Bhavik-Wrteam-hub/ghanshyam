@@ -699,12 +699,12 @@ window.SITE_CONTENT = {
     ],
     statsLabel: "The group in numbers",
     stats: S([
-      { value: "55000", suffix: " t", label: "of material processed every month" },
-      { value: "{group.people}", suffix: "+", label: "people at work across the group" },
-      { value: "{group.buyers}", suffix: "+", label: "buyers in India and abroad" },
-      { value: "220", suffix: " acres", label: "of quarry leases in Kutch" },
-      { value: "120", suffix: "", label: "trucks loaded on a busy day" },
-      { value: "4", suffix: "", label: "plants, and one farm" }
+      { value: "55000", suffix: " t", label: "of material processed every month", icon: "mill" },
+      { value: "{group.people}", suffix: "+", label: "people at work across the group", icon: "people" },
+      { value: "{group.buyers}", suffix: "+", label: "buyers in India and abroad", icon: "globe" },
+      { value: "220", suffix: " acres", label: "of quarry leases in Kutch", icon: "quarry" },
+      { value: "120", suffix: "", label: "trucks loaded on a busy day", icon: "truck" },
+      { value: "4", suffix: "", label: "plants, and one farm", icon: "factory" }
     ])
   },
 
@@ -809,9 +809,15 @@ window.SITE_CONTENT = {
       { x: 56.5, y: 78.3, label: "Mundra port", place: "60 km from the plant", company: "port" },
       { x: 87.5, y: 62, label: "Kandla port", place: "90 km from the plant", company: "port" }
     ]),
+    /* The two reach cards beside the map: icon, title, the count (worked out
+       from the list under it) and the list itself */
     indiaTitle: "Across India",
+    indiaIcon: "truck",
+    indiaCount: "{group.states} states",
     states: S(["Gujarat", "Rajasthan", "Maharashtra", "Madhya Pradesh", "Uttar Pradesh", "Haryana", "Punjab", "Karnataka", "Tamil Nadu"]),
     exportTitle: "Export",
+    exportIcon: "ship",
+    exportCount: "{group.countries} countries",
     countries: S(["United Arab Emirates", "Saudi Arabia", "Oman", "Qatar", "Kenya", "Tanzania"]),
     exportNote: "Export loads ship FOB Mundra and Kandla.",
     industriesTitle: "Industries we supply",
@@ -845,21 +851,22 @@ window.SITE_CONTENT = {
       { quote: "Their quartz powder holds the same size curve every lot, so our paint line never has to adjust.", role: "R&D Head", org: "Paint manufacturer, Vapi", company: "processors" },
       { quote: "In the monsoon, when other suppliers missed dispatches, Ghanshyam kept our line running.", role: "Plant Head", org: "Tile manufacturer, Morbi", company: "silica" }
     ]),
-    /* Clients under the quotes. SAMPLE: each slot only names a kind of buyer.
+    /* Clients under the quotes, shown as a slow running strip. SAMPLE: each
+       slot only names a kind of buyer, with an icon from the icon set.
        Replace with real clients' logos, with their permission:
          { name: "Company name", logo: "assets/img/clients/file-name.svg" }
        Never show a company's logo without its permission. */
     clients: {
       title: "Supplying makers of glass, tiles, paper, paint and castings",
       items: S([
-        { name: "Float glass", place: "Gujarat" },
-        { name: "Container glass", place: "Uttar Pradesh" },
-        { name: "Solar glass", place: "Gujarat" },
-        { name: "Grey iron foundry", place: "Rajkot" },
-        { name: "Tiles", place: "Morbi" },
-        { name: "Sanitaryware", place: "Thangadh" },
-        { name: "Paints", place: "Mumbai" },
-        { name: "Paper mills", place: "Vapi" }
+        { name: "Float glass", place: "Gujarat", icon: "glass" },
+        { name: "Container glass", place: "Uttar Pradesh", icon: "glass" },
+        { name: "Solar glass", place: "Gujarat", icon: "glass" },
+        { name: "Grey iron foundry", place: "Rajkot", icon: "foundry" },
+        { name: "Tiles", place: "Morbi", icon: "ceramics" },
+        { name: "Sanitaryware", place: "Thangadh", icon: "ceramics" },
+        { name: "Paints", place: "Mumbai", icon: "paint" },
+        { name: "Paper mills", place: "Vapi", icon: "paper" }
       ])
     }
   },
