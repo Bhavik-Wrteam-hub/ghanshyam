@@ -578,6 +578,16 @@ window.SITE_CONTENT = {
     proof: ["{company.years}+ years", "{group.companies} companies", "{group.states} states and {group.countries} countries"],
     visit: "Visit",
 
+    /* THE COMPANY BAR: all five companies, each a single tap away the moment
+       the page opens: under the menu on larger screens, under the headline on
+       phones. Each name, colour dot and link comes from that company's entry
+       under THE FIVE BUSINESSES (short is the name shown, name is the one
+       read aloud).
+         label: the bar's name, read aloud by screen readers */
+    companyBar: {
+      label: "Our companies"
+    },
+
     /* THE FIRST SCREEN: one film per company. As the page scrolls, each
        company's film fades in and plays while it is in view, one at a time.
        Each company's name, line and summary come from its own entry above.

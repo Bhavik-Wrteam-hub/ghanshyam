@@ -3,12 +3,16 @@
      .film__stage     stays on screen and holds the five branch films
      .film__steps     the words: the opening, then one card per company
      .film__controls  the pause button (not on phones)
+   The opening carries the company bar: all five companies, one tap each.
    Scrolling alone moves through the companies. Each card rises, lands in the
    same place, and the next one lands on top of it as its film fades in.
    Heights use lvh for the stage (it never resizes when a phone's address bar
    hides, so nothing jumps) and svh for the steps (words always fit on screen).
    ========================================================================== */
 .film {
+  /* the company bar: its top edge, and the line the opening's words start below */
+  --fco-top: 88px;                                    /* the menu bar (76px, nav.css) and a little air */
+  --fco-clear: calc(var(--fco-top) + 44px + 30px);    /* one row of links, then room before the words */
   position: relative;
   isolation: isolate;
   display: grid;
@@ -159,7 +163,84 @@
 .js .fintro > :nth-child(3) { animation-delay: 180ms; }
 .js .fintro > :nth-child(4) { animation-delay: 270ms; }
 .js .fintro > :nth-child(5) { animation-delay: 360ms; }
+/* the company bar under the headline (phones) arrives just after it, and the
+   words after it keep their own timing on every screen */
+.js .fintro > .fco { animation-delay: 135ms; }
+.js .fintro > .fco ~ :nth-child(4) { animation-delay: 180ms; }
+.js .fintro > .fco ~ :nth-child(5) { animation-delay: 270ms; }
+.js .fintro > .fco ~ :nth-child(6) { animation-delay: 360ms; }
 @keyframes fintro-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* The company bar: all five companies, one tap each (film.js). Plain links:
+   nothing in it follows the films, so it never reads as a slider, and each
+   company's colour marks only its dot. film.js builds it for two places and
+   one shows at a time:
+     .fco--top     right under the menu, on the right, like a second row of it:
+                   computers, tablets and phones held sideways. It scrolls away
+                   with the opening.
+     .fco--inline  under the headline, part of the words: upright phones. */
+.fco--inline { display: none; }
+.fco--top {
+  position: absolute;
+  top: var(--fco-top);
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.fco__inner { display: flex; justify-content: flex-end; }
+.fco__list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.fco__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 18px 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: var(--radius-pill);
+  background: rgba(251, 250, 247, 0.94);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(15, 26, 33, 0.06),
+    0 12px 28px -16px rgba(15, 26, 33, 0.5);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.15;
+  text-decoration: none;
+  text-shadow: none;
+  white-space: nowrap;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+.fco__link:active { transform: scale(0.97); }
+@media (hover: hover) {
+  .fco__link:hover {
+    background: var(--panel-raised);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 4px rgba(15, 26, 33, 0.08), 0 16px 30px -14px rgba(15, 26, 33, 0.5);
+    transform: translateY(-2px);
+  }
+}
+/* large screens: the same soft frosted edge as the cards */
+@media (hover: hover) and (min-width: 961px) {
+  .fco__link {
+    background: rgba(251, 250, 247, 0.86);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+  }
+}
+.fco__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tint);
+  box-shadow: 0 0 0 3px rgba(18, 35, 28, 0.08);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tint) 18%, transparent);
+}
+.js .fco--top { animation: fintro-in 900ms var(--ease-out) 60ms both; }
 
 /* One company: a card that reads over any film. Its colour only marks the dot and a soft glow. */
 .fcard {
@@ -338,6 +419,11 @@
 }
 
 /* ---- Tablets and phones --------------------------------------------------------- */
+/* tablets: the menu folds into one button, and the company bar would sit beside
+   the opening's first line, so the words start below the bar */
+@media (min-width: 721px) and (max-width: 1099px) {
+  .fstep--intro { padding-top: max(116px, 15vh, var(--fco-clear)); }
+}
 @media (max-width: 900px) {
   .fintro { width: min(72vw, 560px); }
 }
@@ -355,6 +441,22 @@
     /* the words end above the WhatsApp button's corner */
     padding-block: 132px max(var(--fab-clear), env(safe-area-inset-bottom));
   }
+  /* The company bar sits right under the headline that names the five, as part
+     of the words and on their band of light, so the film above stays clear.
+     Five pills at their own width: three on the first row, two on the second
+     (27.5em fits three and never four), all on one row once a screen has room. */
+  .fco--top { display: none; }
+  .fco--inline { display: block; font-size: 0.8125rem; }
+  .fco--inline .fco__list { gap: 6px; max-width: 27.5em; }
+  .fco--inline .fco__link {
+    gap: 7px;
+    padding: 0 14px 0 12px;
+    border-color: rgba(20, 36, 29, 0.14);
+    background: var(--panel-raised);
+    box-shadow: 0 1px 2px rgba(15, 26, 33, 0.07);
+    font-size: 1em;
+  }
+  .fco--inline .fco__dot { width: 7px; height: 7px; }
   .fintro { width: 100%; gap: var(--space-3); container-type: inline-size; }
   /* a soft band of light behind the words, full width, fading out above them */
   .fintro::before {
@@ -388,10 +490,27 @@
   .fcard__text { margin-top: 12px; padding-top: 12px; font-size: 0.9375rem; line-height: 1.55; }
   .fcard__link { width: 100%; justify-content: space-between; margin-top: 16px; }
 }
+/* the company bar on wider phones: all five pills fit on one row */
+@media (min-width: 640px) and (max-width: 720px) {
+  .fco--inline .fco__list { max-width: none; }
+}
+/* the smallest phones: the same three and two, a little tighter */
+@media (max-width: 350px) {
+  .fco--inline { font-size: 0.75rem; }
+  .fco--inline .fco__link { gap: 6px; padding: 0 10px 0 9px; }
+  .fco--inline .fco__dot { width: 6px; height: 6px; }
+}
 /* a phone held sideways: short and wide */
 @media (max-height: 560px) and (min-width: 561px) {
   .fstep__inner { align-items: flex-start; }
-  .fstep--intro { align-items: center; padding-block: 72px 14px; }
+  .fstep--intro { align-items: center; padding-block: var(--fco-clear) 14px; }
+  /* the company bar: back under the menu, one row close to it, so the words keep their room */
+  .film { --fco-top: 76px; --fco-clear: calc(var(--fco-top) + 44px + 8px); }
+  .fco--top { display: block; }
+  .fco--inline { display: none; }
+  .fco__list { gap: 6px; }
+  .fco__link { gap: 7px; padding: 6px 13px 6px 11px; font-size: 0.8125rem; }
+  .fco__dot { width: 7px; height: 7px; }
   .fintro { width: min(66vw, 560px); gap: 8px; }
   .fintro__title { font-size: min(2.5rem, 13vh); max-width: none; }
   .fintro__text { font-size: 0.9375rem; max-width: 52ch; }
@@ -409,4 +528,9 @@
   .fcard__tag { margin-top: 4px; font-size: 0.9375rem; }
   .fcard__text { display: none; }
   .fcard__link { width: auto; gap: 12px; margin-top: 8px; padding: 3px 3px 3px 16px; }
+}
+/* the smallest phones held sideways: the same row, a little tighter */
+@media (max-height: 560px) and (min-width: 561px) and (max-width: 640px) {
+  .fco__list { gap: 5px; }
+  .fco__link { gap: 6px; padding: 6px 9px 6px 8px; font-size: 0.75rem; }
 }

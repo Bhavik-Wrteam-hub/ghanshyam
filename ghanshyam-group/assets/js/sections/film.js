@@ -7,6 +7,11 @@
    and plays, on desktop and phone alike. core/branch-player.js decides what
    loads and plays.
 
+   The company bar names all five companies, so each one is a single tap away
+   the moment the page opens: under the menu on larger screens and phones held
+   sideways, under the headline on upright phones. It is part of the opening
+   and scrolls away with it.
+
    Words: groupHero and each company's entry in site-content.js.
    Films: groupHero.film.branches, built by tools/branch-films.sh.
    ========================================================================== */
@@ -18,6 +23,22 @@
     return h('div', { class: 'btn-row fintro__ctas' },
       h('a', { class: 'btn', href: g.ctaPrimary.href }, h('span', { text: g.ctaPrimary.label }), GG.icon('arrow-right', 'btn__arrow')),
       h('a', { class: 'btn btn--ghost', href: g.ctaSecondary.href, text: g.ctaSecondary.label }));
+  }
+
+  /* The company bar: one plain link per company. Nothing in it follows the
+     films, so it never acts as a slider. Each link shows the short name and
+     is read aloud with the full one. It is built for two places and film.css
+     shows one: 'top' under the menu, 'inline' under the headline (phones). */
+  function companyBar(bar, where) {
+    var list = h('ul', { class: 'fco__list', role: 'list' },
+      GG.companies().map(function (co) {
+        return h('li', { style: { '--tint': 'var(--tint-' + co.id + ')' } },
+          h('a', { class: 'fco__link', href: co.page, 'aria-label': GG.txt(co.name) },
+            h('span', { class: 'fco__dot', 'aria-hidden': 'true' }),
+            h('span', { class: 'fco__name', text: co.short })));
+      }));
+    return h('nav', { class: 'fco fco--' + where, 'aria-label': GG.txt(bar.label) },
+      where === 'top' ? h('div', { class: 'container fco__inner' }, list) : list);
   }
 
   /* One branch's picture and video, stacked. The video stays empty until needed. */
@@ -51,11 +72,14 @@
       proof.style.setProperty('--proof-chars', String(proof.textContent.length));
       proof.style.setProperty('--proof-items', String(proof.children.length));
 
+      var bar = g.companyBar;
       var intro = h('div', { class: 'fstep fstep--intro', 'data-i': '0' },
+        bar ? companyBar(bar, 'top') : null,
         h('div', { class: 'container fstep__inner' },
           h('div', { class: 'fintro' },
             h('p', { class: 'kicker', text: g.kicker }),
             h('h1', { class: 'fintro__title', id: 'film-title', text: g.title }),
+            bar ? companyBar(bar, 'inline') : null,
             h('p', { class: 'fintro__text', text: g.text }),
             ctas(g),
             proof)),

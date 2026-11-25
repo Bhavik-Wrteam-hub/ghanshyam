@@ -124,6 +124,16 @@ While a page builds, a Limestone cover shows the G and a core sample: the five S
 
 A round Emerald button in the bottom right corner of every page opens a WhatsApp chat with `contact.whatsapp`, with a message already typed that names the company of the page ("Hello Ghanshyam Kaolin, ..."). Its label and message are under `whatsappButton` in `site-content.js`. It rings softly now and then, shows its name on hover, steps aside on a phone while a form field is being typed in, and sits under the open menu. The first screen keeps its corner clear (the `--fab-*` tokens in `tokens.css`): on the homepage the film's pause button sits just above it, and on phones the opening words end above it.
 
+### The company bar
+
+The homepage's first screen names all five companies: Silica Sand, Kaolin, Minerals, Processors and Farm House. Each name is a plain link to that company's page, so a visitor reaches any company with one tap, without scrolling or opening the menu.
+
+- **Where it sits.** On computers it hangs right under the menu, on the right, like a second row of it, and the opening's words keep their place. On tablets and phones held sideways it sits in the same place, and the words start just below it. On an upright phone it sits right under the headline "Five companies. One ground.", as part of the words, so the film above stays clear: three pills on the first row and two on the second, or all five on one row on wider phones.
+- **How it looks and behaves.** Each company is a pill with its name and its colour dot. The bar scrolls away with the opening, never follows the films and has no current state, so it is not a slider. Links are at least 44 px tall, the keyboard reaches them right after the menu, and screen readers hear an "Our companies" menu with each full name ("Ghanshyam Kaolin").
+- **Where its words live.** Its one label, the name screen readers hear, is `groupHero.companyBar.label` in `site-content.js`. Everything else comes from each company's entry under THE FIVE BUSINESSES: `short` is the name shown, `name` the one read aloud, `page` the link, and the dot is its marker colour (`--tint-<id>` in `tokens.css`). Rename or add a company there and the bar follows.
+- **Where its code lives.** `companyBar()` in `assets/js/sections/film.js` builds it for its two places (`.fco--top` under the menu, `.fco--inline` under the headline), and the `.fco` rules in `assets/css/sections/film.css` show one of them. `--fco-top` (the top bar's top edge) and `--fco-clear` (where the words start below it) are set at the top of that file.
+- **The smallest screens.** On a 320 × 568 phone the five companies stay in view and the opening's buttons start at the bottom edge. On phones held sideways that are under 390 px tall, the buttons start just below the first screen.
+
 ### The branch films
 
 The homepage opens with the group's headline over the first film. Scrolling alone moves through the five companies: each company's card rises and lands on the last one while its film fades in and plays. There is no slider to use, and mouse, trackpad, keyboard and touch all behave the same, on desktop and on phones.
